@@ -1,0 +1,48 @@
+
+
+.tip {
+    color: #000;
+    outline: none;
+    cursor: help;
+    text-decoration: none;
+    position: relative;
+}
+.tip span {
+    display: none;
+    position: absolute;
+    background: #EAECF0;
+    width: 250px;
+    margin: auto;
+    opacity: 0;
+    text-decoration: none ;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+    -moz-box-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+
+    -moz-transition-property: opacity;
+    -moz-transition-duration: .25s;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: .25s;
+    -o-transition-property: opacity;
+    -o-transition-duration: .25s;
+    white-space: normal;
+}
+.tip:hover span {
+    font-family: Calibri, Tahoma, Geneva, sans-serif;
+    z-index: 1000;
+    margin:auto;
+    opacity: 1;
+    display: inline
+}
+.tip.top:hover span {
+    top: 2em;
+    margin: auto;
+}
+.custom {
+    padding: 0.5em 0.8em 0.8em 2em;
+    border: 1px solid #BBBBBB
+
+}

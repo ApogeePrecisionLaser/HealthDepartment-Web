@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="94"/>
+	<parameter name="org_office_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select organisation_name , org_office_name , address_line1, address_line2  ,
+concat(city_name, '-' ,landline_no1) as city_name from org_office o, organisation_name om , city c
+where org_office_id=$P{org_office_id} and c.city_id=o.city_id
+and o.organisation_id= om.organisation_id;]]>
+	</queryString>
+	<field name="organisation_name" class="java.lang.String"/>
+	<field name="org_office_name" class="java.lang.String"/>
+	<field name="address_line1" class="java.lang.String"/>
+	<field name="address_line2" class="java.lang.String"/>
+	<field name="city_name" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="555" splitType="Stretch">
+			<staticText>
+				<reportElement x="41" y="211" width="741" height="56"/>
+				<textElement>
+					<font size="36" isBold="true"/>
+				</textElement>
+				<text><![CDATA[To,]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="41" y="267" width="779" height="57"/>
+				<textElement>
+					<font size="36" isBold="true" pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{organisation_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="373" width="762" height="49"/>
+				<textElement>
+					<font size="36" isBold="true" pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address_line2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="324" width="762" height="49"/>
+				<textElement>
+					<font size="36" isBold="true" pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address_line1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="422" width="762" height="51"/>
+				<textElement>
+					<font size="36" isBold="true" pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{city_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

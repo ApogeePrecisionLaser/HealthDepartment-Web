@@ -1,0 +1,314 @@
+/*
+ ShiftWorkBench-2
+ */
+
+package com.healthDepartment.shift.controller;
+
+
+import com.mysql.jdbc.Connection;
+import com.healthDepartment.dbCon.DBConnection;
+import com.healthDepartment.general.model.GeneralModel;
+import com.healthDepartment.shift.model.ShiftLoginModel;
+import com.healthDepartment.shift.tableClasses.ShiftLoginBean;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+//import com.prepaid.ride.model.RideModel;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Locale;
+import javax.servlet.ServletOutputStream;
+/**
+ *
+ * @author Tushar Singh
+ */
+public class ShiftLoginController extends HttpServlet {
+   
+   
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+      
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+          request.setCharacterEncoding("UTF-8");
+        String task=request.getParameter("task");
+        ServletContext ctx = getServletContext();
+        HttpSession session=request.getSession();
+        request.setAttribute("fileName", "");
+    
+
+        ShiftLoginModel slm=new ShiftLoginModel();
+           try
+        {
+            slm.setConnection((Connection) DBConnection.getConnectionForUtf(ctx));
+        }
+        catch(Exception e)
+        {
+         System.out.print(e);
+        }
+      try {
+            String JQstring = request.getParameter("action1");
+            String q = request.getParameter("q");
+            if (JQstring != null) {
+                 PrintWriter out = response.getWriter();
+                List<String> list = null;
+                if (JQstring.equals("getLocation"))
+                {
+                 //   list = ShiftLoginModel.getLocation(q);
+                }
+                else if(JQstring.equals("getName"))
+                {
+                  // list = ShiftLoginModel.getName(q);
+                }
+                Iterator<String> iter = list.iterator();
+                while (iter.hasNext()) {
+                    String data = iter.next();
+                        out.println(data);
+                }
+
+                return;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+          if(task==null)
+                task="";
+          if((session.getAttribute("skpd_id") == null) && !task.equals("Login") && !task.equals("generateHSReport")){
+             // String f_name=slm.getimage_name();
+            //request.setAttribute("fileName", f_name);
+            RequestDispatcher rd=request.getRequestDispatcher("/layout/index.jsp");
+            rd.forward(request, response);
+            return;
+        }
+       
+
+        if (task.equals("generateHSReport")) {
+             String s="C:/ssadvt_repository/prepaid/RideReport";
+             String f=request.getParameter("filename");
+             String path = "";
+             if(!f.isEmpty())
+             {               
+               String d_name = f.split("_")[0];
+               path = s + "/"+ d_name + "/" + f;
+             }
+             File file = new File(path);
+             FileInputStream fis = new FileInputStream(file);
+             BufferedInputStream bis = new BufferedInputStream(fis);
+             response.setContentLength(fis.available());
+
+             response.setContentType("application/pdf");
+             ServletOutputStream servletOutputStream = response.getOutputStream();
+             BufferedOutputStream bos=new BufferedOutputStream(servletOutputStream);
+             int ch=0;
+             while((ch=bis.read())!=-1)
+             {
+                 bos.write(ch);
+             }
+             fis.close();
+             bis.close();
+             bos.close();
+             response.flushBuffer();
+             servletOutputStream.flush();
+             servletOutputStream.close();
+             slm.closeConnection();
+             return;
+        }
+        try{
+         //if(task==null)
+              //  task="";
+        
+            int shift_key_person_detail_id=0;
+                 try{
+                     shift_key_person_detail_id = Integer.parseInt(request.getParameter("shift_key_person_detail_id").trim());
+                 }catch(Exception ex){
+                     shift_key_person_detail_id = 0;
+                 }
+        Date dt = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String cut_dt = df.format(dt);
+        String hour = dt.getHours() + "";
+        String min = dt.getMinutes() + "";
+        if(hour.length() < 2)
+            hour = "0" + hour;
+        if(min.length() < 2)
+            min = "0" + min;
+                        
+                     String location=request.getParameter("location");
+                     String name=request.getParameter("name");
+                     int ride_no_from=0;
+                     try{
+                     ride_no_from = Integer.parseInt(request.getParameter("ride_no_from").trim());
+                     }catch(Exception ex){
+                     ride_no_from = 0;             }
+                     int ride_no_to=0;
+                     try{
+                     ride_no_to = Integer.parseInt(request.getParameter("ride_no_to").trim());
+                     }catch(Exception ex){
+                     ride_no_to = 0;             }
+                     int skpd_id=0;
+                     try{
+                     skpd_id = Integer.parseInt(request.getParameter("skpd_id").trim());
+                    }catch(Exception ex){
+                     skpd_id = 0;
+                 }
+        if(task.equals("Login")&& (session.getAttribute("skpd_id") == null) )
+        {
+             ShiftLoginBean slb=new ShiftLoginBean();
+             slb.setShift_key_person_detail_id(shift_key_person_detail_id);
+             slb.setStart_time(cut_dt);
+             slb.setEnd_time(cut_dt);
+             slb.setRide_no_from(ride_no_from);
+             slb.setRide_no_to(ride_no_to);
+             slb.setName(name);
+             slb.setLocation(location);
+             //slm.insertRecord(slb);
+             skpd_id=slb.getSkpd_id();             
+             session.setAttribute("skpd_id",skpd_id);
+        }
+
+
+        if(task.equals("logout"))
+        {     List list1=null;
+              List list = new ArrayList();
+             int skd_id = (Integer)session.getAttribute("skpd_id");
+             ShiftLoginBean slb=new ShiftLoginBean();
+              slb.setEnd_time(cut_dt);
+             slb.setRide_no_from(ride_no_from);
+             slb.setRide_no_to(ride_no_to);
+             slb.setSkpd_id(skd_id);
+/*            int affected = slm.updateRecord(slb);
+             if(affected > 0)
+             {
+
+                String starttime=slm.getSt();
+                String[] starttime_array  = starttime.split(" ");
+                String start_time_date=starttime_array[0];
+                String start_time_hm=starttime_array[1];
+                String[] start_time_date_array  = start_time_date.split("-");
+                String  start_date = start_time_date_array[2] + "-" + start_time_date_array[1] + "-" +  start_time_date_array[0];
+                String[] start_time_hm_array  = start_time_hm.split(":");
+                String  start_h = start_time_hm_array[0];
+                String  start_m = start_time_hm_array[1];
+
+                String endtime=slb.getEnd_time();
+                String[] endtime_array  = endtime.split(" ");
+                String end_time_date=endtime_array[0];
+                String end_time_hm=endtime_array[1];
+                String[] end_time_date_array  = end_time_date.split("-");
+                String  end_date = end_time_date_array[2] + "-" + end_time_date_array[1] + "-" +  end_time_date_array[0];
+                String[] end_time_hm_array  = end_time_hm.split(":");
+                String  end_h = end_time_hm_array[0];
+                String  end_m = end_time_hm_array[1];
+                String jrxmlFilePath;
+                String jrxmlFilePath1;
+                
+                GeneralModel generalModel = new GeneralModel();
+                RideModel rideModel = new RideModel();
+                rideModel.setConnection((Connection) DBConnection.getConnectionForUtf(ctx));
+                jrxmlFilePath = ctx.getRealPath("/report/rideReport.jrxml");
+                jrxmlFilePath1 = ctx.getRealPath("/report/rideReportSummary.jrxml");
+                list1=rideModel.showData(-1, -1, "", slm.getRide_from()+"", slm.getRide_to()+"", "", "", "", "", "", "", "", "", "", "Y");
+               if(list1.size()>0)
+               {
+                generalModel.SavePdf(jrxmlFilePath,list1, "RideAllReport.pdf");
+                generalModel.SavePdf(jrxmlFilePath1,list1, "RideSummary.pdf");
+                list.add("C:/ssadvt_repository/prepaid/temp_pdf/RideSummary.pdf");
+                list.add("C:/ssadvt_repository/prepaid/temp_pdf/RideAllReport.pdf");
+                }
+                list1 = rideModel.showData(-1,-1,"", "", "", "", "", start_date, end_date, "Y", start_h, start_m, end_h, end_m, "Y");
+                if(list1.size()>0){
+                generalModel.SavePdf(jrxmlFilePath,list1, "RideRefundReport.pdf");
+                list.add("C:/ssadvt_repository/prepaid/temp_pdf/RideRefundReport.pdf");}
+                list1=rideModel.showData(-1, -1, "", slm.getRide_from()+"",  slm.getRide_to()+"", "", "", "", "", "N", "", "", "", "", "Y");
+                if(list1.size()>0){
+                generalModel.SavePdf(jrxmlFilePath,list1, "RideNonRefundReport.pdf");
+                list.add("C:/ssadvt_repository/prepaid/temp_pdf/RideNonRefundReport.pdf");}
+                rideModel.closeConnection();
+             }
+
+           if(list.size()>0)
+           {
+         try {
+            String fileName = slm.doMerge(list,skd_id,cut_dt); 
+            request.setAttribute("fileName", fileName);
+          //  slm.insertImageRecord(fileName,cut_dt,skd_id);
+
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+            }*/
+            
+        session.invalidate(); 
+            }
+
+           if(task.equals("Login"))
+          request.getRequestDispatcher("/ShiftShowController").forward(request, response);
+           else if(task.equals("logout"))
+           {
+            RequestDispatcher rd=request.getRequestDispatcher("/layout/index.jsp");
+            rd.forward(request, response);
+           }
+           else{
+                   //   String f_name=slm.getimage_name();
+                     // request.setAttribute("fileName", f_name);
+            RequestDispatcher rd=request.getRequestDispatcher("/layout/index.jsp");
+            rd.forward(request, response);
+            }
+        }
+        catch(Exception e)
+        {
+          System.out.print(e);
+        }
+    } 
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /** 
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        processRequest(request, response);
+    } 
+
+    /** 
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /** 
+     * Returns a short description of the servlet.
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}

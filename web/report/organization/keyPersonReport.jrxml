@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="739" pageHeight="842" columnWidth="699" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="organisation_name" class="java.lang.String"/>
+	<field name="org_office_code" class="java.lang.String"/>
+	<field name="org_office_name" class="java.lang.String"/>
+	<field name="emp_code" class="java.lang.String"/>
+	<field name="key_person_name" class="java.lang.String"/>
+	<field name="designation" class="java.lang.String"/>
+	<field name="address_line1" class="java.lang.String"/>
+	<field name="city_name" class="java.lang.String"/>
+	<field name="mobile_no1" class="java.lang.String"/>
+	<field name="email_id1" class="java.lang.String"/>
+	<variable name="s.no" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{s.no}+1]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="240" y="19" width="207" height="20" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Key Person Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="2" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement x="107" y="8" width="74" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Office code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="181" y="8" width="80" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Office Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="261" y="8" width="67" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employee Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="328" y="8" width="74" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Officer name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="8" width="65" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="467" y="8" width="57" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="582" y="8" width="83" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mobile No 1st]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="665" y="8" width="46" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Email Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="8" width="100" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Organistion name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="524" y="8" width="58" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[City Name]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="107" y="0" width="74" height="20"/>
+				<textElement>
+					<font pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{org_office_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="181" y="0" width="80" height="20"/>
+				<textElement>
+					<font pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{org_office_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="261" y="0" width="67" height="20"/>
+				<textElement>
+					<font pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="328" y="0" width="74" height="20"/>
+				<textElement>
+					<font pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{key_person_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="402" y="0" width="65" height="20"/>
+				<textElement>
+					<font pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="467" y="0" width="57" height="20"/>
+				<textElement>
+					<font pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address_line1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="582" y="0" width="83" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{mobile_no1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="665" y="0" width="46" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{email_id1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="7" y="0" width="100" height="20"/>
+				<textElement>
+					<font pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{organisation_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="524" y="0" width="58" height="20"/>
+				<textElement>
+					<font pdfFontName="C:\\Windows\\Fonts\\Mangal.TTF" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{city_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

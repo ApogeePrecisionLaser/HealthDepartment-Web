@@ -1,0 +1,152 @@
+
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+body {
+    margin: 0% 0% 0% 0%;
+    padding: 0;
+    font-family:"Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 12px;
+    border-width:thin;
+    overflow: scroll;
+    background-position: inherit;
+    
+}
+h1, h2,h3{
+    margin: 0px;
+    padding: 0px;
+    letter-spacing: -2px;
+    color: black;
+}
+h1 {
+    font-size: 1.75em;
+}
+
+h2 {
+    font-size: 2.4em;
+}
+
+h3 {
+    font-size:larger ;
+    font-weight: 700;
+    font-family: Georgia,'Times New Roman',times,serif;
+    font-size: 20px;
+    border-color: #b1b536;
+    text-decoration: underline;
+}
+ul, ol {
+}
+a:hover {
+}
+
+table{
+    border-radius:3px;
+
+}
+.main{
+    table-layout: auto;
+    width: 1000px;
+    border :1px solid #69c;
+    border-radius:6px;
+
+}
+.maindiv{
+    /*    overflow: auto;*/
+    width: 996px;
+    min-height: 600px;
+    height: auto;
+
+    /*    border: 1px solid*/
+}
+/*.input_text{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    border:1px solid #FF7C08;
+    padding:2px;
+    width:150px;
+    color:#802900;
+    background:white url(../images/search.png) no-repeat 3px 2px;
+    padding-left:17px;
+}
+.button_signout{
+    background-image: url(../img/user_icon.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-20px: 30px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;         make the cursor like hovering over an <a> element 
+    height: 35px;
+    width: 50px;
+    vertical-align: middle;
+}
+.button_signout input:active,.button_signout input:focus{
+    background: transparent
+}*/
+.ac_results {
+    padding: 0px;
+    border: 1px solid #ff7c08;
+    background-color: white;
+    overflow: hidden;
+}
+.ac_results ul {
+    width: 100%;
+    list-style-position: outside;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.ac_results li {
+    margin: 0px;
+    padding: 2px 5px;
+    cursor: default;
+    display: block;
+    color: #972800;
+    font-family:'kruti Dev 010', Sans-Serif;
+/*    font-family:Arial, Helvetica, sans-serif;*/
+    /*
+	if width will be 100% horizontal scrollbar will apear
+	when scroll mode will be used
+	*/
+    /*width: 100%;*/
+    font-size: 16px;
+    /*
+	it is very important, if line-height not setted or setted
+	in relative units scroll will be broken in firefox
+	*/
+    line-height: 16px;
+    overflow: hidden;
+}
+.ac_loading {
+    background: white url('../images/indicator.gif') right center no-repeat;
+}
+.ac_odd {
+    background-color: #fef2d8;
+}
+.ac_over {
+    background-color: #febb80;
+    color: white;
+}
+.input_text{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    border:1px solid #FF7C08;
+    padding:2px;
+    width:140px;
+    color:#802900;
+    background:white url(../images/search.png) no-repeat 3px 2px;
+    padding-left:17px;
+}
+input:focus
+{
+    background-color:bisque;
+}
+input
+{
+    background-color:"";
+}
+

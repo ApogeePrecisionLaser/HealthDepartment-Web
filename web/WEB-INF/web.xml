@@ -1,0 +1,1467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>beforeLoginHomeView</welcome-file>
+    </welcome-file-list>
+    <context-param>
+        <param-name>driverClass</param-name>
+        <param-value>com.mysql.jdbc.Driver</param-value>
+    </context-param>
+    <context-param>
+        <param-name>connectionString</param-name>
+        <param-value>jdbc:mysql://localhost:3306/health_department1</param-value>
+    </context-param>
+    <context-param>
+        <param-name>db_user_name</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <description>	</description>
+        <param-name>db_user_password</param-name>
+        <param-value></param-value>
+    </context-param>
+    <!-- Start of WebServices -->
+    <servlet>
+        <servlet-name>ServletAdaptor</servlet-name>
+       <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+          <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>com.healthDepartment.webServices</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>TripSchedularController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicleTrip.controller.TripSchedularController</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletAdaptor</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+    <!-- End of WebServices -->
+
+    <!--start of Login -->
+    <servlet>
+        <servlet-name>before_login_home</servlet-name>
+        <jsp-file>/view/login/before_login_home.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>before_login_home</servlet-name>
+        <url-pattern>/beforeLoginHomeView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>com.healthDepartment.general.controller.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/LoginController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>index</servlet-name>
+        <jsp-file>/index.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>index</servlet-name>
+        <url-pattern>/index</url-pattern>
+    </servlet-mapping>
+    <!--end of Login -->
+
+    <!-- Start of Organisation Controllers -->
+    <servlet>
+        <servlet-name>DataEntry orgDetailEntryView</servlet-name>
+        <jsp-file>/view/organization/orgDetailEntry.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry orgDetailEntryView</servlet-name>
+        <url-pattern>/orgDetailEntryView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry orgDetailEntryCont</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.OrgDetailEntryController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry orgDetailEntryCont</servlet-name>
+        <url-pattern>/orgDetailEntryCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry orgName_view</servlet-name>
+        <jsp-file>/view/organization/organization_name.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry orgName_view</servlet-name>
+        <url-pattern>/orgName_view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry orgNameCont</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.OrganisationNameController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry orgNameCont</servlet-name>
+        <url-pattern>/orgNameCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry organisation_view</servlet-name>
+        <jsp-file>/view/organization/orgOffice.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry organisation_view</servlet-name>
+        <url-pattern>/organisation_view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry organisationCont</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.OrgOfficeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry organisationCont</servlet-name>
+        <url-pattern>/organisationCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry OrgOfficeType_view</servlet-name>
+        <jsp-file>/view/organization/org_office_type.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry OrgOfficeType_view</servlet-name>
+        <url-pattern>/orgOfficeType_view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry orgOfficeTypeCont</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.OrgOfficeTypeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry orgOfficeTypeCont</servlet-name>
+        <url-pattern>/orgOfficeTypeCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry orgType_view</servlet-name>
+        <jsp-file>/view/organization/organisation_type.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry orgType_view</servlet-name>
+        <url-pattern>/orgType_view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry orgTypeCont</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.OrganisationTypeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry orgTypeCont</servlet-name>
+        <url-pattern>/orgTypeCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry orgSubType_view</servlet-name>
+        <jsp-file>/view/organization/organisationSubType.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry orgSubType_view</servlet-name>
+        <url-pattern>/orgSubType_view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry OrganisationSubTypeCont</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.OrganisationSubTypeCont</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry OrganisationSubTypeCont</servlet-name>
+        <url-pattern>/organisationSubTypeCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry organisationMap_view</servlet-name>
+        <jsp-file>/view/organization/organisationMap.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry organisationMap_view</servlet-name>
+        <url-pattern>/organisationMap_view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry OrganisationMapCont</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.OrganisationMapCont</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry OrganisationMapCont</servlet-name>
+        <url-pattern>/mapOrgCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <description>Client Associate Mapping View</description>
+        <servlet-name>DataEntry orgClientAssoMap_view</servlet-name>
+        <jsp-file>/view/organization/org_client_asso_map.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry orgClientAssoMap_view</servlet-name>
+        <url-pattern>/orgClientAssoMap_view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry orgClientAssoMapCont</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.OrgClientAssoMapController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry orgClientAssoMapCont</servlet-name>
+        <url-pattern>/orgClientAssoMapCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry designation_view</servlet-name>
+        <jsp-file>/view/organization/designation.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry designation_view</servlet-name>
+        <url-pattern>/designation_view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry designationCont</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.DesignationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry designationCont</servlet-name>
+        <url-pattern>/designationCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry keyPerson_view</servlet-name>
+        <jsp-file>/view/organization/keyperson.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry keyPerson_view</servlet-name>
+        <url-pattern>/keyPerson_view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry personCount</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.KeypersonController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry personCount</servlet-name>
+        <url-pattern>/personCount.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TypeOfOccupationController</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.TypeOfOccupationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TypeOfOccupationController</servlet-name>
+        <url-pattern>/TypeOfOccupationController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TypeOfOccupation</servlet-name>
+        <jsp-file>/view/organization/type_of_occupation.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TypeOfOccupation</servlet-name>
+        <url-pattern>/typeofoccupation</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>BeneficiaryController</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.BeneficiaryController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BeneficiaryController</servlet-name>
+        <url-pattern>/BeneficiaryController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Beneficiary</servlet-name>
+        <jsp-file>/view/organization/beneficiary.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Beneficiary</servlet-name>
+        <url-pattern>/beneficiary</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RwaController</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.RwaController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RwaController</servlet-name>
+        <url-pattern>/RwaController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Rwa</servlet-name>
+        <jsp-file>/view/organization/rwa.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Rwa</servlet-name>
+        <url-pattern>/rwa</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RwaBeneficiaryController</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.RwaBeneficiaryController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RwaBeneficiaryController</servlet-name>
+        <url-pattern>/RwaBeneficiaryController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RwaBeneficiary</servlet-name>
+        <jsp-file>/view/organization/rwa_beneficiary_mapping.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RwaBeneficiary</servlet-name>
+        <url-pattern>/rwaBeneficiary</url-pattern>
+    </servlet-mapping>
+    <!-- End of Organisation Controllers -->
+    <!--Start of city Loaction-->
+    <servlet>
+        <servlet-name>cityController</servlet-name>
+        <servlet-class>com.healthDepartment.location.controller.CityController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cityController</servlet-name>
+        <url-pattern>/cityTypeCont</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>cityView</servlet-name>
+        <jsp-file>/view/location/cityView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cityView</servlet-name>
+        <url-pattern>/cityView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>districtController</servlet-name>
+        <servlet-class>com.healthDepartment.location.controller.DistrictController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>districtController</servlet-name>
+        <url-pattern>/districtTypeCont</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>districtView</servlet-name>
+        <jsp-file>/view/location/districtView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>districtView</servlet-name>
+        <url-pattern>/districtView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>divisionController</servlet-name>
+        <servlet-class>com.healthDepartment.location.controller.DivisionController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>divisionController</servlet-name>
+        <url-pattern>/divisionTypeCont</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>divisionView</servlet-name>
+        <jsp-file>/view/location/divisionView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>divisionView</servlet-name>
+        <url-pattern>/divisionView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>stateutController</servlet-name>
+        <servlet-class>com.healthDepartment.location.controller.StateutController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>stateutController</servlet-name>
+        <url-pattern>/stateutTypeCont</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>stateutView</servlet-name>
+        <jsp-file>/view/location/stateutView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>stateutView</servlet-name>
+        <url-pattern>/stateutView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>zoneView</servlet-name>
+        <jsp-file>/view/location/zoneView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>zoneView</servlet-name>
+        <url-pattern>/zoneView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>zoneNewController</servlet-name>
+        <servlet-class>com.healthDepartment.location.controller.ZoneNewController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>zoneNewController</servlet-name>
+        <url-pattern>/zoneTypeCont</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>zoneNewView</servlet-name>
+        <jsp-file>/view/location/zoneNewView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>zoneNewView</servlet-name>
+        <url-pattern>/zoneNewView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>cityLocation</servlet-name>
+        <jsp-file>/view/location/cityLocation.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cityLocation</servlet-name>
+        <url-pattern>/cityLocationView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>CityLocationCont</servlet-name>
+        <servlet-class>com.healthDepartment.location.controller.CityLocationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CityLocationCont</servlet-name>
+        <url-pattern>/cityLocationCont</url-pattern>
+    </servlet-mapping>
+    <!--End of City Location-->
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Data Entry Start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+    <!--    <servlet>
+        <servlet-name>DataEntry AutoController</servlet-name>
+        <servlet-class>com.prepaid.dataEntry.conteroller.AutoController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry AutoController</servlet-name>
+        <url-pattern>/autoController.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry AutoView</servlet-name>
+        <jsp-file>/view/dataEntry/autoView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry AutoView</servlet-name>
+        <url-pattern>/autoController.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DestinationController</servlet-name>
+        <servlet-class>com.prepaid.dataEntry.conteroller.DestinationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DestinationController</servlet-name>
+        <url-pattern>/destinationCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry DestinationView</servlet-name>
+        <jsp-file>/view/dataEntry/destinationView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry DestinationView</servlet-name>
+        <url-pattern>/destinationView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SourceDestinationController</servlet-name>
+        <servlet-class>com.prepaid.dataEntry.conteroller.SourceDestinationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SourceDestinationController</servlet-name>
+        <url-pattern>/sourceDestinationCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry SourceDestinationView</servlet-name>
+        <jsp-file>/view/dataEntry/sourceDestinationView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry SourceDestinationView</servlet-name>
+        <url-pattern>/sourceDestinationView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleController</servlet-name>
+        <servlet-class>com.prepaid.dataEntry.conteroller.VehicleController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleController</servlet-name>
+        <url-pattern>/vehicleCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry VehicleView</servlet-name>
+        <jsp-file>/view/dataEntry/vehicleView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry VehicleView</servlet-name>
+        <url-pattern>/vehicleView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name> ViewImage</servlet-name>
+        <jsp-file>/view/dataEntry/vehicleimage.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name> ViewImage</servlet-name>
+        <url-pattern>/ImagesView</url-pattern>
+    </servlet-mapping>-->
+    <!--    <servlet>
+        <servlet-name>GeneralController</servlet-name>
+        <servlet-class>com.prepaid.general.controller.GeneralController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GeneralController</servlet-name>
+        <url-pattern>/generalCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry TarrifController</servlet-name>
+        <servlet-class>com.prepaid.dataEntry.conteroller.TarrifController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry TarrifController</servlet-name>
+        <url-pattern>/tarrifCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry TarrifView</servlet-name>
+        <jsp-file>/view/dataEntry/tarrifView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry TarrifView</servlet-name>
+        <url-pattern>/tarrifView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry KeyPersonController</servlet-name>
+        <servlet-class>com.prepaid.dataEntry.conteroller.KeyPersonController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry KeyPersonController</servlet-name>
+        <url-pattern>/keypersonCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataEntry KeyPersonView</servlet-name>
+        <jsp-file>/view/dataEntry/keyperson.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataEntry KeyPersonView</servlet-name>
+        <url-pattern>/keypersonview</url-pattern>
+    </servlet-mapping>-->
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Data Entry End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+    <!--                   Start   Shift                     -->
+    <servlet>
+        <servlet-name>ShiftShowController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.ShiftShowController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftShowController</servlet-name>
+        <url-pattern>/ShiftShowController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.ShiftController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftController</servlet-name>
+        <url-pattern>/ShiftController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftKeyPersonMapController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.ShiftKeyPersonMapController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftKeyPersonMapController</servlet-name>
+        <url-pattern>/ShiftKeyPersonMapController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftLoginController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.ShiftLoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftLoginController</servlet-name>
+        <url-pattern>/shiftLoginCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftTimeController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.ShiftTimeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftTimeController</servlet-name>
+        <url-pattern>/ShiftTimeController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftDesinationLocationController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.ShiftDesinationLocationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftDesinationLocationController</servlet-name>
+        <url-pattern>/ShiftDesinationLocationController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Shift</servlet-name>
+        <jsp-file>/view/shift/shift.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Shift</servlet-name>
+        <url-pattern>/shift</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftDesignationLocation</servlet-name>
+        <jsp-file>/view/shift/shift_designation_location_map.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftDesignationLocation</servlet-name>
+        <url-pattern>/shiftdesignationlocation</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftTime</servlet-name>
+        <jsp-file>/view/shift/shifttime.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftTime</servlet-name>
+        <url-pattern>/shifttime</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftKeyPersonMap</servlet-name>
+        <jsp-file>/view/shift/shift_key_person_map.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftKeyPersonMap</servlet-name>
+        <url-pattern>/shiftkeypersonmap</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftShow</servlet-name>
+        <jsp-file>/view/shift/show.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftShow</servlet-name>
+        <url-pattern>/shiftshow</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LocationTypeController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.LocationTypeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LocationTypeController</servlet-name>
+        <url-pattern>/LocationTypeController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LocationType</servlet-name>
+        <jsp-file>/view/shift/location_type.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LocationType</servlet-name>
+        <url-pattern>/locationtype</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DesignationLocationTypeController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.DesignationLocationTypeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DesignationLocationTypeController</servlet-name>
+        <url-pattern>/DesignationLocationTypeController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DesignationLocationType</servlet-name>
+        <jsp-file>/view/shift/designation_location_type.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DesignationLocationType</servlet-name>
+        <url-pattern>/designationlocationtype</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftReasonController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.ShiftReasonController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftReasonController</servlet-name>
+        <url-pattern>/shiftReasonCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftReason</servlet-name>
+        <jsp-file>/view/shift/shiftReason.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftReason</servlet-name>
+        <url-pattern>/shiftreason</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AttendenceController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.AttendenceController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AttendenceController</servlet-name>
+        <url-pattern>/AttendenceController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Attendence</servlet-name>
+        <jsp-file>/view/shift/attendence.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Attendence</servlet-name>
+        <url-pattern>/attendence</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AttendenceViewController</servlet-name>
+        <servlet-class>com.healthDepartment.shift.controller.AttendenceViewController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AttendenceViewController</servlet-name>
+        <url-pattern>/AttendenceViewController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AttendenceView</servlet-name>
+        <jsp-file>/view/shift/attendence_view.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AttendenceView</servlet-name>
+        <url-pattern>/attendenceview</url-pattern>
+    </servlet-mapping>
+    <!--                   End   Shift                     -->
+    <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+    <!---@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Ward Controller@@@@@@@@@@@@@@@@@@@@@@-->
+    <servlet>
+        <servlet-name>WardView</servlet-name>
+        <jsp-file>/view/location/wardView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WardView</servlet-name>
+        <url-pattern>/wardView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>wardTypeCont</servlet-name>
+        <servlet-class>com.healthDepartment.location.controller.WardController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wardTypeCont</servlet-name>
+        <url-pattern>/wardTypeCont</url-pattern>
+    </servlet-mapping>
+    <!--Start of Area Controller -->
+    <servlet>
+        <servlet-name>Area_Type_View</servlet-name>
+        <jsp-file>/view/location/areaView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Area_Type_View</servlet-name>
+        <url-pattern>/area_TypeView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AreaTypeCont</servlet-name>
+        <servlet-class>com.healthDepartment.location.controller.AreaTypeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AreaTypeCont</servlet-name>
+        <url-pattern>/areaTypeCont</url-pattern>
+    </servlet-mapping>
+    <!--end of Area  Controller -->
+    <servlet>
+        <servlet-name>BeneficiaryShiftSearch</servlet-name>
+        <jsp-file>/view/organization/beneficiaryShiftSearchView.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BeneficiaryShiftSearch</servlet-name>
+        <url-pattern>/beneficiaryShiftSearchView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>BeneficiaryShiftSearchCont</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.BeneficiaryShiftSearchController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BeneficiaryShiftSearchCont</servlet-name>
+        <url-pattern>/beneficiaryShiftSearchCont.do</url-pattern>
+    </servlet-mapping>
+    <!--Start of Vehicle  Controller -->
+    <servlet>
+        <servlet-name>VehicleTypeController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicle.controller.VehicleTypeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleTypeController</servlet-name>
+        <url-pattern>/VehicleTypeController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleType</servlet-name>
+        <jsp-file>/view/vehicle/vehicle_type.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleType</servlet-name>
+        <url-pattern>/vehicleType</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleSubTypeController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicle.controller.VehicleSubTypeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleSubTypeController</servlet-name>
+        <url-pattern>/VehicleSubTypeController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleSubType</servlet-name>
+        <jsp-file>/view/vehicle/vehicle_sub_type.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleSubType</servlet-name>
+        <url-pattern>/vehicleSubType</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicle.controller.VehicleController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleController</servlet-name>
+        <url-pattern>/VehicleController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Vehicle</servlet-name>
+        <jsp-file>/view/vehicle/vehicle.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Vehicle</servlet-name>
+        <url-pattern>/vehicle</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleLocationController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicle.controller.VehicleLocationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleLocationController</servlet-name>
+        <url-pattern>/VehicleLocationController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleLocation</servlet-name>
+        <jsp-file>/view/vehicle/vehicle_location.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleLocation</servlet-name>
+        <url-pattern>/vehicleLocation</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleKeyPersonController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicle.controller.VehicleKeyPersonController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleKeyPersonController</servlet-name>
+        <url-pattern>/VehicleKeyPersonController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleKeyPerson</servlet-name>
+        <jsp-file>/view/vehicle/vehicle_key_person.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleKeyPerson</servlet-name>
+        <url-pattern>/vehicleKeyPerson</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PointController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicle.controller.PointController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PointController</servlet-name>
+        <url-pattern>/PointController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Point</servlet-name>
+        <jsp-file>/view/vehicle/point.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Point</servlet-name>
+        <url-pattern>/point</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleKeyPersonPoint</servlet-name>
+        <servlet-class>com.healthDepartment.vehicle.controller.VehicleKeyPersonPointController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleKeyPersonPoint</servlet-name>
+        <url-pattern>/VehicleKeyPersonPoint</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleKeyPersonPoint1</servlet-name>
+        <jsp-file>/view/vehicle/vehicle_key_person_point.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleKeyPersonPoint1</servlet-name>
+        <url-pattern>/vehicleKeyPersonPoint</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>openMapWindow view</servlet-name>
+        <jsp-file>/view/MapView/mapWindow1.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>openMapWindow view</servlet-name>
+        <url-pattern>/openMapWindowView</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>openMapWindowWaypoint</servlet-name>
+        <jsp-file>/view/MapView/way_point_view1.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>openMapWindowWaypoint</servlet-name>
+        <url-pattern>/waypoint</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ShiftVehicleDetail</servlet-name>
+        <servlet-class>com.healthDepartment.vehicle.controller.ShiftVehicleDetailController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftVehicleDetail</servlet-name>
+        <url-pattern>/ShiftVehicleDetail</url-pattern>
+    </servlet-mapping>
+
+     <servlet>
+        <servlet-name>shiftVehicleDetailView</servlet-name>
+        <jsp-file>/view/vehicle/shift_Vehicle_Detail.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>shiftVehicleDetailView</servlet-name>
+        <url-pattern>/shiftVehicleDetail</url-pattern>
+    </servlet-mapping>
+
+    <!--End of Vehicle Controller -->
+    <!--Start of Dustbin Controller -->
+    <servlet>
+        <servlet-name>DustbinTypeController</servlet-name>
+        <servlet-class>com.healthDepartment.dustbin.controller.DustbinTypeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DustbinTypeController</servlet-name>
+        <url-pattern>/DustbinTypeController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DustbinType</servlet-name>
+        <jsp-file>/view/dustbin/dustbin_type.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DustbinType</servlet-name>
+        <url-pattern>/dustbinType</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DustbinController</servlet-name>
+        <servlet-class>com.healthDepartment.dustbin.controller.DustbinController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DustbinController</servlet-name>
+        <url-pattern>/DustbinController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Dustbin</servlet-name>
+        <jsp-file>/view/dustbin/dustbin.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dustbin</servlet-name>
+        <url-pattern>/dustbin</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LevelController</servlet-name>
+        <servlet-class>com.healthDepartment.dustbin.controller.LevelController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LevelController</servlet-name>
+        <url-pattern>/LevelController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Level</servlet-name>
+        <jsp-file>/view/dustbin/level.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Level</servlet-name>
+        <url-pattern>/level</url-pattern>
+    </servlet-mapping>
+    <!--End of Dustbin Controller -->
+    <!--start of General Controller -->
+    <servlet>
+        <servlet-name>genController</servlet-name>
+        <servlet-class>com.healthDepartment.general.controller.GeneralController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>genController</servlet-name>
+        <url-pattern>/generalCont</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getCordinateMapWindow1 view</servlet-name>
+        <jsp-file>/view/MapView/getCordinateMapWindow1.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getCordinateMapWindow1 view</servlet-name>
+        <url-pattern>/getCordinate1</url-pattern>
+    </servlet-mapping>
+    <!--End of General Controller -->
+    <servlet>
+        <servlet-name>VehicleWeightController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicle.controller.VehicleWeightController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleWeightController</servlet-name>
+        <url-pattern>/VehicleWeightCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleWeight1</servlet-name>
+        <jsp-file>/view/vehicle/vehicle_weight.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleWeight1</servlet-name>
+        <url-pattern>/vehicleWeight</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ErrorLogController</servlet-name>
+        <servlet-class>com.healthDepartment.complain.controller.ErrorLogController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ErrorLogController</servlet-name>
+        <url-pattern>/ErrorLogController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ErrorLog view</servlet-name>
+        <jsp-file>/view/complain/errorLog.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ErrorLog view</servlet-name>
+        <url-pattern>/errorlog</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TypeOfErrorController</servlet-name>
+        <servlet-class>com.healthDepartment.complain.controller.TypeOfErrorController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TypeOfErrorController</servlet-name>
+        <url-pattern>/TypeOfErrorController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TypeOfErroe view</servlet-name>
+        <jsp-file>/view/complain/typeOfError.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TypeOfErroe view</servlet-name>
+        <url-pattern>/typeoferror</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>updateVehicleError view</servlet-name>
+        <jsp-file>/view/complain/updateVehicleError.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>updateVehicleError view</servlet-name>
+        <url-pattern>/updatevehicleerror</url-pattern>
+    </servlet-mapping>
+
+
+    <!--start of MIS -->
+    <servlet>
+        <servlet-name>Mis_view</servlet-name>
+        <jsp-file>/view/MIS/mis.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Mis_view</servlet-name>
+        <url-pattern>/mis</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>MISController</servlet-name>
+        <servlet-class>com.healthDepartment.mis.controller.MISController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MISController</servlet-name>
+        <url-pattern>/MISController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftMISController</servlet-name>
+        <servlet-class>com.healthDepartment.mis.controller.ShiftMISController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftMISController</servlet-name>
+        <url-pattern>/ShiftMISController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftMis_view</servlet-name>
+        <jsp-file>/view/MIS/shiftMIS.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftMis_view</servlet-name>
+        <url-pattern>/shiftmis</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftKeyPersonMISController</servlet-name>
+        <servlet-class>com.healthDepartment.mis.controller.ShiftKeyPersonMISController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftKeyPersonMISController</servlet-name>
+        <url-pattern>/ShiftKeyPersonMISController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftKeyPersonMis_view</servlet-name>
+        <jsp-file>/view/MIS/shiftKeyPersonMIS.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftKeyPersonMis_view</servlet-name>
+        <url-pattern>/keyPersonMapMis</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleKeyPersonMISController</servlet-name>
+        <servlet-class>com.healthDepartment.mis.controller.VehicleKeyPersonMISController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleKeyPersonMISController</servlet-name>
+        <url-pattern>/VehicleKeyPersonMISController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleKeyPersonMIS_view</servlet-name>
+        <jsp-file>/view/MIS/vehicleKeyPersonMIS.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleKeyPersonMIS_view</servlet-name>
+        <url-pattern>/vehicleKeyPersonMIS</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleKeyPersonPointMIS</servlet-name>
+        <servlet-class>com.healthDepartment.mis.controller.VehicleKeyPersonPointMISController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleKeyPersonPointMIS</servlet-name>
+        <url-pattern>/VehicleKeyPersonPointMIS</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VehicleKeyPersonPointMIS_view</servlet-name>
+        <jsp-file>/view/MIS/vehicleKeyPersonPointMIS.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VehicleKeyPersonPointMIS_view</servlet-name>
+        <url-pattern>/vehicleKeyPersonPointMIS</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftAttendenceDetailMISController</servlet-name>
+        <servlet-class>com.healthDepartment.mis.controller.ShiftAttendenceDetailMISController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftAttendenceDetailMISController</servlet-name>
+        <url-pattern>/ShiftAttendenceDetailMISController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftAttendenceMIS_view</servlet-name>
+        <jsp-file>/view/MIS/shiftAttendenceMIS.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftAttendenceMIS_view</servlet-name>
+        <url-pattern>/attendenceviewMIS</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ShiftBenificiaryDetailMISController</servlet-name>
+        <servlet-class>com.healthDepartment.mis.controller.ShiftBenificiaryDetailMISController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftBenificiaryDetailMISController</servlet-name>
+        <url-pattern>/ShiftBenificiaryDetailMISController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShiftBenificiaryDetailMIS_view</servlet-name>
+        <jsp-file>/view/MIS/shiftBenificiaryDetailMIS.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShiftBenificiaryDetailMIS_view</servlet-name>
+        <url-pattern>/shiftbenificiaryMIS</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>WeightMIS</servlet-name>
+        <servlet-class>com.healthDepartment.mis.controller.WeightMISController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WeightMIS</servlet-name>
+        <url-pattern>/WeightMIS</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>weightMIS_view</servlet-name>
+        <jsp-file>/view/MIS/weightMIS.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>weightMIS_view</servlet-name>
+        <url-pattern>/weightmis</url-pattern>
+    </servlet-mapping>
+    <!--end of MIS -->
+    <!--start of item -->
+    <servlet>
+        <servlet-name>ItemNameController</servlet-name>
+        <servlet-class>com.additems.controller.ItemNameController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ItemNameController</servlet-name>
+        <url-pattern>/ItemNameController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ItemName view</servlet-name>
+        <jsp-file>/view/addItems/itemName.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ItemName view</servlet-name>
+        <url-pattern>/item_name</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PropertiesController</servlet-name>
+        <servlet-class>com.additems.controller.PropertiesController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PropertiesController</servlet-name>
+        <url-pattern>/PropertiesController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Properties view</servlet-name>
+        <jsp-file>/view/addItems/properties.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Properties view</servlet-name>
+        <url-pattern>/properties</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ItemNamePropertiesMapController</servlet-name>
+        <servlet-class>com.additems.controller.ItemNamePropertiesMapController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ItemNamePropertiesMapController</servlet-name>
+        <url-pattern>/ItemNamePropertiesMapController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Itemname_Properties_map view</servlet-name>
+        <jsp-file>/view/addItems/itemNameProperties_map.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Itemname_Properties_map view</servlet-name>
+        <url-pattern>/item_name_properties_map</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PropertiesDetailsController</servlet-name>
+        <servlet-class>com.additems.controller.PropertiesDetailsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PropertiesDetailsController</servlet-name>
+        <url-pattern>/PropertiesDetailsController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Properties_details view</servlet-name>
+        <jsp-file>/view/addItems/properties_details.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Properties_details view</servlet-name>
+        <url-pattern>/properties_details</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ItemController</servlet-name>
+        <servlet-class>com.additems.controller.ItemController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ItemController</servlet-name>
+        <url-pattern>/ItemController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Item view</servlet-name>
+        <jsp-file>/view/addItems/item.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Item view</servlet-name>
+        <url-pattern>/item</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PurposeHeaderController2</servlet-name>
+        <servlet-class>com.additems.controller.PurposeHeaderController1</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PurposeHeaderController2</servlet-name>
+        <url-pattern>/PurposeHeaderController2</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PurposeHeader2 view</servlet-name>
+        <jsp-file>/view/addItems/purposeHeader1.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PurposeHeader2 view</servlet-name>
+        <url-pattern>/purposeHeaderView2</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GetParentHeaderController2</servlet-name>
+        <servlet-class>com.additems.controller.GetParentHeaderController1</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetParentHeaderController2</servlet-name>
+        <url-pattern>/GetParentHeaderController2</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ParentHeader2 view</servlet-name>
+        <jsp-file>/view/addItems/getParentHeader1.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ParentHeader2 view</servlet-name>
+        <url-pattern>/getParentHeaderView2</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>NodeDetailController</servlet-name>
+        <servlet-class>com.additems.controller.NodeDetailController</servlet-class>
+    </servlet>
+     <servlet-mapping>
+        <servlet-name>NodeDetailController</servlet-name>
+        <url-pattern>/NodeDetailController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>NodeDetail view</servlet-name>
+        <jsp-file>/view/addItems/nodeDetail.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NodeDetail view</servlet-name>
+        <url-pattern>/node_detail</url-pattern>
+    </servlet-mapping>
+
+     <!--end of item -->
+    <servlet>
+        <servlet-name>getCordinateMapWindow2 view</servlet-name>
+        <jsp-file>/view/MapView/getCordinateMapWindow2.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getCordinateMapWindow2 view</servlet-name>
+        <url-pattern>/getCordinate2</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GeneralController</servlet-name>
+        <servlet-class>com.healthDepartment.general.controller.GeneralController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GeneralController</servlet-name>
+        <url-pattern>/generalCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getCordinateMapWindow3 view</servlet-name>
+        <jsp-file>/view/MapView/node_detail_map_view.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getCordinateMapWindow3 view</servlet-name>
+        <url-pattern>/getCordinate3</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getCordinateMapWindow4 view</servlet-name>
+        <jsp-file>/view/MapView/getCordinateMapWindow4.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getCordinateMapWindow4 view</servlet-name>
+        <url-pattern>/getCordinate4</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>NodeDetailMap view</servlet-name>
+        <jsp-file>/view/MapView/node_detail_map_view1.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NodeDetailMap view</servlet-name>
+        <url-pattern>/node_detail_map1</url-pattern>
+    </servlet-mapping>
+
+    <!-- Start of VehicleTrip-->
+    <servlet>
+        <servlet-name>RouteNameController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicleTrip.controller.RouteNameController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RouteNameController</servlet-name>
+        <url-pattern>/RouteNameCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RouteName View</servlet-name>
+        <jsp-file>/view/vehicleTrip/route_Name.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RouteName View</servlet-name>
+        <url-pattern>/route_name</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RouteController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicleTrip.controller.RouteController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RouteController</servlet-name>
+        <url-pattern>/RouteCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Route View</servlet-name>
+        <jsp-file>/view/vehicleTrip/route.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Route View</servlet-name>
+        <url-pattern>/route</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TripController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicleTrip.controller.TripController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TripController</servlet-name>
+        <url-pattern>/TripCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Trip View</servlet-name>
+        <jsp-file>/view/vehicleTrip/trip.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Trip View</servlet-name>
+        <url-pattern>/trip</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TripPointController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicleTrip.controller.TripPointController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TripPointController</servlet-name>
+        <url-pattern>/TripPointCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TripPoint View</servlet-name>
+        <jsp-file>/view/vehicleTrip/tripPoint.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TripPoint View</servlet-name>
+        <url-pattern>/trippoint</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TripVehicleController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicleTrip.controller.TripVehicleController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TripVehicleController</servlet-name>
+        <url-pattern>/TripVehicleCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TripVehicle View</servlet-name>
+        <jsp-file>/view/vehicleTrip/tripVehicleMap.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TripVehicle View</servlet-name>
+        <url-pattern>/tripvehicle</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TripLogFileController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicleTrip.controller.TripLogFileController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TripLogFileController</servlet-name>
+        <url-pattern>/TripLogFileCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TripLogFile View</servlet-name>
+        <jsp-file>/view/vehicleTrip/trip_log_file.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TripLogFile View</servlet-name>
+        <url-pattern>/triplogfile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TripPointLogFileController</servlet-name>
+        <servlet-class>com.healthDepartment.vehicleTrip.controller.TripPointLogFileController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TripPointLogFileController</servlet-name>
+        <url-pattern>/TripPointLogFileCont.do</url-pattern>
+    </servlet-mapping>
+     <servlet>
+        <servlet-name>TripPointLogFile View</servlet-name>
+        <jsp-file>/view/vehicleTrip/tripPointLogFile.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TripPointLogFile View</servlet-name>
+        <url-pattern>/trippointlog</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>openMapVehicleWindow</servlet-name>
+        <jsp-file>/view/MapView/mapWindow.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>openMapVehicleWindow</servlet-name>
+        <url-pattern>/openMapWindowView1</url-pattern>
+    </servlet-mapping>
+    <!-- End of VehicleTrip-->
+     <servlet>
+        <servlet-name>FileUploadController</servlet-name>
+        <servlet-class>com.healthDepartment.organization.controller.UploadExcelController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileUploadController</servlet-name>
+        <url-pattern>/UploadExcelCont.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>FileUpload</servlet-name>
+        <jsp-file>/view/organization/uploadExcel.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileUpload</servlet-name>
+        <url-pattern>/uploadExcel</url-pattern>
+    </servlet-mapping>
+</web-app>
