@@ -204,6 +204,8 @@
 
                     </ul>
                 </li>
+                   <li><a id="mpeb1" href="generalCont.do?task=GetVehicleCordinates" onclick="">Map View</a></li>
+                
                 <li><a id="mpeb1" href="LoginController?task=logout" onclick="">LogOut</a></li>
             </ul>
         </div>

@@ -324,7 +324,7 @@ public class HealthDepartmentWebServices {
         return reply;
     }
 
-      @POST
+    @POST
     @Path("/vehicleCordinates")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -332,7 +332,8 @@ public class HealthDepartmentWebServices {
         JSONObject obj = new JSONObject();
         Response res = null;
         String rideStatus, ride_id, date_time, latitude, longitude;
-        ride_id = jsonObj.get("ride_id").toString();
+       
+        rideStatus = jsonObj.get("status").toString();
         latitude = jsonObj.get("latitude").toString();
         longitude = jsonObj.get("longitude").toString();
         date_time = jsonObj.get("date_time").toString();
@@ -346,13 +347,13 @@ public class HealthDepartmentWebServices {
         String status = "Successfully";
         
         
-      //  int result = rideModel.rideCordinates(ride_id, date_time, latitude, longitude);
-//        if (result > 0) {
-//            System.out.println("Data Retrived : " + jsonObj + " : Saved...");
-//        } else {
-//            System.out.println("Data Retrived : " + jsonObj + " : Not Saved Some Error...");
-//            status = "Not Successfully";
-//        }
+        int result = slm.InsertLatLong(rideStatus, latitude, longitude, date_time);
+        if (result > 0) {
+            System.out.println("Data Retrived : " + jsonObj + " : Saved...");
+        } else {
+            System.out.println("Data Retrived : " + jsonObj + " : Not Saved Some Error...");
+            status = "Not Successfully";
+        }
         slm.closeConnection();
         return status;
     }

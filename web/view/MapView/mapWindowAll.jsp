@@ -162,8 +162,8 @@
         <input type="hidden" id="latti" value="${latti}" >
         <c:forEach var="Coordinates" items="${requestScope['CoordinatesList']}" varStatus="loopCounter">
             <c:set var="cordinateLength"  value="${loopCounter.count}"></c:set>
-            <input type="hidden" id="lati${loopCounter.count}" value="${Coordinates.latitude}">
-            <input type="hidden" id="longi${loopCounter.count}" value="${Coordinates.longitude}">
+            <input type="hi dden" id="lati${loopCounter.count}" value="${Coordinates.latitude}">
+            <input type="hi dden" id="longi${loopCounter.count}" value="${Coordinates.longitude}">
  
         </c:forEach>
         <input type="hidden" id="count" value="${size}">

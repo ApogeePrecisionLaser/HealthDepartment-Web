@@ -5,7 +5,6 @@
 
 package com.healthDepartment.general.model;
 
-import com.healthDepartment.general.tableClasses.GenralBean;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayOutputStream;
@@ -554,74 +553,7 @@ public String convertCP2HexNCR (String argstr)
         }
         return path;
     }
-public List getNodeDetail(){
-        List list = new ArrayList();
-        String query =  " select node_name "
-                       +" from node1 n,node_detail nd "
-                       +" where nd.node_id=n.node_id ";
-        try{
-            ResultSet rs = connection.prepareStatement(query).executeQuery();
-            while(rs.next()){
-                GenralBean general = new GenralBean();
-              general.setNode_name(rs.getString("node_name"));
-                list.add(general);
-            }
 
-
-        }catch(Exception e){
-            System.out.println(e);
-        }
-
-        return list;
-    }
-
-public List getVehicleLatLong(){
-        List list = new ArrayList();
-        String query =  " select latitude,longitude "
-                       +" from app_cordinates ";
-                      
-        try{
-            ResultSet rs = connection.prepareStatement(query).executeQuery();
-            while(rs.next()){
-                GenralBean general = new GenralBean();
-             general.setLatitude(rs.getFloat("latitude"));
-              general.setLongitude(rs.getFloat("longitude"));
-
-                list.add(general);
-            }
-
-
-        }catch(Exception e){
-            System.out.println(e);
-        }
-
-        return list;
-    }
-
-
-public String  getLatLang(String node_name){
-       String data="";
-       String query =  " select head_latitude,head_longitude,tail_lattitude,tail_longitude "
-                       +" from node_detail nd,node1 n "
-                       +" where nd.node_id=n.node_id "
-                       +" and n.node_name='"+node_name+"'";
-       try{
-           ResultSet rs = connection.prepareStatement(query).executeQuery();
-           while(rs.next()){
-              String head_latitude=rs.getString("head_latitude");
-              String head_longitude=rs.getString("head_longitude");
-              String tail_lattitude=rs.getString("tail_lattitude");
-              String tail_longitude=rs.getString("tail_longitude");
-              data=head_latitude+","+head_longitude+","+tail_lattitude+","+tail_longitude;
-           }
-
-
-       }catch(Exception e){
-           System.out.println(e);
-       }
-
-      return data;
-   }
     public boolean makeDirectory(String dirPathName) {
         boolean result = false;
         File directory = new File(dirPathName);

@@ -532,6 +532,11 @@ public class ShiftLoginModel {
         return jsonArray;
     }
 
+    
+    
+    
+    
+    
     public JSONArray getOccupationTypeDetails() {
         JSONArray jsonArray = new JSONArray();
         String query = "select type_of_occupation_id,name from type_of_occupation;";
@@ -1203,6 +1208,38 @@ public class ShiftLoginModel {
         }
         return rowsAffected;
     }
+   
+   
+    public int InsertLatLong(String ridestatus,String latitude,String longitude,String datetime) {
+        String query = "";
+        int rowsAffected = 0;
+        query = "insert into app_cordinates(latitude,longitude,status,created_at) "
+                + "values(?,?,?,?)";
+
+        try {
+            PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+         
+            ps.setString(1, latitude);
+            ps.setString(2, longitude);
+            ps.setString(3, ridestatus);
+            ps.setString(4, datetime);
+
+            rowsAffected = ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e);
+        }
+        if (rowsAffected > 0) {
+            message = "Record Inserted successfully......";
+            msgBgColor = COLOR_OK;
+            System.out.println("Inserted");
+        } else {
+            message = "Record Not Inserted Some Error!";
+            msgBgColor = COLOR_ERROR;
+            System.out.println("not Inserted");
+        }
+        return rowsAffected;
+    }
+   
     public String getMessage() {
         return message;
     }

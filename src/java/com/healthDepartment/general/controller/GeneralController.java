@@ -10,7 +10,9 @@ import com.healthDepartment.general.model.GeneralModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -128,6 +130,19 @@ public class GeneralController extends HttpServlet {
                 request.getRequestDispatcher("node_detail_map1").forward(request, response);
                 return;
             }
+            
+              if (task.equals("GetVehicleCordinates"))
+            {
+                String latitude = "";
+                String longitude="";
+                List list=gm.getVehicleLatLong();
+               
+                request.setAttribute("size", list.size());
+                request.setAttribute("CoordinatesList", list);
+                request.getRequestDispatcher("/view/MapView/mapWindowAll.jsp").forward(request, response);
+                return;
+            }
+            
             if(task.equals("checkSubPointExits"))
            {
                String node_name = request.getParameter("temp");
