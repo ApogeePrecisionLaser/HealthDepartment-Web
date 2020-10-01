@@ -439,7 +439,7 @@
                                 </tr>
                             </c:if>
                             <tr>
-                                <td colspan="2"><input style="display: none;" type="text" id="cityId" name="cityId" value="" readonly/><td>
+                                <td colspan="2"><input type="hidden" id="cityId" name="cityId" value=""/><td>
                             </tr>
                             <tr>
                                 <td class="heading1" width="150">City Name</td><td><input type="text" class="new_input" id="cityName" name="cityName" size="40" disabled/></td>

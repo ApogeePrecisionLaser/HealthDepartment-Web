@@ -381,7 +381,7 @@
                             </tr>
                         </c:if>
                               <tr>
-                        <td colspan="2"><input style="display: none;" type="text" id="zoneId" name="zoneId" value="" readonly/><td>
+                        <td colspan="2"><input type="hidden" id="zoneId" name="zoneId" value="" /><td>
                     </tr>
                    
                      <tr>

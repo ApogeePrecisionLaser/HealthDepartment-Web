@@ -154,6 +154,29 @@ public class ZoneNewModel {
         }
         return list;
     }
+    
+    public int updateRecord1(int zone_id,String zoneName,String zoneDescription,String Zoneno) {
+          zoneName = krutiToUnicode.convert_to_unicode(zoneName);      
+        String query = " UPDATE zone SET  zone_name = '"+zoneName+"', description='"+zoneDescription+"', zone_no='"+Zoneno+"' WHERE zone_id = '"+zone_id+"' ";
+        int rowsAffected = 0;
+        try {
+            PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+
+            
+                      rowsAffected = ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("AreaModel updateRecord() Error: " + e);
+        }
+        if (rowsAffected > 0) {
+            message = "Record updated successfully......";
+            messageBGColor = "yellow";
+        } else {
+            message = "Cannot update the record, some error......";
+            messageBGColor = "yellow";
+        }
+        return rowsAffected;
+    }
+    
       public void updateRecord(String countryName,String zoneId,String zoneName,String zoneDescription)
     {
         PreparedStatement presta=null;

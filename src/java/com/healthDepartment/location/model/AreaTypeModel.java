@@ -329,17 +329,18 @@ public List<String> getAreaName(String q) //, String ward_name, String zone_name
         }
         return list;
     }
- public int updateRecord(AreaTypeBean areaTypeBean) {
-        String query = " UPDATE area SET  area_name = ?, remark=?, ward_id=?, active=? WHERE area_id = ? ";
-        int rowsAffected = 0;
-        try {
-            PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement(query);
+ public int updateRecord(AreaTypeBean bean) {
+          String query = " update area set area_name=?,area_no=?, description=?, ward_id=? WHERE area_id = ? ";
+        int rowsAffected = 0;  
+        try { 
+            java.sql.PreparedStatement pstmt = connection.prepareStatement(query);
 
-            pstmt.setString(1, areaTypeBean.getArea_name());
-            pstmt.setString(2, areaTypeBean.getRemark());
-            pstmt.setInt(3, areaTypeBean.getWard_id());
-            pstmt.setString(4, areaTypeBean.getActive());
-            pstmt.setInt(5, areaTypeBean.getArea_id());
+            pstmt.setString(1, ku.convert_to_unicode(bean.getArea_name()));
+            pstmt.setString(2, bean.getArea_no());
+            pstmt.setString(3, bean.getRemark());
+             int ward_id=getWardId(bean.getWard_name());
+            pstmt.setInt(4, ward_id);
+            pstmt.setInt(5, bean.getArea_id());
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("AreaModel updateRecord() Error: " + e);

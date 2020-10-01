@@ -215,13 +215,41 @@
                 var url = "RouteCont.do?"+queryString+"&search_route_name="+search_route_name+"&search_stopage_name="+search_stopage_name;
                 popupwin = openPopUp(url, "Route", 600, 900);
             }
-
-            function openPopUp(url, window_name, popup_height, popup_width) {
+ function openPopUp(url, window_name, popup_height, popup_width) {
                 var popup_top_pos = (screen.availHeight / 2) - (popup_height / 2);
                 var popup_left_pos = (screen.availWidth / 2) - (popup_width / 2);
-                var window_features = "left=" + popup_left_pos + ", top=" + popup_top_pos + ", width=" + popup_width + ", height=" + popup_height + ", resizable=no, scrollbars=yes, status=no, dialog=yes, dependent=yes";
+                var window_features = "left=" + popup_left_pos + ", top=" + popup_top_pos + ", width=" + popup_width + ", height=" + popup_height + ", resizable=yes, scrollbars=yes, location=0, menubar=no, status=no, dependent=yes";
+
                 return window.open(url, window_name, window_features);
             }
+
+
+            function openMapForCord() {
+                var url="generalCont?task=GetCordinates4";//"getCordinate";
+                popupwin = openPopUp(url, "",  600, 630);
+            }
+            function openMap(point_id) {
+                //alert(vehicle_key_person_map_id);
+                var url="RouteCont.do?task=showMapWindow&point_id="+point_id;
+                popupwin = openPopUp(url, "",  580, 620);
+            }
+              function openMap1() {
+                //alert(vehicle_key_person_map_id);
+                var search_route_name=document.getElementById("search_route_name").value;
+               
+                
+                
+             
+                var url="RouteCont.do?task=showMapWindow1"+"&search_route_name="+search_route_name ;
+               
+                popupwin = openPopUp(url, "",  580, 620);
+            }
+//            function openPopUp(url, window_name, popup_height, popup_width) {
+//                var popup_top_pos = (screen.availHeight / 2) - (popup_height / 2);
+//                var popup_left_pos = (screen.availWidth / 2) - (popup_width / 2);
+//                var window_features = "left=" + popup_left_pos + ", top=" + popup_top_pos + ", width=" + popup_width + ", height=" + popup_height + ", resizable=no, scrollbars=yes, status=no, dialog=yes, dependent=yes";
+//                return window.open(url, window_name, window_features);
+//            }
             if (!document.all) {
                 document.captureEvents (Event.CLICK);
             }
@@ -273,7 +301,8 @@
                                                     <input type="submit" class="button" id="clear" name="clear" value="CLEAR" onclick="setStatus(id)"> --%>
                                                     &ensp; <input type="button" class="pdf_button" id="viewPdf" name="viewPdf" value="" onclick="displayRouteList(id)">
                                                       <input type="button" class="button" id="viewXls" name="viewXls" value="Excel" onclick="displayRouteList(id)">
-                                                     <label id="route_msg">  </label> 
+                                                    <input   class="btn btn-info" type="button" id="get_data" value="GetAllMap" onclick="openMap1()" > 
+                                                      <label id="route_msg">  </label> 
                                                 </td>
                                             </tr>
                                         </table>

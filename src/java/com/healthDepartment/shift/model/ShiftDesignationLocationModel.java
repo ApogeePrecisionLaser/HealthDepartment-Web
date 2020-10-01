@@ -674,7 +674,7 @@ public static int getDesignation_id(String designation) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String area_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("area_name"));
+                String area_name = krutiToUnicode.convert_to_unicode(rset.getString("area_name"));
                    if (area_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(area_name);
                     count++;
@@ -709,7 +709,7 @@ public static int getDesignation_id(String designation) {
             }
         } catch (Exception e) {
             System.out.println( e);
-        }
+        }     
         return list;
     }
 
@@ -722,7 +722,7 @@ public static int getDesignation_id(String designation) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String zone_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("zone_name"));
+                String zone_name =krutiToUnicode.convert_to_unicode(rset.getString("zone_name"));
                 if (zone_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(zone_name);
                     count++;
@@ -773,7 +773,7 @@ public static int getDesignation_id(String designation) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String ward_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("ward_name"));
+                String ward_name = krutiToUnicode.convert_to_unicode(rset.getString("ward_name"));
                    if (ward_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(ward_name);
                     count++;

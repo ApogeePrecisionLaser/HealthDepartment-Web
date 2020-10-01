@@ -324,6 +324,49 @@ public class HealthDepartmentWebServices {
         return reply;
     }
 
+      @POST
+    @Path("/vehicleCordinates")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String rideCordinates(JSONObject jsonObj) throws Exception {
+        JSONObject obj = new JSONObject();
+        Response res = null;
+        String rideStatus, ride_id, date_time, latitude, longitude;
+        ride_id = jsonObj.get("ride_id").toString();
+        latitude = jsonObj.get("latitude").toString();
+        longitude = jsonObj.get("longitude").toString();
+        date_time = jsonObj.get("date_time").toString();
+        System.out.println("rideCordinates");
+       ShiftLoginModel slm = new ShiftLoginModel();
+       try {
+            slm.setConnection(DBConnection.getConnectionForUtf(serveletContext));
+        } catch (Exception ex) {
+            System.out.println("ERROR : in insertRecord() in ShiftWebservices : " + ex);
+        }
+        String status = "Successfully";
+        
+        
+      //  int result = rideModel.rideCordinates(ride_id, date_time, latitude, longitude);
+//        if (result > 0) {
+//            System.out.println("Data Retrived : " + jsonObj + " : Saved...");
+//        } else {
+//            System.out.println("Data Retrived : " + jsonObj + " : Not Saved Some Error...");
+//            status = "Not Successfully";
+//        }
+        slm.closeConnection();
+        return status;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @POST
     @Path("/insertVehicle")
     @Produces(MediaType.APPLICATION_JSON)

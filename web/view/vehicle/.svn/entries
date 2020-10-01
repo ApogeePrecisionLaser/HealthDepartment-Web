@@ -26,6 +26,54 @@ Administrator
 
 bb2a1e29-86ca-ef48-b096-f23b4a743b66
 
+shift_Vehicle_Detail.jsp
+file
+0
+
+
+add
+
+vehicle.jsp
+file
+
+
+
+
+2017-03-09T12:48:01.253425Z
+459ba5ff4ec21fe52579242f0c886a93
+2016-09-27T05:29:59.903829Z
+274
+Administrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+19842
+
+vehicle_key_person.jsp
+file
+0
+
+
+add
+
 vehicle_location.jsp
 file
 
@@ -94,40 +142,6 @@ Administrator
 
 14484
 
-vehicle.jsp
-file
-
-
-
-
-2017-03-09T12:48:01.253425Z
-459ba5ff4ec21fe52579242f0c886a93
-2016-09-27T05:29:59.903829Z
-274
-Administrator
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-19842
-
 vehicle_type.jsp
 file
 
@@ -161,4 +175,11 @@ Administrator
 
 
 12863
+
+vehicle_weight.jsp
+file
+0
+
+
+add
 

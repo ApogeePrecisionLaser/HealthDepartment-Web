@@ -105,14 +105,14 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
     }
 
     public int updateRecord(WardTypeBean wardTypeBean) {
-        String query = "UPDATE ward_m SET  ward_no_m=?, remark=?, zone_id_m=? WHERE ward_id_m=? ";
+        String query = "UPDATE ward SET  ward_no=?, zone_id=? WHERE ward_id=? ";
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
            pstmt.setString(1, wardTypeBean.getWard_no());
-            pstmt.setString(2, wardTypeBean.getRemark());
-            pstmt.setInt(3, wardTypeBean.getZone_id_m());
-            pstmt.setInt(4, wardTypeBean.getWard_id());
+            int zone_id=getZoneId(wardTypeBean.getZone_m());    
+            pstmt.setInt(2,zone_id);
+            pstmt.setInt(3, wardTypeBean.getWard_id());
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("error while updating record........." + e);

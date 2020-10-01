@@ -45,7 +45,7 @@ public class WardController extends HttpServlet {
        response.setCharacterEncoding("UTF-8");
        request.setCharacterEncoding("UTF-8");
 
-        String task = request.getParameter("task");
+        String task = request.getParameter("task");     
         try {
             //----- This is only for Vendor key Person JQuery
             String JQstring = request.getParameter("action1");
@@ -119,22 +119,33 @@ public class WardController extends HttpServlet {
                   ByteArrayOutputStream reportInbytes =wardTypeModel.generateZoneXlsRecordList(jrxmlFilePath, listAll);
                   response.setContentLength(reportInbytes.size());
                   servletOutputStream.write(reportInbytes.toByteArray());
-                  servletOutputStream.flush();
+                  servletOutputStream.flush();     
                   servletOutputStream.close();
                   return;
              }
-        if (task.equals("Delete")) {
-            wardTypeModel.deleteRecord(Integer.parseInt(request.getParameter("ward_id_m")));  // Pretty sure that organisation_type_id will be available.
+        if (task.equals("Cancel")) {
+            wardTypeModel.deleteRecord(Integer.parseInt(request.getParameter("ward_id")));  // Pretty sure that organisation_type_id will be available.
         } else if (task.equals("Save") || task.equals("Save AS New")) {
             int ward_id_m;
             try {
-                ward_id_m = Integer.parseInt(request.getParameter("ward_id_m"));
+                ward_id_m = Integer.parseInt(request.getParameter("ward_id"));
             } catch (Exception e) {
                 ward_id_m = 0;
             }
-            if (task.equals("Save AS New") || (task.equals("Save")  )) {
+            if (task.equals("Save AS New") ) {
                 ward_id_m = 0;
+                   WardTypeBean wardTypeBean = new WardTypeBean();
+            wardTypeBean.setWard_id(ward_id_m);
+            wardTypeBean.setZone_m(request.getParameter("zone_name_m"));
+            wardTypeBean.setWard_name(request.getParameter("ward_name"));
+            wardTypeBean.setWard_no(request.getParameter("ward_no"));
+            wardTypeBean.setRemark(request.getParameter("remark"));
+          
+                System.out.println("Inserting values by model......");
+                wardTypeModel.insertRecord(wardTypeBean);
+          
             }
+              if (task.equals("Save") ) {
             WardTypeBean wardTypeBean = new WardTypeBean();
             wardTypeBean.setWard_id(ward_id_m);
             wardTypeBean.setZone_m(request.getParameter("zone_name_m"));
@@ -144,10 +155,11 @@ public class WardController extends HttpServlet {
             if (ward_id_m == 0) {
                 System.out.println("Inserting values by model......");
                 wardTypeModel.insertRecord(wardTypeBean);
-            }// else {
-             //   System.out.println("Update values by model........");
-             //   wardTypeModel.updateRecord(wardTypeBean);
-          //  }
+            }  else {
+                 System.out.println("Update values by model........");
+                    wardTypeModel.updateRecord(wardTypeBean);
+            }
+        }
         }
         // Start of Auto Completer code
       

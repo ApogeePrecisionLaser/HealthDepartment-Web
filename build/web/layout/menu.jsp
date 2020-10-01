@@ -121,6 +121,7 @@
                         <li><a href="wardTypeCont">Ward</a></li>
                          <li><a href="areaTypeCont">Area </a></li>
                         <li><a href="cityLocationCont">Location</a></li>
+                        <li><a href="PointController">Point</a></li>
                     </ul>
                 </li>
              <!--    <li><a id="mpeb1" href="#">Ride</a>
@@ -151,7 +152,7 @@
                                   <li><a href="VehicleController">Vehicle</a></li>
                                    <li><a href="VehicleLocationController">Vehicle Location</a></li>
                                    <li><a href="VehicleKeyPersonController">Vehicle Key Person</a></li>
-                                   <li><a href="PointController">Point</a></li>
+                                   
                                    <li><a href="VehicleKeyPersonPoint">VehicleKeyPerson Point</a></li>
                                    <li><a href="ShiftVehicleDetail">Shift Vehicle Detail</a></li>
                                    <li><a href="VehicleWeightCont.do">Vehicle Weight</a></li>

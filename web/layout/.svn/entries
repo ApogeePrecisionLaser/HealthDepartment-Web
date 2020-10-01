@@ -26,48 +26,14 @@ Administrator
 
 bb2a1e29-86ca-ef48-b096-f23b4a743b66
 
-menu.jsp
-file
-246
-
-
-
-2016-07-07T10:20:16.894383Z
-7157b0185a88d85131473a6c12aeb6d3
-2016-07-15T14:39:11.258820Z
-246
-jpss
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7640
-
-index.jsp
+before_login_menu.jsp
 file
 
 
 
 
-2016-07-07T07:27:45.839336Z
-5b3acb5b2d556897f6637c41c5f30ad6
+2016-07-07T07:27:45.854337Z
+4f3e1c8120bc4bc3862468f981990af7
 2016-05-27T05:14:12.714997Z
 184
 Administrator
@@ -92,41 +58,21 @@ Administrator
 
 
 
-7642
+900
 
-header.jsp
+benificiary_menu.jsp
 file
+0
 
 
+add
+
+clerk_menu.jsp
+file
+0
 
 
-2016-07-07T07:27:45.843337Z
-7f4c6159d2b80aa977df6f23eafc30c7
-2016-06-13T05:01:08.942985Z
-209
-Administrator
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-949
+add
 
 complaint_menu.jsp
 file
@@ -162,6 +108,142 @@ Administrator
 
 2360
 
+footer.jsp
+file
+
+
+
+
+2016-07-07T07:27:45.858338Z
+0e9d2e3f010efe07e004ea4dce4e3e38
+2016-05-27T05:14:12.714997Z
+184
+Administrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+520
+
+header.jsp
+file
+
+
+
+
+2016-07-07T07:27:45.843337Z
+7f4c6159d2b80aa977df6f23eafc30c7
+2016-06-13T05:01:08.942985Z
+209
+Administrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+949
+
+index.jsp
+file
+
+
+
+
+2016-07-07T07:27:45.839336Z
+5b3acb5b2d556897f6637c41c5f30ad6
+2016-05-27T05:14:12.714997Z
+184
+Administrator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7642
+
+menu.jsp
+file
+246
+
+
+
+2016-07-07T10:20:16.894383Z
+7157b0185a88d85131473a6c12aeb6d3
+2016-07-15T14:39:11.258820Z
+246
+jpss
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7640
+
 org_menu.jsp
 file
 
@@ -196,71 +278,10 @@ Administrator
 
 1966
 
-before_login_menu.jsp
+rwa_menu.jsp
 file
+0
 
 
-
-
-2016-07-07T07:27:45.854337Z
-4f3e1c8120bc4bc3862468f981990af7
-2016-05-27T05:14:12.714997Z
-184
-Administrator
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-900
-
-footer.jsp
-file
-
-
-
-
-2016-07-07T07:27:45.858338Z
-0e9d2e3f010efe07e004ea4dce4e3e38
-2016-05-27T05:14:12.714997Z
-184
-Administrator
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-520
+add
 

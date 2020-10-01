@@ -137,6 +137,53 @@ public class CityLocationController extends HttpServlet {
          if (task == null) {
             task = "";
         }
+           if (task.equals("showMapWindow")) {
+
+            String point_id = request.getParameter("point_id");
+            String latitude1 = "";
+            String longitude1 = "";
+            String LatLong = cityLocationModel.getPointLatLong(point_id);
+            System.out.println(LatLong);
+            String[] words = LatLong.split("\\,");
+            for (int i = 0; i < words.length; i++) {
+                latitude1 = words[0];
+                longitude1 = words[1];
+                System.out.println(latitude1 + "  " + longitude1);
+            }
+            request.setAttribute("longi", latitude1);
+            request.setAttribute("latti", longitude1);
+            //System.out.println(latti + "," + longi);
+            request.getRequestDispatcher("openMapWindowView").forward(request, response);
+            return;
+
+        }
+          if (task.equals("showMapWindow1")) {       
+
+    searchCityName= request.getParameter("searchCityName");
+           searchZoneName= request.getParameter("searchZone");
+        
+         searchWardType= request.getParameter("searchWardType");
+       
+          
+          searchArea= request.getParameter("searchArea");
+          
+             
+               List<CityLocationBean> List = cityLocationModel.showDataLattitude(searchArea,searchCityName,searchZoneName,searchWardType);
+             
+               int size=List.size();
+               
+          //  String LatLong = qm.getPointLatLong(point_id);
+          //  System.out.println(LatLong);
+           // String[] words = LatLong.split("\\,");
+            
+            request.setAttribute("CoordinatesList", List);
+            request.setAttribute("size", size);
+            //System.out.println(latti + "," + longi);
+           // request.getRequestDispatcher("openMapWindowView").forward(request, response);
+            request.getRequestDispatcher("view/MapView/mapWindowAll.jsp").forward(request, response);
+            return;
+
+        }
         if (task.equals("generateMapReport")) {
                         String jrxmlFilePath;
                         List list=null;

@@ -7,6 +7,7 @@ package com.healthDepartment.vehicleTrip.model;
 
 import com.healthDepartment.util.KrutiDevToUnicodeConverter;
 import com.healthDepartment.util.UnicodeToKrutiDevConverter;
+import com.healthDepartment.vehicle.tableClasses.Point;
 import com.healthDepartment.vehicleTrip.tableClasses.RouteBean;
 import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
@@ -303,7 +304,7 @@ private Connection connection;
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String route_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("route_name"));
+                String route_name = rset.getString("route_name");
                 if (route_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(route_name);
                     count++;
@@ -328,7 +329,7 @@ private Connection connection;
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String stopage_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("point_name"));
+                String stopage_name = rset.getString("point_name");
                 if (stopage_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(stopage_name);
                     count++;
@@ -339,7 +340,33 @@ private Connection connection;
         }
         return list;
     }
-
+ public List<Point> showDataLattitude(String searchArea) {
+        List<Point> list = new ArrayList<Point>();
+        
+        //int client_equip_id = getClientEquipId(user_id,equip_name);
+         if(searchArea==null)
+            searchArea="";
+               
+        int rev = 3;
+       String query = "select p.latitude,p.longitude from route r,point p,route_name rn \n" +
+"where r.route_name_id=rn.route_name_id and \n" +
+"r.point_id=p.point_id and rn.route_name='"+searchArea+"' ";
+ 
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            ResultSet rset = pstmt.executeQuery();
+            while (rset.next()) {
+                Point bean = new Point();
+                bean.setLatitude(rset.getString("latitude"));
+                 bean.setLongitude(rset.getString("longitude"));
+                 
+                list.add(bean);
+            }
+        } catch (Exception e) {
+            System.out.println("Error in ShowDataBean() :ShiftLoginModel" + e);
+        }
+        return list;
+    }
     public List<String> getInputRouteName(String q) {
         List<String> list = new ArrayList<String>();
         String query = "SELECT rn.route_name FROM route_name as rn "
@@ -350,7 +377,7 @@ private Connection connection;
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String route_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("route_name"));
+                String route_name = rset.getString("route_name");
                 if (route_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(route_name);
                     count++;
@@ -372,7 +399,7 @@ private Connection connection;
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String stopage_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("point_name"));
+                String stopage_name = rset.getString("point_name");
                 if (stopage_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(stopage_name);
                     count++;

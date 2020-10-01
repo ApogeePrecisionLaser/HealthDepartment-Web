@@ -84,15 +84,29 @@ public class ZoneNewController extends HttpServlet{
          {
             if(task.equals("Save all records"))
                 zoneModel.insertNewRecord(request.getParameterValues("zone_id"),request.getParameterValues("zoneName"),request.getParameterValues("zoneDescription"),request.getParameterValues("zone_no"));
-            else if(task.equals("Save As New")|| task.equals("Save"))
+            else if(task.equals("Save As New"))
             {
                  String zone_id[]={"1"};
                  zoneModel.insertNewRecord(zone_id,request.getParameterValues("zoneName"),request.getParameterValues("zoneDescription"),request.getParameterValues("zone_no"));
-            }//else if(task.equals("Save"))
-            //{
-             //   String zone_id[]={"1"};
-            //  zoneModel.insertNewRecord(zone_id,request.getParameterValues("zoneName"),request.getParameterValues("zoneDescription"),request.getParameterValues("zone_no"));
-           // }
+            } else if(task.equals("Save"))
+            {
+                int zone_id=0;
+                 try{  
+                     zone_id = Integer.parseInt(request.getParameter("zoneId").trim());
+                 }catch(Exception ex){
+                     zone_id = 0;
+                 }
+              
+               if(zone_id==0){
+               String zone_id1[]={"1"};
+                zoneModel.insertNewRecord(zone_id1,request.getParameterValues("zoneName"),request.getParameterValues("zoneDescription"),request.getParameterValues("zone_no"));
+          
+                  }else {
+                    zoneModel.updateRecord1(zone_id,request.getParameter("zoneName"),request.getParameter("zoneDescription"),request.getParameter("zone_no"));
+       
+                
+               }
+               }
          }
         else if(task.equals("Delete"))
              zoneModel.deleteRecord(Integer.parseInt(request.getParameter("zoneId")));

@@ -349,7 +349,7 @@
                                             <tr>
                                                 <th class="heading1">Zone Name</th>
                                                 <td>
-                                                    <input class="input" type="hidden" id="ward_id_m" name="ward_id_m" value="" >
+                                                    <input class="input" type="hidden" id="ward_id_m" name="ward_id" value="" >
                                                     <input class="new_input" type="text" id="zone_name_m" name="zone_name_m" value="" size="40" disabled>
                                                 </td>
                                             </tr>

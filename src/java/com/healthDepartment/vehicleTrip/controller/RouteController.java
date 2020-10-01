@@ -7,6 +7,7 @@ package com.healthDepartment.vehicleTrip.controller;
 
 import com.healthDepartment.dbCon.DBConnection;
 import com.healthDepartment.util.UniqueIDGenerator;
+import com.healthDepartment.vehicle.tableClasses.Point;
 import com.healthDepartment.vehicleTrip.model.RouteModel;
 import com.healthDepartment.vehicleTrip.tableClasses.RouteBean;
 import java.io.ByteArrayOutputStream;
@@ -100,6 +101,7 @@ public class RouteController extends HttpServlet {
             if (searchRouteName == null || searchRouteName.isEmpty()) {
                 searchRouteName = "";
             }
+               
             String searchStopageName = request.getParameter("search_stopage_name");
             if (searchStopageName == null || searchStopageName.isEmpty()) {
                 searchStopageName = "";
@@ -109,7 +111,28 @@ public class RouteController extends HttpServlet {
             if (task == null) {
                 task = "";
             }
+  if (task.equals("showMapWindow1")) {
 
+    searchRouteName= request.getParameter("search_route_name");
+           
+             
+               List<Point> List = routeModel.showDataLattitude(searchRouteName);
+             
+               int size=List.size();
+               
+          //  String LatLong = qm.getPointLatLong(point_id);
+          //  System.out.println(LatLong);
+           // String[] words = LatLong.split("\\,");
+            
+            request.setAttribute("CoordinatesList", List);
+            request.setAttribute("size", size);
+            //System.out.println(latti + "," + longi);
+           // request.getRequestDispatcher("openMapWindowView").forward(request, response);
+          //  request.getRequestDispatcher("view/MapView/roadroute.jsp").forward(request, response);
+            request.getRequestDispatcher("view/MapView/multipleroutepoint.jsp").forward(request, response);
+            return;
+
+        }
             if (task.equals("Delete")) {
                 routeModel.deleteRecord(Integer.parseInt(request.getParameter("route_id")));
             } else if (task.equals("Save") || task.equals("Save AS New") || task.equals("Save & Next")) {

@@ -199,6 +199,7 @@
         document.getElementById("latitude").disabled = false;
         document.getElementById("longitude").disabled = false;
         document.getElementById("location_no").disabled = false;
+          document.getElementById("get_cordinate").disabled = false;
         document.getElementById("save").disabled = false;
 
         if(id == 'new') {
@@ -315,14 +316,39 @@
         popupwin = openPopUp(url, "State Type Map Details", 500, 1000);
     }
 
-    function openPopUp(url, window_name, popup_height, popup_width) {
-        var popup_top_pos = (screen.availHeight / 2) - (popup_height / 2);
-        var popup_left_pos = (screen.availWidth / 2) - (popup_width / 2);
-        var window_features = "left=" + popup_left_pos + ", top=" + popup_top_pos + ", width=" + popup_width + ", height=" + popup_height + ", resizable=yes, scrollbars=yes, location=0, menubar=no, status=no, dependent=yes";
+    
+function openPopUp(url, window_name, popup_height, popup_width) {
+                var popup_top_pos = (screen.availHeight / 2) - (popup_height / 2);
+                var popup_left_pos = (screen.availWidth / 2) - (popup_width / 2);
+                var window_features = "left=" + popup_left_pos + ", top=" + popup_top_pos + ", width=" + popup_width + ", height=" + popup_height + ", resizable=yes, scrollbars=yes, location=0, menubar=no, status=no, dependent=yes";
 
-        return window.open(url, window_name, window_features);
-    }
+                return window.open(url, window_name, window_features);
+            }
 
+
+            function openMapForCord() {
+                var url="generalCont?task=GetCordinates4";//"getCordinate";
+                popupwin = openPopUp(url, "",  600, 630);
+            }
+            function openMap(point_id) {
+                //alert(vehicle_key_person_map_id);
+                var url="cityLocationCont?task=showMapWindow&point_id="+point_id;
+                popupwin = openPopUp(url, "",  580, 620);
+            }
+              function openMap1() {
+                //alert(vehicle_key_person_map_id);
+                var searchCityName=document.getElementById("searchCityName").value;
+                var searchZone=document.getElementById("searchZone").value;
+                var searchWardType=document.getElementById("searchWardType").value;
+                var searchArea=document.getElementById("searchArea").value;
+                
+                
+               var queryString = queryString + "&searchWardType="+searchWardType+"&searchZone="+searchZone+"&searchArea="+searchArea+"&searchCityName="+searchCityName ;
+       
+                var url="cityLocationCont?task=showMapWindow1"+"&searchWardType="+searchWardType+"&searchZone="+searchZone+"&searchArea="+searchArea+"&searchCityName="+searchCityName ;
+               
+                popupwin = openPopUp(url, "",  580, 620);
+            }
 </script>
 <html>
     <head>
@@ -374,6 +400,7 @@
                                               <td><input class="input new_input" type="text" id="searchCityName" name="searchCityName" value="${searchCityName}" size="15" ></td>
                                               <th>City Location No</th>
                                               <td><input class="input new_input" type="text" id="searchCityNo" name="searchCityNo" value="${searchCityNo}" size="15" ></td>
+                                           
                                             </tr>
                                             <tr>
                                                
@@ -381,6 +408,7 @@
                                                 <input class="button" type="submit" name="task" id="showAllRecords" value="Show All Records">
                                                 <input type="button" class="pdf_button" id="viewPdf" name="viewPdf" value="" onclick="displayMapList(id)">
                                                 <input type="button" class="button" id="viewExcel" name="viewExcel" value="Excel" onclick="displayMapList(id)"></td>
+                                              <input   class="btn btn-info" type="button" id="get_data" value="GetAllLocation" onclick="openMap1()" >
                                             </tr>
                                        
                                         </table>
@@ -516,7 +544,8 @@
                                                     <input class="button" type="submit" name="task" id="save_As" value="Save AS New" onclick="setStatus(id)" disabled>
                                                     <input class="button" type="reset" name="new" id="new" value="New" onclick="makeEditable(id)">
                                                     <input class="button" type="submit" name="task" id="delete" value="Delete" onclick="setStatus(id)" disabled>
-                                                </td>
+                                             <input style="margin-left:18px;" class="button" type="button" id="get_cordinate" value="Get Cordinate" onclick="openMapForCord()" disabled>
+                                                 </td>
                                             </tr>
                                             <%-- These hidden fields "lowerLimit", "noOfRowsTraversed", and "clickedButton" belong to form2 of table2. --%>
                                             <input type="hidden" name="lowerLimit" value="${lowerLimit}">

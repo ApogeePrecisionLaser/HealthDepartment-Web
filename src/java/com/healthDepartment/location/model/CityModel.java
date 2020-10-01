@@ -1,5 +1,6 @@
 package com.healthDepartment.location.model;
 
+import static com.healthDepartment.dustbin.model.DustbinModel.krutiToUnicode;
 import com.healthDepartment.location.tableClasses.CityBean;
 import com.healthDepartment.util.KrutiDevToUnicodeConverter;
 import com.healthDepartment.util.UnicodeToKrutiDevConverter;
@@ -258,7 +259,7 @@ public class CityModel {
         {
                       String query = "insert into city(city_name,city_description,pin_code,std_code) values(?,?,?,?)";
                       PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
-                      ps.setString(1,bean.getCityName());
+                      ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getCityName()));
                       ps.setString(2,bean.getCityDescription());
                       ps.setInt(3,bean.getPin_code());
                       ps.setInt(4,bean.getStd_code());
@@ -266,7 +267,9 @@ public class CityModel {
           }
     catch(Exception e)
         {
-              System.out.println("Error in insertRecord in CityModel : "+e);
+              message=rowAffected+" Already Exist or Some Error";
+          messageBGColor="yellow";
+              System.out.println("Error in insertRecord in CityModel : "+e);   
          }
        if(rowAffected>0)
       {
@@ -274,7 +277,29 @@ public class CityModel {
           messageBGColor="yellow";
       }
 }   
-   
+   public int updateRecord(CityBean bean) {
+        String query = " UPDATE city SET  city_name = ?, city_description=?, pin_code=?, std_code=? WHERE city_id = '"+bean.getCityId()+"' ";
+        int rowsAffected = 0;
+        try {
+            PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+
+              ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getCityName()));
+                      ps.setString(2,bean.getCityDescription());
+                      ps.setInt(3,bean.getPin_code());
+                      ps.setInt(4,bean.getStd_code());
+                      rowsAffected = ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("AreaModel updateRecord() Error: " + e);
+        }
+        if (rowsAffected > 0) {
+            message = "Record updated successfully......";
+            messageBGColor = "yellow";
+        } else {
+            message = "Cannot update the record, some error......";
+            messageBGColor = "yellow";
+        }
+        return rowsAffected;
+    }
     public void closeConnection()
     {
         try

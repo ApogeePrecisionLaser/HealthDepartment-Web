@@ -102,8 +102,8 @@ public class CityController extends HttpServlet {
           else if(task.equals("Save all records")||task.equals("Save As New")||task.equals("Save"))
           {
                 int city_id=0;
-                 try{
-                     city_id = Integer.parseInt(request.getParameter("city_id").trim());
+                 try{  
+                     city_id = Integer.parseInt(request.getParameter("cityId").trim());
                  }catch(Exception ex){
                      city_id = 0;
                  }
@@ -125,7 +125,10 @@ public class CityController extends HttpServlet {
                 cityModel.insertRecord(b);
               }
              else if(task.equals("Save"))
-              {   
+              {  
+                  if(city_id!=0){
+                     cityModel.updateRecord(b);
+                  }else
              cityModel.insertRecord(b);
               }
           }else if(task.equals("Delete"))
