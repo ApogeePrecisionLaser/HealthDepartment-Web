@@ -116,7 +116,7 @@
                 var t1id = "t1c";       // particular column id of table 1 e.g. t1c3.
 
                 document.getElementById("point_id").value = document.getElementById(t1id + (lowerLimit + 0)).innerHTML;
-                document.getElementById("area").value = document.getElementById(t1id + (lowerLimit + 2)).innerHTML;
+                document.getElementById("city_location").value = document.getElementById(t1id + (lowerLimit + 2)).innerHTML;
                 document.getElementById("point_name").value = document.getElementById(t1id + (lowerLimit + 3)).innerHTML;
                 document.getElementById("latitude").value = document.getElementById(t1id + (lowerLimit + 4)).innerHTML;
                 document.getElementById("longitude").value = document.getElementById(t1id + (lowerLimit + 5)).innerHTML;
@@ -167,7 +167,7 @@
                 document.getElementById("zone").disabled = false;
                 document.getElementById("ward").disabled = false;
                 document.getElementById("area").disabled = false;
-                //document.getElementById("city_location").disabled = false;
+                document.getElementById("city_location").disabled = false;
                 document.getElementById("point_name").disabled = false;
                 document.getElementById("latitude").disabled = false;
                 document.getElementById("longitude").disabled = false;
@@ -350,17 +350,14 @@
                                     <th class="heading1">Ward</th><td><input class="new_input" type="text" id="ward" name="ward" value="${ward}" size="20" disabled></td>
                                 
                                 </tr>
-                                <!--                                            <tr>
-                                                                                <th class="heading1">Area</th><td><input class="new_input" type="text" id="area" name="area" value="" size="20" disabled></td>
-                                                                               
-                                                                               
-                                                                                 
-                                                                            </tr>-->
-                                <tr>
+                                                                       
+                                                                           <tr>
+                                            <th class="heading1">Area</th><td><input class="new_input" type="text" id="area" name="area" value="${areaname}" size="20" disabled></td>
+                                                                        
                                     <th class="heading1">City Location</th>
-                                    <td><input type="text" class="new_input" id="area"   name="city_location" value="${city_location}" size="20" disabled></td>
-
-                                    <th class="heading1"> Point Name </th>
+                                    <td><input type="text" class="new_input" id="city_location"   name="city_location" value="${city_location}" size="20" disabled></td>
+             </tr>
+                                                                               <tr><th class="heading1"> Point Name </th>
                                     <td><input type="text" class="new_input" id="point_name"   name="point_name" value="" size="20" disabled></td>
 
                                 </tr>
