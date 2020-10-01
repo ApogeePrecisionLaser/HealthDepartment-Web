@@ -51,11 +51,30 @@ public class PointController extends HttpServlet {
         try {
             String JQstring = request.getParameter("action1");
             String q = request.getParameter("q");
+            String zone="";
+            String ward="";
             if (JQstring != null) {
                 PrintWriter out = response.getWriter();
                 List<String> list = null;
                 if (JQstring.equals("getcity_name")) {
                     list = vtm.getCityName(q);
+                }if (JQstring.equals("getZone")) {
+                    list =vtm.getZone(q);
+                }
+                else if (JQstring.equals("getWardName")) {
+                    if (request.getParameter("action2") != null && !request.getParameter("action2").isEmpty()) {
+                        zone = request.getParameter("action2");
+                    }
+                    list = vtm.getWardName(q, zone);
+                } else if (JQstring.equals("getAreaName")) {
+                    if (request.getParameter("action2") != null && !request.getParameter("action2").isEmpty()) {
+                        ward = request.getParameter("action2");
+                    }
+                    if (request.getParameter("action3") != null && !request.getParameter("action3").isEmpty()) {
+                        zone= request.getParameter("action3");
+                    }
+
+                    list =vtm.getAreaName(q, ward, zone );
                 }
 
                 Iterator<String> iter = list.iterator();
@@ -156,7 +175,16 @@ public class PointController extends HttpServlet {
                 if (task.equals("Save AS New")) {
                     point_id = 0;
                 }
+                String zonename = request.getParameter("zone");
+                String wardname = request.getParameter("ward");
+                 String areaname = request.getParameter("area");
                 String city_location = request.getParameter("city_location");
+                
+                 request.setAttribute("zone", zonename);
+                 request.setAttribute("areaname", areaname);
+            request.setAttribute("ward", wardname);
+            request.setAttribute("city_location", city_location);
+                
                 String point_name = request.getParameter("point_name");
                 String latitude = request.getParameter("latitude");
                 String longitude = request.getParameter("longitude");
@@ -218,6 +246,7 @@ public class PointController extends HttpServlet {
                 request.setAttribute("showLast", "false");
             }
             request.setAttribute("list", list);
+          
             request.setAttribute("lowerLimit", lowerLimit);
             request.setAttribute("search_city_location", search_city_location);
             request.setAttribute("search_point_name", search_point_name);

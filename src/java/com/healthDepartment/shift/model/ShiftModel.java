@@ -23,8 +23,8 @@ private static Connection connection;
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-        public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//        public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
  public static int  getNoOfRows()
  {
         int noOfRows = 0;
@@ -55,7 +55,7 @@ private static Connection connection;
              while(rs.next()){
              ShiftBean sb=new ShiftBean();
              sb.setShift_type_id(rs.getInt("shift_type_id"));
-             sb.setShift_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("shift_type")));
+             sb.setShift_type(rs.getString("shift_type"));
              sb.setStarting_time(rs.getString("starting_time"));
              sb.setEnding_time(rs.getString("ending_time"));
               list.add(sb);
@@ -82,7 +82,7 @@ if(shift_type_id>0)
 
         try{
          PreparedStatement ps=(PreparedStatement) connection.prepareStatement(query);
-        ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getShift_type()));
+        ps.setString(1,bean.getShift_type());
         ps.setString(2,bean.getStarting_time());
          ps.setString(3,bean.getEnding_time());
          if(shift_type_id>0)

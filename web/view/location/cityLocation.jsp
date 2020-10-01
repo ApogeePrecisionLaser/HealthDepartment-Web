@@ -518,10 +518,10 @@ function openPopUp(url, window_name, popup_height, popup_width) {
                                                     <td colspan="2" bgcolor="${msgBgColor}"><b>Result: ${message}</b></td>
                                                 </c:if>
                                             </tr>
-                                            <tr> <th class="heading1">Zone</th><td><input class="new_input" type="text" id="zone" name="zone" value="" size="20" disabled></td>
-                                             <th class="heading1">Ward</th><td><input class="new_input" type="text" id="ward" name="ward" value="" size="20" disabled></td></tr>
+                                            <tr> <th class="heading1">Zone</th><td><input class="new_input" type="text" id="zone" name="zone" value="${zone}" size="20" disabled></td>
+                                             <th class="heading1">Ward</th><td><input class="new_input" type="text" id="ward" name="ward" value="${ward}" size="20" disabled></td></tr>
                                             <tr>
-                                                <th class="heading1">Area</th><td><input class="new_input" type="text" id="area" name="area" value="" size="20" disabled></td>
+                                                <th class="heading1">Area</th><td><input class="new_input" type="text" id="area" name="area" value="${areaname}" size="20" disabled></td>
                                                 <th class="heading1">City Location</th>
                                                 <td>
                                                     <input class="input" type="hidden" id="city_location_id" name="city_location_id" value="" >

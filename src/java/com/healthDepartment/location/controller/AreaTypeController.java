@@ -135,6 +135,13 @@ public class AreaTypeController  extends HttpServlet {
 
             areaTypeModel.deleteRecord(Integer.parseInt(request.getParameter("area_id")));  // Pretty sure that city_id will be available.
         } else if (task.equals("Save") || task.equals("Save AS New")) {
+              String zonename = request.getParameter("zone_name");
+                String wardname = request.getParameter("ward_name");
+               
+                
+                 request.setAttribute("zone", zonename);
+                
+            request.setAttribute("ward", wardname);
             int area_id;
             try {
                 area_id = Integer.parseInt(request.getParameter("area_id"));

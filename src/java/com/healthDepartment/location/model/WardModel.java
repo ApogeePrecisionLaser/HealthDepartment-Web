@@ -35,8 +35,8 @@ public class WardModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-UnicodeToKrutiDevConverter uk=new UnicodeToKrutiDevConverter();
-KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
+//UnicodeToKrutiDevConverter uk=new UnicodeToKrutiDevConverter();
+//KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
     public void setConnection() {
         try {
             Class.forName(driverClass);
@@ -84,7 +84,7 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
         int rowsAffected = 0;
         try {
             java.sql.PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, ku.convert_to_unicode(wardTypeBean.getWard_name()));
+            pstmt.setString(1,wardTypeBean.getWard_name());
             pstmt.setString(2, wardTypeBean.getWard_no());
             pstmt.setString(3, wardTypeBean.getRemark());    
             int zone_id=getZoneId(wardTypeBean.getZone_m());
@@ -135,7 +135,7 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String ward_type = uk.Convert_to_Kritidev_010(rset.getString("ward_name"));
+                String ward_type = rset.getString("ward_name");
                 if (ward_type.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(ward_type);
                     count++;
@@ -150,7 +150,7 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
         return list;
     }
       public int getZoneId(String zone) {
-          zone=ku.convert_to_unicode(zone);
+          //zone=ku.convert_to_unicode(zone);
         String query = " select zone_id from zone where zone_name='"+zone+"' ";
         int zone_id = 0;
         try {
@@ -173,7 +173,7 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String zone_name_m =uk.Convert_to_Kritidev_010(rset.getString("zone_name"));
+                String zone_name_m =rset.getString("zone_name");
                      if (zone_name_m.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(zone_name_m);
                     count++;                
@@ -190,8 +190,8 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
 
     public int getNoOfRows(String searchWardType,String zone)
     {
-         searchWardType = ku.convert_to_unicode(searchWardType);
-         zone = ku.convert_to_unicode(zone);
+        // searchWardType = ku.convert_to_unicode(searchWardType);
+       //  zone = ku.convert_to_unicode(zone);
         String query = " SELECT Count(*)  FROM ward as w,zone as z "
                        + "  where w.zone_id=z.zone_id "
                 + " and IF('"+searchWardType +"'='',w.ward_name LIKE '%%',w.ward_name=?) "
@@ -214,11 +214,11 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
     public List<WardTypeBean> showData(int lowerLimit, int noOfRowsToDisplay, String searchWardType,String zone) //
     {
         List<WardTypeBean> list = new ArrayList<WardTypeBean>();
-        searchWardType = ku.convert_to_unicode(searchWardType);
-        zone = ku.convert_to_unicode(zone);
+       // searchWardType = ku.convert_to_unicode(searchWardType);
+       // zone = ku.convert_to_unicode(zone);
         String query = " select w.ward_id,w.ward_name,w.ward_no,w.description,z.zone_name from ward as w,zone as z where w.zone_id=z.zone_id "
                 + " and IF('"+searchWardType +"'='',w.ward_name LIKE '%%',w.ward_name=?) "
-                + " AND IF('"+zone+"'='',z.zone_name LIKE '%%',z.zone_name=?) order by zone_name,ward_no"
+                + " AND IF('"+zone+"'='',z.zone_name LIKE '%%',z.zone_name=?) order by zone_name,ward_no desc"
                 + " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay ;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -256,8 +256,8 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
             while (rset.next()) {
                 WardTypeBean wardType = new WardTypeBean();
              
-                wardType.setWard_name(uk.Convert_to_Kritidev_010(rset.getString("ward_name")));
-                wardType.setZone_m(uk.Convert_to_Kritidev_010(rset.getString("zone_name")));
+                wardType.setWard_name(rset.getString("ward_name"));
+                wardType.setZone_m(rset.getString("zone_name"));
                 wardType.setRemark(rset.getString("description"));
                wardType.setWard_no(rset.getString("ward_no"));
                

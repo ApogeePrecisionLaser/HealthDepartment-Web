@@ -34,8 +34,8 @@ public class AttendenceModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
    public static int  getNoOfRows(String date)
  {        int noOfRows = 0;
@@ -89,7 +89,7 @@ public class AttendenceModel {
     }
    public static int  getNoOfRowsAttendence(String empcode,String mobileno,String sdate,String searchemp,String attendence)
  {       
-       searchemp = krutiToUnicode.convert_to_unicode(searchemp);
+      // searchemp = krutiToUnicode.convert_to_unicode(searchemp);
        int noOfRows = 0;
             if(sdate != null && !sdate.isEmpty()){
                    String[] sdate_array  = sdate.split("-");
@@ -118,7 +118,7 @@ public class AttendenceModel {
 
  public static List<ShiftLoginBean> showAttendenceData(int lowerLimit,int noOfRowsToDisplay,String empcode,String mobileno,String sdate,String searchemp,String attendence)
     {
-     searchemp = krutiToUnicode.convert_to_unicode(searchemp);
+     //searchemp = krutiToUnicode.convert_to_unicode(searchemp);
              if(sdate != null && !sdate.isEmpty()){
                    String[] sdate_array  = sdate.split("-");
                    sdate = sdate_array[2] + "-" + sdate_array[1] + "-" + sdate_array[0];
@@ -143,7 +143,7 @@ public class AttendenceModel {
                   ShiftLoginBean sb=new ShiftLoginBean();
                    sb.setAttendence_id(rs.getInt("attendence_id"));
                    sb.setEmp_code(rs.getString("emp_code"));
-                   sb.setEmp_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("key_person_name")));
+                   sb.setEmp_name(rs.getString("key_person_name"));
                    sb.setMobile_no(rs.getString("mobile_no1"));
                    String date=rs.getString("date");
                    if(date != null && !date.isEmpty()){
@@ -210,7 +210,7 @@ return status;
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                String key_person_name = rset.getString("key_person_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;

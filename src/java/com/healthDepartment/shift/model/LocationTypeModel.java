@@ -35,12 +35,12 @@ public class LocationTypeModel {
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
 
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public int getNoOfRows(String searchlocationtype)
     {
-         searchlocationtype = krutiToUnicode.convert_to_unicode(searchlocationtype);
+       //  searchlocationtype = krutiToUnicode.convert_to_unicode(searchlocationtype);
         String query = " SELECT Count(*) "
                 + " FROM location_type as l "
                + " where IF('"+searchlocationtype +"'='',l.location_type_name LIKE '%%',l.location_type_name=?) order by l.location_type_name " ;
@@ -61,7 +61,7 @@ public class LocationTypeModel {
     public List<LocationTypeBean> showData(int lowerLimit, int noOfRowsToDisplay, String searchlocationtype) 
     {
         List<LocationTypeBean> list = new ArrayList<LocationTypeBean>();
-  searchlocationtype = krutiToUnicode.convert_to_unicode(searchlocationtype);
+ // searchlocationtype = krutiToUnicode.convert_to_unicode(searchlocationtype);
         String query = " select location_type_id,location_type_name,remark from location_type as l "
                + " where IF('"+searchlocationtype +"'='',l.location_type_name LIKE '%%',l.location_type_name=?) order by l.location_type_name "
                 + " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
@@ -89,8 +89,8 @@ boolean status=false;
 int rowsAffected=0;
         try{
          PreparedStatement ps=(PreparedStatement) connection.prepareStatement("insert into location_type (location_type_name,remark) values(?,?)");
-        ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getLocation_type_name()));
-        ps.setString(2,krutiToUnicode.convert_to_unicode(bean.getRemark()));
+        ps.setString(1,bean.getLocation_type_name());
+        ps.setString(2,bean.getRemark());
 
          rowsAffected = ps.executeUpdate();
         if(rowsAffected > 0)
@@ -112,7 +112,7 @@ return status;
 }
     public List<LocationTypeBean> showAll(int lowerLimit, int noOfRowsToDisplay,String searchlocationtype)
     {
-        searchlocationtype = krutiToUnicode.convert_to_unicode(searchlocationtype);
+        //searchlocationtype = krutiToUnicode.convert_to_unicode(searchlocationtype);
         ArrayList<LocationTypeBean> list = new ArrayList<LocationTypeBean>();
         String query=  " SELECT location_type_name,remark "
          + "  FROM location_type as l where "
@@ -124,8 +124,8 @@ return status;
             ResultSet rset = pstmt.executeQuery();
             while (rset.next()) {
                  LocationTypeBean Bean = new LocationTypeBean();
-                Bean.setLocation_type_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString(1)));
-                Bean.setRemark(unicodeToKruti.Convert_to_Kritidev_010(rset.getString(2)));
+                Bean.setLocation_type_name(rset.getString(1));
+                Bean.setRemark(rset.getString(2));
                 list.add(Bean);
             }
         } catch (Exception e) {
@@ -197,7 +197,7 @@ return status;
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String location_type_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("location_type_name"));
+                String location_type_name = rset.getString("location_type_name");
                 if (location_type_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(location_type_name);
                     count++;

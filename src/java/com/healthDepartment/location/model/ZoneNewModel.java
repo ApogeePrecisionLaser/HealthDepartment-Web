@@ -28,8 +28,8 @@ public class ZoneNewModel {
  private Connection connection;
     private String driver,url,user,password;
     private String message,messageBGColor;
-    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
      public byte[] generateMapReport(String jrxmlFilePath,List<ZoneNewBean> listAll) {
         byte[] reportInbytes = null;
@@ -63,7 +63,7 @@ public class ZoneNewModel {
             }
     public List<ZoneNewBean> showAllData(String searchZone)
     {
-        searchZone = krutiToUnicode.convert_to_unicode(searchZone);
+       // searchZone = krutiToUnicode.convert_to_unicode(searchZone);
         ArrayList<ZoneNewBean> list = new ArrayList<ZoneNewBean>();
         String query=  " SELECT z.zone_id,z.zone_name,z.description,z.zone_no "
          + "  FROM zone as z where "
@@ -77,8 +77,8 @@ public class ZoneNewModel {
             while (rset.next()) {
                  ZoneNewBean zoneBean = new ZoneNewBean();
                 zoneBean.setZoneId(rset.getInt(1));
-                zoneBean.setZoneName(unicodeToKruti.Convert_to_Kritidev_010(rset.getString(2)));
-                zoneBean.setZoneDescription(unicodeToKruti.Convert_to_Kritidev_010(rset.getString(3)));
+                zoneBean.setZoneName(rset.getString(2));
+                zoneBean.setZoneDescription(rset.getString(3));
                 zoneBean.setZone_no(rset.getString(4));
                 list.add(zoneBean);
             }
@@ -96,7 +96,7 @@ public class ZoneNewModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String zone_type = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("zone_name"));
+                String zone_type = rset.getString("zone_name");
                 if (zone_type.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(zone_type);
                     count++;
@@ -156,7 +156,7 @@ public class ZoneNewModel {
     }
     
     public int updateRecord1(int zone_id,String zoneName,String zoneDescription,String Zoneno) {
-          zoneName = krutiToUnicode.convert_to_unicode(zoneName);      
+     //     zoneName = krutiToUnicode.convert_to_unicode(zoneName);      
         String query = " UPDATE zone SET  zone_name = '"+zoneName+"', description='"+zoneDescription+"', zone_no='"+Zoneno+"' WHERE zone_id = '"+zone_id+"' ";
         int rowsAffected = 0;
         try {
@@ -230,7 +230,7 @@ public class ZoneNewModel {
     public ArrayList<ZoneNewBean> getAllRecords(int lowerLimit,int noOfRowsToDisplay,String searchZone)
     {
         ArrayList<ZoneNewBean> list = new ArrayList<ZoneNewBean>();
-        searchZone = krutiToUnicode.convert_to_unicode(searchZone);
+       // searchZone = krutiToUnicode.convert_to_unicode(searchZone);
         String query = " SELECT z.zone_id,z.zone_name,z.description,z.zone_no FROM zone as z where "
         + "  IF('"+searchZone +"'='',z.zone_name LIKE '%%',z.zone_name=?)   "
         // + "  IF('"+searchZone_no +"'='',z.zone_no LIKE '%%',z.zone_no=?) order by z.zone_no  "
@@ -243,8 +243,8 @@ public class ZoneNewModel {
             while (rset.next()) {
                 ZoneNewBean zoneBean = new ZoneNewBean();
                 zoneBean.setZoneId(rset.getInt(1));
-                zoneBean.setZoneName(unicodeToKruti.Convert_to_Kritidev_010(rset.getString(2)));
-                zoneBean.setZoneDescription(unicodeToKruti.Convert_to_Kritidev_010(rset.getString(3)));
+                zoneBean.setZoneName(rset.getString(2));
+                zoneBean.setZoneDescription(rset.getString(3));
                 zoneBean.setZone_no(rset.getString(4));
                 list.add(zoneBean);
             }
@@ -257,7 +257,7 @@ public class ZoneNewModel {
 
     public int getTotalRowsInTable(String searchZone)
     {
-        searchZone = krutiToUnicode.convert_to_unicode(searchZone);
+       // searchZone = krutiToUnicode.convert_to_unicode(searchZone);
          String query = " SELECT Count(*) FROM zone as z where "
          + " IF('"+searchZone +"'='',z.zone_name LIKE '%%',z.zone_name=?) order by zone_name" ;
          // + " IF('"+searchZone_no +"'='',z.zone_no LIKE '%%',z.zone_no=?)" ;
@@ -289,8 +289,8 @@ public class ZoneNewModel {
                 try
                 {
                  
-                    zoneName[i] = krutiToUnicode.convert_to_unicode(zoneName[i]);
-                    zoneDescription[i] = unicodeToKruti.Convert_to_Kritidev_010(zoneDescription[i]);
+                //    zoneName[i] = krutiToUnicode.convert_to_unicode(zoneName[i]);
+                //    zoneDescription[i] = unicodeToKruti.Convert_to_Kritidev_010(zoneDescription[i]);
                    // String query1 = "select zone from zone where zone_name='"+zoneName[i].trim()+"'";
                     String query2 = "insert into zone(zone_name,description,zone_no) "
                             +"values('"+zoneName[i].trim()+"','"+zoneDescription[i].trim()+"','"+zone_no[i].trim()+"')";
