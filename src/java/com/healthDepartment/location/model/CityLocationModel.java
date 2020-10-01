@@ -39,8 +39,8 @@ public class CityLocationModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public Connection getConnection() {
         return connection;
@@ -114,8 +114,8 @@ public class CityLocationModel {
             PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement(query);
 
       
-            pstmt.setString(1, krutiToUnicode.convert_to_unicode(cityLocationTypeBean.getLocation()));
-            pstmt.setString(2, krutiToUnicode.convert_to_unicode(cityLocationTypeBean.getRemark()));
+            pstmt.setString(1, cityLocationTypeBean.getLocation());
+            pstmt.setString(2, cityLocationTypeBean.getRemark());
                 int area_id=getAreaeId(cityLocationTypeBean.getArea());
             pstmt.setInt(3, area_id);
             pstmt.setDouble(4, cityLocationTypeBean.getLatitude());
@@ -143,9 +143,9 @@ public class CityLocationModel {
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, krutiToUnicode.convert_to_unicode(cityLocationeBean.getCity()));
+            pstmt.setString(1, cityLocationeBean.getCity());
             //stmt.setString(2, krutiToUnicode.convert_to_unicode(cityLocationeBean.getLocation()));
-            pstmt.setString(2, krutiToUnicode.convert_to_unicode(cityLocationeBean.getRemark()));
+            pstmt.setString(2, cityLocationeBean.getRemark());
            // pstmt.setString(4, cityLocationeBean.getLocation_code());
             pstmt.setDouble(3,cityLocationeBean.getLatitude());
             pstmt.setDouble(4,cityLocationeBean.getLongitude());
@@ -170,10 +170,10 @@ public class CityLocationModel {
 
     public List<CityLocationBean> showData(int lowerLimit, int noOfRowsToDisplay,String searchCityName, String searchZoneName, String searchWardName,String searchAreaName) {
         List<CityLocationBean> list = new ArrayList<CityLocationBean>();
-        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
-        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
-        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
-        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
+//        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
+//        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
+//        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
+//        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
 
         String query = " select cl.city_location_id,z.zone_name,w.ward_name,a.area_name,cl.location,cl.location_no,cl.remark,cl.latitude,cl.longitude "
                            + "from city_location as cl,zone as z, ward as w,area as a where "
@@ -211,10 +211,10 @@ public class CityLocationModel {
 
     public List<CityLocationBean> showAllData(String searchCityName, String searchZoneName, String searchWardName,String searchAreaName) {
         List<CityLocationBean> list = new ArrayList<CityLocationBean>();
-        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
-        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
-        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
-        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
+//        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
+//        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
+//        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
+//        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
 
         String query = " SELECT z.zone_name,w.ward_name,a.area_name,cl.location,cl.location_no,cl.remark,cl.latitude,cl.longitude "
                + " FROM city_location as cl,zone as z,ward as w,area as a where "
@@ -232,10 +232,10 @@ public class CityLocationModel {
             ResultSet rset = pstmt.executeQuery();
             while (rset.next()) {
                  CityLocationBean cityLocationType = new CityLocationBean();
-                 cityLocationType.setZone(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("zone_name")));
-                 cityLocationType.setWard(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("ward_name")));
-                 cityLocationType.setArea(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("area_name")));
-                cityLocationType.setLocation(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("location")));
+                 cityLocationType.setZone(rset.getString("zone_name"));
+                 cityLocationType.setWard(rset.getString("ward_name"));
+                 cityLocationType.setArea(rset.getString("area_name"));
+                cityLocationType.setLocation(rset.getString("location"));
                 cityLocationType.setRemark(rset.getString("remark"));
                 cityLocationType.setLocation_no(rset.getString("location_no"));
                 cityLocationType.setLatitude(rset.getDouble("latitude"));
@@ -250,10 +250,10 @@ public class CityLocationModel {
 
     public int getNoOfRows(String searchCityName, String searchZoneName, String searchWardName,String searchAreaName)
     {
-        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
-        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
-        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
-        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
+//        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
+//        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
+//        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
+//        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
         String query = " select count(city_location_id) as id "
                          + " from city_location as cl,zone as z, ward as w,area as a where "
                          + " cl.area_id=a.area_id and a.ward_id=w.ward_id and w.zone_id=z.zone_id " 
@@ -287,7 +287,7 @@ public class CityLocationModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String location = krutiToUnicode.convert_to_unicode(rset.getString("location"));
+                String location = rset.getString("location");
                 if (location.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(location);
                     count++;
@@ -311,7 +311,7 @@ public class CityLocationModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String city_name = krutiToUnicode.convert_to_unicode(rset.getString("city_name"));
+                String city_name =rset.getString("city_name");
                 if (city_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(city_name);
                     count++;
@@ -336,7 +336,7 @@ public class CityLocationModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String zone_name = krutiToUnicode.convert_to_unicode(rset.getString("zone_name"));
+                String zone_name = rset.getString("zone_name");
                 if (zone_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(zone_name);
                     count++;
@@ -355,7 +355,7 @@ public class CityLocationModel {
     {
         List<String> list = new ArrayList<String>();
          PreparedStatement pstmt;
-          zone_name=krutiToUnicode.convert_to_unicode(zone_name);
+          //zone_name=krutiToUnicode.convert_to_unicode(zone_name);
         String query = " SELECT w.ward_name  FROM ward AS w, zone AS z "
                +  "WHERE   w.zone_id = z.zone_id "
                 + "AND IF('" + zone_name + "'='', zone_name like '%%', zone_name ='" + zone_name + "') "
@@ -367,7 +367,7 @@ public class CityLocationModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String ward_name =krutiToUnicode.convert_to_unicode(rset.getString("ward_name"));
+                String ward_name =rset.getString("ward_name");
                 if (ward_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(ward_name);
                     count++;
@@ -442,8 +442,8 @@ public class CityLocationModel {
 }
         public List<String> getAreaName(String q, String ward_name, String zone_name) {
         List<String> list = new ArrayList<String>();
-            zone_name=krutiToUnicode.convert_to_unicode(zone_name);
-            ward_name=krutiToUnicode.convert_to_unicode(ward_name);
+//            zone_name=krutiToUnicode.convert_to_unicode(zone_name);
+//            ward_name=krutiToUnicode.convert_to_unicode(ward_name);
         String query =" SELECT a.area_name "
                 + "FROM area AS a ,ward AS w, zone AS z "
                + "WHERE a.ward_id = w.ward_id "
@@ -457,7 +457,7 @@ public class CityLocationModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String areaName = krutiToUnicode.convert_to_unicode(rset.getString("area_name"));
+                String areaName = rset.getString("area_name");
                 if (areaName.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(areaName);
                     count++;
@@ -481,7 +481,7 @@ public class CityLocationModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String zone =krutiToUnicode.convert_to_unicode( rset.getString("zone"));
+                String zone =rset.getString("zone");
                 if (zone.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(zone);
                     count++;
@@ -506,7 +506,7 @@ public class CityLocationModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String location = krutiToUnicode.convert_to_unicode(rset.getString("location"));
+                String location = rset.getString("location");
                 if (location.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(location);
                     count++;
@@ -523,7 +523,7 @@ public class CityLocationModel {
 
     public List<String> getLocationCode(String q, String location_name) {
         List<String> list = new ArrayList<String>();
-        location_name = krutiToUnicode.convert_to_unicode(location_name);
+     //   location_name = krutiToUnicode.convert_to_unicode(location_name);
         String query = "select location_code from city_location "
                 + " WHERE IF('"+ location_name +"'='', location LIKE '%%', location='"+ location_name +"') "
                 + " GROUP BY location ORDER BY location";
@@ -550,7 +550,7 @@ public class CityLocationModel {
     public int getAreaeId(String area) {
         //List<String> list = new ArrayList<String>();
         int area_id = 0;
-        area = krutiToUnicode.convert_to_unicode(area);
+      //  area = krutiToUnicode.convert_to_unicode(area);
         String query = "select area_id from area where area_name='"+area+"'";
 
         try {

@@ -217,6 +217,13 @@ public class CityLocationController extends HttpServlet {
         if (task.equals("Delete")) {
            cityLocationModel.deleteRecord(Integer.parseInt(request.getParameter("city_location_id")));  // Pretty sure that organisation_type_id will be available.
         } else if (task.equals("Save") || task.equals("Save AS New")) {
+               String zonename = request.getParameter("zone");
+                String wardname = request.getParameter("ward");
+                 String areaname = request.getParameter("area");
+                
+                 request.setAttribute("zone", zonename);
+                 request.setAttribute("areaname", areaname);
+            request.setAttribute("ward", wardname);
             int city_location_id;
             try {
                 city_location_id = Integer.parseInt(request.getParameter("city_location_id"));

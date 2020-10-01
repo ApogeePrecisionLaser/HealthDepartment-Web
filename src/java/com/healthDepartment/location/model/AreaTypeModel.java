@@ -38,8 +38,8 @@ public class AreaTypeModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-UnicodeToKrutiDevConverter uk=new UnicodeToKrutiDevConverter();
-KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
+//UnicodeToKrutiDevConverter uk=new UnicodeToKrutiDevConverter();
+//KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
     public void setConnection() {
         try {
             Class.forName(driverClass);
@@ -88,7 +88,7 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String zone_name = uk.Convert_to_Kritidev_010(rset.getString("zone_name"));
+                String zone_name = rset.getString("zone_name");
                 if (zone_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(zone_name);
                     count++;
@@ -106,7 +106,7 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
     {
         List<String> list = new ArrayList<String>();
          PreparedStatement pstmt;
-          zone_name=ku.convert_to_unicode(zone_name);
+          //zone_name=ku.convert_to_unicode(zone_name);
         String query = " SELECT w.ward_name  FROM ward AS w, zone AS z "
                +  "WHERE   w.zone_id = z.zone_id "
                 + "AND IF('" + zone_name + "'='', zone_name like '%%', zone_name ='" + zone_name + "') "
@@ -118,7 +118,7 @@ KrutiDevToUnicodeConverter ku=new KrutiDevToUnicodeConverter();
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String ward_name =uk.Convert_to_Kritidev_010(rset.getString("ward_name"));
+                String ward_name =rset.getString("ward_name");
                 if (ward_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(ward_name);
                     count++;
@@ -167,7 +167,7 @@ public List<String> getAreaName(String q) //, String ward_name, String zone_name
     }
  public int getWardId(String ward_name) {
         int ward_id = 0;
-        ward_name=ku.convert_to_unicode(ward_name);
+       // ward_name=ku.convert_to_unicode(ward_name);
         String query = " SELECT ward_id FROM ward WHERE ward_name ='"+ward_name+"'";
         try {
             java.sql.PreparedStatement pstmt = connection.prepareStatement(query);
@@ -181,7 +181,7 @@ public List<String> getAreaName(String q) //, String ward_name, String zone_name
         return ward_id;
     }
       public int getZoneId(String zone) {
-          zone=ku.convert_to_unicode(zone);
+         // zone=ku.convert_to_unicode(zone);
         String query = " select zone_id from zone where zone_name='"+zone+"' ";
         int zone_id = 0;
         try {
@@ -217,7 +217,7 @@ public List<String> getAreaName(String q) //, String ward_name, String zone_name
         try {
             java.sql.PreparedStatement pstmt = connection.prepareStatement(query);
 
-            pstmt.setString(1, ku.convert_to_unicode(bean.getArea_name()));
+            pstmt.setString(1,bean.getArea_name());
             pstmt.setString(2, bean.getArea_no());
             pstmt.setString(3, bean.getRemark());
              int ward_id=getWardId(bean.getWard_name());
@@ -238,9 +238,9 @@ public List<String> getAreaName(String q) //, String ward_name, String zone_name
 
    public int getNoOfRows(String area_name,String ward,String zone) //, String ward_no, String city_name
    {
-         area_name = ku.convert_to_unicode(area_name);
-         ward = ku.convert_to_unicode(ward);
-         zone = ku.convert_to_unicode(zone);
+//         area_name = ku.convert_to_unicode(area_name);
+//         ward = ku.convert_to_unicode(ward);
+//         zone = ku.convert_to_unicode(zone);
         int noOfRows = 0;
         try {
             String query = " SELECT COUNT(area_id) as area_id FROM area as a,ward as w,zone as z "
@@ -263,9 +263,10 @@ public List<String> getAreaName(String q) //, String ward_name, String zone_name
     }
 
     public List<AreaTypeBean> showData(int lowerLimit, int noOfRowsToDisplay, String area_name,String ward,String zone)
-    {     area_name = ku.convert_to_unicode(area_name);
-          ward = ku.convert_to_unicode(ward);
-         zone = ku.convert_to_unicode(zone);
+    {   
+//        area_name = ku.convert_to_unicode(area_name);
+//          ward = ku.convert_to_unicode(ward);
+//         zone = ku.convert_to_unicode(zone);
         List<AreaTypeBean> list = new ArrayList<AreaTypeBean>();
         //PreparedStatement pstmt = null;
 
@@ -273,7 +274,7 @@ public List<String> getAreaName(String q) //, String ward_name, String zone_name
                          + " where a.ward_id=w.ward_id and w.zone_id=z.zone_id "
                         + " and IF('"+area_name +"'='',a.area_name LIKE '%%',a.area_name=?)  "
                         + " and IF('"+ward +"'='',w.ward_name LIKE '%%',w.ward_name =?) "
-                        + " and IF('"+zone +"'='',z.zone_name LIKE '%%',z.zone_name=?) order by zone_name,ward_name,area_no "
+                        + " and IF('"+zone +"'='',z.zone_name LIKE '%%',z.zone_name=?) order by zone_name,ward_name,area_no,area_id desc "
                          + " LIMIT " + lowerLimit + "," + noOfRowsToDisplay;
         try {
             java.sql.PreparedStatement pstmt = connection.prepareStatement(query);
@@ -299,9 +300,9 @@ public List<String> getAreaName(String q) //, String ward_name, String zone_name
     }
 
  public List<AreaTypeBean>showAllData(String area_name,String ward,String zone) {
-         area_name = ku.convert_to_unicode(area_name);
-         ward = ku.convert_to_unicode(ward);
-         zone = ku.convert_to_unicode(zone);
+//         area_name = ku.convert_to_unicode(area_name);
+//         ward = ku.convert_to_unicode(ward);
+//         zone = ku.convert_to_unicode(zone);
         List<AreaTypeBean> list = new ArrayList<AreaTypeBean>();
         String query = " select z.zone_name,w.ward_name,a.area_name,a.area_no,a.description FROM area as a,ward as w,zone as z "
                         + "    where a.ward_id=w.ward_id and w.zone_id=z.zone_id "
@@ -317,10 +318,10 @@ public List<String> getAreaName(String q) //, String ward_name, String zone_name
             ResultSet rset = pstmt.executeQuery();
             while (rset.next()) {
                 AreaTypeBean bean = new AreaTypeBean();
-                bean.setArea_name(uk.Convert_to_Kritidev_010(rset.getString("area_name")));
+                bean.setArea_name(rset.getString("area_name"));
                 bean.setArea_no(rset.getString("area_no"));
-                bean.setWard_name(uk.Convert_to_Kritidev_010(rset.getString("ward_name")));
-                bean.setZone_name(uk.Convert_to_Kritidev_010(rset.getString("zone_name")));
+                bean.setWard_name(rset.getString("ward_name"));
+                bean.setZone_name(rset.getString("zone_name"));
                 bean.setRemark(rset.getString("description"));
                 list.add(bean);
             }
@@ -335,7 +336,7 @@ public List<String> getAreaName(String q) //, String ward_name, String zone_name
         try { 
             java.sql.PreparedStatement pstmt = connection.prepareStatement(query);
 
-            pstmt.setString(1, ku.convert_to_unicode(bean.getArea_name()));
+            pstmt.setString(1, bean.getArea_name());
             pstmt.setString(2, bean.getArea_no());
             pstmt.setString(3, bean.getRemark());
              int ward_id=getWardId(bean.getWard_name());

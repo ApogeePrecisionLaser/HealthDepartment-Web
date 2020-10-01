@@ -33,18 +33,18 @@ public class ShiftDesignationLocationModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-     private static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    private static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//     private static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    private static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     
  public static int  getNoOfRows(String location_type,String search_shift_type,String search_designation,String searchCityName, String searchZoneName, String searchWardName,String searchAreaName)
  {
-        search_shift_type = krutiToUnicode.convert_to_unicode(search_shift_type);
-         searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
-        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
-        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
-        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
-       search_designation = krutiToUnicode.convert_to_unicode(search_designation);
+//        search_shift_type = krutiToUnicode.convert_to_unicode(search_shift_type);
+//         searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
+//        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
+//        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
+//        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
+//       search_designation = krutiToUnicode.convert_to_unicode(search_designation);
      int noOfRows = 0;
           String addloc="";
           if(location_type.equals("zone"))
@@ -84,12 +84,12 @@ public class ShiftDesignationLocationModel {
 
  public static List<ShiftDesignationLocationBean> showData(int lowerLimit,int noOfRowsToDisplay,String location_type,String search_shift_type,String search_designation,String searchCityName, String searchZoneName, String searchWardName,String searchAreaName)
   {
-         search_shift_type = krutiToUnicode.convert_to_unicode(search_shift_type);
-        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
-        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
-        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
-        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
-       search_designation = krutiToUnicode.convert_to_unicode(search_designation);
+//         search_shift_type = krutiToUnicode.convert_to_unicode(search_shift_type);
+//        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
+//        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
+//        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
+//        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
+//       search_designation = krutiToUnicode.convert_to_unicode(search_designation);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -125,13 +125,13 @@ public class ShiftDesignationLocationModel {
              ShiftDesignationLocationBean sdlb=new ShiftDesignationLocationBean();
              sdlb.setMap_id1(rs.getInt("map_id1"));
              sdlb.setMap_id2(rs.getInt("map_id2"));
-             sdlb.setShift_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("shift_type")));
-             sdlb.setDesignation(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("designation")));
+             sdlb.setShift_type(rs.getString("shift_type"));
+             sdlb.setDesignation(rs.getString("designation"));
              sdlb.setLocation_type(rs.getString("location_type_name"));
              String location_type_name = rs.getString("location_type_name");             
-             sdlb.setZone(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("zone_name")));
+             sdlb.setZone(rs.getString("zone_name"));
              sdlb.setZone_no(rs.getString("zone_no"));
-             sdlb.setLocation(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("location")));
+             sdlb.setLocation(rs.getString("location"));
              sdlb.setLocation_no(rs.getString("location_no"));
              if(location_type_name.equals("city_location") || location_type_name.equals("area") || location_type_name.equals("ward") )
                  getName(sdlb , location_type_name,rs.getString("ward_name"),rs.getString("area_name"),rs.getString("location"));
@@ -166,14 +166,14 @@ public class ShiftDesignationLocationModel {
              while(rs.next()){
                       if(location_type.equals("area") || location_type.equals("city_location") || location_type.equals("ward"))
                       {
-                     sdlb.setWard(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("ward_name")));
+                     sdlb.setWard(rs.getString("ward_name"));
                      sdlb.setWard_no(rs.getString("ward_no"));
-                     sdlb.setZone(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("zone_name")));
+                     sdlb.setZone(rs.getString("zone_name"));
                      sdlb.setZone_no(rs.getString("zone_no"));
                      }
                      if(location_type.equals("area") || location_type.equals("city_location"))
                          {
-                       sdlb.setArea(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("area_name")));
+                       sdlb.setArea(rs.getString("area_name"));
                        sdlb.setArea_no(rs.getString("area_no"));                  
                          }     
           }
@@ -249,7 +249,7 @@ public  boolean insertRecord(ShiftDesignationLocationBean bean)
     try{
     String  query2= " insert into designation_location_type (designation_id,location_type_id,zone_id,ward_id,area_id,city_location_id,remark)values(?,?,?,?,?,?,?)";
    
-    ps =(PreparedStatement) connection.prepareStatement(query2);
+    ps =(PreparedStatement) connection.prepareStatement(query2,java.sql.Statement.RETURN_GENERATED_KEYS);
     int getDesignationid=getDesignation_id(bean.getDesignation());
     ps.setInt(1,getDesignationid);
     int locationTypeId=getlocationTypeId(bean.getLocation_type());
@@ -379,7 +379,7 @@ public static int getRevisionno(ShiftDesignationLocationBean bean,int map_id2) {
  
 
   public static int getShift_type_id(String shift_type) {
-      shift_type=krutiToUnicode.convert_to_unicode(shift_type);
+    //  shift_type=krutiToUnicode.convert_to_unicode(shift_type);
         int shift_type_id = 0;
         try {
             String query = "select shift_type_id from shift_type"
@@ -451,7 +451,7 @@ public static int getType_id(String location_type,String location,String area,St
     }*/
 public static int getZone_id(String zone)
 {
-     zone=krutiToUnicode.convert_to_unicode(zone);
+    // zone=krutiToUnicode.convert_to_unicode(zone);
         int zone_id = 0;
         try {
             String  query= " select zone_id from zone where zone_name='"+zone+"' " ;
@@ -466,8 +466,8 @@ public static int getZone_id(String zone)
     }
 public static int getWard_id(String zone,String ward)
 {
-          zone=krutiToUnicode.convert_to_unicode(zone);
-         ward=krutiToUnicode.convert_to_unicode(ward);
+       //   zone=krutiToUnicode.convert_to_unicode(zone);
+       //  ward=krutiToUnicode.convert_to_unicode(ward);
         int ward_id = 0;
         try {
               String query= " SELECT w.ward_id  FROM ward AS w, zone AS z "
@@ -486,9 +486,9 @@ public static int getWard_id(String zone,String ward)
     }
 public static int getArea_id(String zone,String ward,String area)
 {
-          zone=krutiToUnicode.convert_to_unicode(zone);
-         ward=krutiToUnicode.convert_to_unicode(ward);
-         area=krutiToUnicode.convert_to_unicode(area);
+        //  zone=krutiToUnicode.convert_to_unicode(zone);
+       //  ward=krutiToUnicode.convert_to_unicode(ward);
+      //   area=krutiToUnicode.convert_to_unicode(area);
         int area_id = 0;
         try {
           String query= "SELECT a.area_id "
@@ -511,10 +511,10 @@ public static int getArea_id(String zone,String ward,String area)
 
 public static int getlocation_id(String zone,String ward,String area,String location)
 {
-         zone=krutiToUnicode.convert_to_unicode(zone);
-         ward=krutiToUnicode.convert_to_unicode(ward);
-         area=krutiToUnicode.convert_to_unicode(area);
-         location=krutiToUnicode.convert_to_unicode(location);
+        // zone=krutiToUnicode.convert_to_unicode(zone);
+       //  ward=krutiToUnicode.convert_to_unicode(ward);
+      //   area=krutiToUnicode.convert_to_unicode(area);
+      //   location=krutiToUnicode.convert_to_unicode(location);
         int city_location_id = 0;
         try {
            String query= " SELECT cl.city_location_id "
@@ -555,11 +555,11 @@ public static int getlocationTypeId(String location_type) {
 public static int getMap_id1(String shift_type,String location_type,String zone,String ward,String area,String location) {
         int map_id1 = 0;
         String addLocation = "";
-        shift_type=krutiToUnicode.convert_to_unicode(shift_type);
-         zone=krutiToUnicode.convert_to_unicode(zone);
-         ward=krutiToUnicode.convert_to_unicode(ward);
-         area=krutiToUnicode.convert_to_unicode(area);
-         location=krutiToUnicode.convert_to_unicode(location);
+     //   shift_type=krutiToUnicode.convert_to_unicode(shift_type);
+     //    zone=krutiToUnicode.convert_to_unicode(zone);
+     ///    ward=krutiToUnicode.convert_to_unicode(ward);
+      //   area=krutiToUnicode.convert_to_unicode(area);
+      //   location=krutiToUnicode.convert_to_unicode(location);
         if(location_type.equals("city_location"))
             addLocation = "location";
         else
@@ -608,7 +608,7 @@ public static int getMap_id2(int map_id1) {
     }
 public static int getRMap_id2(ShiftDesignationLocationBean bean) {
         int map_id2 = 0;
-           String designation=krutiToUnicode.convert_to_unicode(bean.getDesignation());
+           String designation=bean.getDesignation();
         try {
             String query = " select map_id2 from shift_designation_location_map sdlm,designation d,designation_location_type as dlt where "
                               + "  sdlm.designation_location_type_id=dlt.designation_location_type_id and dlt.designation_id=d.designation_id "
@@ -626,7 +626,7 @@ public static int getRMap_id2(ShiftDesignationLocationBean bean) {
 
 
 public static int getCity_location_id(String location) {
-      location=krutiToUnicode.convert_to_unicode(location);
+      //location=krutiToUnicode.convert_to_unicode(location);
         int city_location_id = 0;
         try {
             String query = "select city_location_id from city_location"
@@ -642,7 +642,7 @@ public static int getCity_location_id(String location) {
     }
 
 public static int getDesignation_id(String designation) {
-     designation=krutiToUnicode.convert_to_unicode(designation);
+     //designation=krutiToUnicode.convert_to_unicode(designation);
         int designation_id = 0;
         try {
             String query = "select designation_id from designation"
@@ -659,8 +659,8 @@ public static int getDesignation_id(String designation) {
 
  public static List<String> getArea(String q,String ward,String zone,String area_no){
      List<String> list=new ArrayList<String>();
-       ward=krutiToUnicode.convert_to_unicode(ward);
-         zone=krutiToUnicode.convert_to_unicode(zone);
+      // ward=krutiToUnicode.convert_to_unicode(ward);
+      //   zone=krutiToUnicode.convert_to_unicode(zone);
    String query =" SELECT a.area_name "
                 + "FROM area AS a ,ward AS w, zone AS z "
                + "WHERE a.ward_id = w.ward_id "
@@ -674,7 +674,7 @@ public static int getDesignation_id(String designation) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String area_name = krutiToUnicode.convert_to_unicode(rset.getString("area_name"));
+                String area_name =rset.getString("area_name");
                    if (area_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(area_name);
                     count++;
@@ -691,7 +691,7 @@ public static int getDesignation_id(String designation) {
 
    public static List<String> getAreaNo(String q,String area){
      List<String> list=new ArrayList<String>();
-           area=krutiToUnicode.convert_to_unicode(area);
+           //area=krutiToUnicode.convert_to_unicode(area);
    String query = " SELECT area_no FROM  area "
                +  "WHERE  IF('" + area + "'='', area_name like '%%', area_name ='" + area + "') "
                  + "Group by area_no ";
@@ -722,7 +722,7 @@ public static int getDesignation_id(String designation) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String zone_name =krutiToUnicode.convert_to_unicode(rset.getString("zone_name"));
+                String zone_name =rset.getString("zone_name");
                 if (zone_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(zone_name);
                     count++;
@@ -738,7 +738,7 @@ public static int getDesignation_id(String designation) {
     }
   public static List<String> getZoneNo(String q,String zone){
      List<String> list=new ArrayList<String>();
-           zone=krutiToUnicode.convert_to_unicode(zone);
+         //  zone=krutiToUnicode.convert_to_unicode(zone);
    String query = " SELECT zone_no FROM  zone "
                +  " WHERE  IF('" + zone + "'='', zone_name like '%%', zone_name ='" + zone + "') "
                  + "Group by zone_no ";
@@ -762,7 +762,7 @@ public static int getDesignation_id(String designation) {
 
     public static List<String> getWard(String q,String zone,String ward_no){
      List<String> list=new ArrayList<String>();
-           zone=krutiToUnicode.convert_to_unicode(zone);
+          // zone=krutiToUnicode.convert_to_unicode(zone);
    String query = " SELECT w.ward_name  FROM ward AS w, zone AS z "
                +  "WHERE   w.zone_id = z.zone_id "
                 + "AND IF('" + zone + "'='', zone_name like '%%', zone_name ='" + zone + "') "
@@ -773,7 +773,7 @@ public static int getDesignation_id(String designation) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String ward_name = krutiToUnicode.convert_to_unicode(rset.getString("ward_name"));
+                String ward_name =rset.getString("ward_name");
                    if (ward_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(ward_name);
                     count++;
@@ -789,7 +789,7 @@ public static int getDesignation_id(String designation) {
     }
   public static List<String> getWardNo(String q,String ward){
      List<String> list=new ArrayList<String>();
-             ward=krutiToUnicode.convert_to_unicode(ward);
+             //ward=krutiToUnicode.convert_to_unicode(ward);
    String query = " SELECT ward_no FROM  ward "
                +  "WHERE  IF('" + ward + "'='', ward_name like '%%', ward_name ='" + ward + "') "
                  + "Group by ward_no ";
@@ -813,9 +813,9 @@ public static int getDesignation_id(String designation) {
 
    public static List<String> getlocation(String q,String area,String ward,String zone,String location_no){
              List<String> list=new ArrayList<String>();
-          area=krutiToUnicode.convert_to_unicode(area);
-          ward=krutiToUnicode.convert_to_unicode(ward);
-          zone=krutiToUnicode.convert_to_unicode(zone);
+//          area=krutiToUnicode.convert_to_unicode(area);
+//          ward=krutiToUnicode.convert_to_unicode(ward);
+//          zone=krutiToUnicode.convert_to_unicode(zone);
             String query =" SELECT cl.location "
               + " FROM area AS a ,ward AS w, zone AS z,city_location as cl "
              + " WHERE cl.area_id=a.area_id "
@@ -831,7 +831,7 @@ public static int getDesignation_id(String designation) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String location = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("location"));
+                String location =rset.getString("location");
               if (location.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(location);
                     count++;
@@ -847,7 +847,7 @@ public static int getDesignation_id(String designation) {
     }
   public static List<String> getLocationNo(String q,String location){
      List<String> list=new ArrayList<String>();
-     location=krutiToUnicode.convert_to_unicode(location);
+    // location=krutiToUnicode.convert_to_unicode(location);
    String query = " SELECT location_no FROM  city_location "
                +  "WHERE  IF('" + location + "'='', location like '%%', location ='" + location + "') "
                  + "Group by location_no ";
@@ -880,7 +880,7 @@ public static int getDesignation_id(String designation) {
                 int count = 0;
                 q = q.trim();
                 while (rset.next()) {
-                String designation = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("designation"));
+                String designation = rset.getString("designation");
                 if (designation.toUpperCase().startsWith(q.toUpperCase())) {
                 list.add(designation);
                 count++;
@@ -930,7 +930,7 @@ public static List<String> getShiftType(String q)
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String shift_type = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("shift_type"));
+                String shift_type = rset.getString("shift_type");
                       if (shift_type.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(shift_type);
                     count++;
@@ -948,11 +948,11 @@ public static List<String> getShiftType(String q)
 
     public  boolean CheckMapId(ShiftDesignationLocationBean bean,String task,String location_type,String zone,String ward,String area,String location ) {
         int count=0;
-        zone=krutiToUnicode.convert_to_unicode(zone);
-         ward=krutiToUnicode.convert_to_unicode(ward);
-         area=krutiToUnicode.convert_to_unicode(area);
-         location=krutiToUnicode.convert_to_unicode(location);
-         String designation=krutiToUnicode.convert_to_unicode(bean.getDesignation());
+//        zone=krutiToUnicode.convert_to_unicode(zone);
+//         ward=krutiToUnicode.convert_to_unicode(ward);
+//         area=krutiToUnicode.convert_to_unicode(area);
+//         location=krutiToUnicode.convert_to_unicode(location);
+         String designation=bean.getDesignation();
         String addLocation = "";
         if(location_type.equals("city_location"))
             addLocation = "location";

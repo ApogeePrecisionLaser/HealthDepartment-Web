@@ -24,12 +24,12 @@ public class PointModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+   // public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    //public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public int getNoOfRows(String search_city_location, String search_point_name) {
-        search_city_location = krutiToUnicode.convert_to_unicode(search_city_location);
-        search_point_name = krutiToUnicode.convert_to_unicode(search_point_name);
+//        search_city_location = krutiToUnicode.convert_to_unicode(search_city_location);
+//        search_point_name = krutiToUnicode.convert_to_unicode(search_point_name);
 
         int noOfRows = 0;
         int city_location_id = getCityLocationId(search_city_location);
@@ -58,8 +58,8 @@ public class PointModel {
     }
 
     public List<Point> showData(int lowerLimit, int noOfRowsToDisplay, String search_city_location, String search_point_name) {
-        search_city_location = krutiToUnicode.convert_to_unicode(search_city_location);
-        search_point_name = krutiToUnicode.convert_to_unicode(search_point_name);
+//        search_city_location = krutiToUnicode.convert_to_unicode(search_city_location);
+//        search_point_name = krutiToUnicode.convert_to_unicode(search_point_name);
         List list = new ArrayList();
         String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
         if (lowerLimit == -1) {
@@ -76,7 +76,7 @@ public class PointModel {
                 + " from point p,city_location cl "
                 + " where  p.city_location_id=cl.city_location_id "
                 + " AND IF('" + search_city_location + "' = '', location LIKE '%%',location='" + search_city_location + "') "
-                + " And IF('" + search_point_name + "' = '',point_name LIKE '%%', point_name='" + search_point_name + "') "
+                + " And IF('" + search_point_name + "' = '',point_name LIKE '%%', point_name='" + search_point_name + "') order by point_id desc  "
                 + addQuery;
 
 
@@ -88,8 +88,8 @@ public class PointModel {
             while (rs.next()) {
                 Point vt = new Point();
                 vt.setPoint_id(rs.getInt("point_id"));
-                vt.setPoint_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("point_name")));
-                vt.setCity_location(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("location")));
+                vt.setPoint_name(rs.getString("point_name"));
+                vt.setCity_location(rs.getString("location"));
                 vt.setLatitude(rs.getString("latitude"));
                 vt.setLongitude(rs.getString("longitude"));
                 list.add(vt);
@@ -113,7 +113,7 @@ public class PointModel {
         }
         String city_location = bean.getCity_location();
         int city_location_id = getCityLocationId(city_location);
-        String point_name = krutiToUnicode.convert_to_unicode(bean.getPoint_name());
+        String point_name = bean.getPoint_name();
         try {
             PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
 //        ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getVehicle_type()));
@@ -178,7 +178,7 @@ public class PointModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String vehicle_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("vehicle_name"));
+                String vehicle_name = rset.getString("vehicle_name");
                 if (vehicle_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(vehicle_name);
                     count++;
@@ -192,10 +192,96 @@ public class PointModel {
         }
         return list;
     }
+ public List<String> getZone(String q) {
+        List<String> list = new ArrayList<String>();
+       
+        String query = "select z.zone_name from zone as z "
+                + " GROUP BY z.zone_name  ORDER BY z.zone_name ";
+        try {
+            ResultSet rset = connection.prepareStatement(query).executeQuery();
+            int count = 0;
+            q = q.trim();
+            while (rset.next()) {    // move cursor from BOR to valid record.
+                String zone_name = rset.getString("zone_name");
+                if (zone_name.toUpperCase().startsWith(q.toUpperCase())) {
+                    list.add(zone_name);
+                    count++;
+                }
+            }
+            if (count == 0) {
+                list.add("No such Status exists.......");
+            }
+        } catch (Exception e) {
+            System.out.println("getCityName ERROR inside CityLocationModel - " + e);
+        }
+        return list;
+    }
 
+        public List<String> getWardName(String q, String zone_name)
+    {
+        List<String> list = new ArrayList<String>();
+         PreparedStatement pstmt;
+          //zone_name=krutiToUnicode.convert_to_unicode(zone_name);
+        String query = " SELECT w.ward_name  FROM ward AS w, zone AS z "
+               +  "WHERE   w.zone_id = z.zone_id "
+                + "AND IF('" + zone_name + "'='', zone_name like '%%', zone_name ='" + zone_name + "') "
+                 + "Group by ward_name ";
+        try {
+            pstmt = (PreparedStatement) connection.prepareStatement(query);
+           // pstmt.setString(1, zone_name);
+            ResultSet rset = pstmt.executeQuery();
+            int count = 0;
+            q = q.trim();
+            while (rset.next()) {
+                String ward_name =rset.getString("ward_name");
+                if (ward_name.toUpperCase().startsWith(q.toUpperCase())) {
+                    list.add(ward_name);
+                    count++;
+                }
+            }
+            if (count == 0) {
+                list.add("No such Ward No exists.");
+            }
+        } catch (Exception e) {
+            System.out.println("getWardType ERROR inside WardTypeModel - " + e);
+        }
+        return list;
+    }
+        
+           public List<String> getAreaName(String q, String ward_name, String zone_name) {
+        List<String> list = new ArrayList<String>();
+//            zone_name=krutiToUnicode.convert_to_unicode(zone_name);
+//            ward_name=krutiToUnicode.convert_to_unicode(ward_name);
+        String query =" SELECT a.area_name "
+                + "FROM area AS a ,ward AS w, zone AS z "
+               + "WHERE a.ward_id = w.ward_id "
+               +  "AND w.zone_id = z.zone_id "
+               +  "AND IF('" + ward_name + "'='', ward_name like '%%', ward_name ='" + ward_name + "') "
+               +  "AND IF('" + zone_name + "'='', zone_name like '%%', zone_name ='" + zone_name + "') "
+              +  "Group by area_name" ;
+        try {
+            java.sql.PreparedStatement pstmt = connection.prepareStatement(query);
+            ResultSet rset = pstmt.executeQuery();
+            int count = 0;
+            q = q.trim();
+            while (rset.next()) {    // move cursor from BOR to valid record.
+                String areaName = rset.getString("area_name");
+                if (areaName.toUpperCase().startsWith(q.toUpperCase())) {
+                    list.add(areaName);
+                    count++;
+                }
+            }
+            if (count == 0) {
+                list.add("No such Area Type exists.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error:AreaType1Model-" + e);
+        }
+        return list;
+    }
     public int getCityLocationId(String city_location) {
         int city_location_id = 0;
-        city_location = krutiToUnicode.convert_to_unicode(city_location);
+        //city_location = krutiToUnicode.convert_to_unicode(city_location);
         String query = "select city_location_id from city_location "
                 + " where location='" + city_location + "'";
         try {
@@ -218,7 +304,7 @@ public class PointModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String city_location = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("location"));
+                String city_location = rset.getString("location");
                 if (city_location.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(city_location);
                     count++;
@@ -241,7 +327,7 @@ public class PointModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String point_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("point_name"));
+                String point_name =rset.getString("point_name");
                 if (point_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(point_name);
                     count++;
@@ -265,7 +351,7 @@ public class PointModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String location = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("location"));
+                String location = rset.getString("location");
                 if (location.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(location);
                     count++;
@@ -288,7 +374,7 @@ public class PointModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String point_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("point_name"));
+                String point_name = rset.getString("point_name");
                 if (point_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(point_name);
                     count++;

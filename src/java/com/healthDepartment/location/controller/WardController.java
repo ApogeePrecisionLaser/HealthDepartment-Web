@@ -126,6 +126,10 @@ public class WardController extends HttpServlet {
         if (task.equals("Cancel")) {
             wardTypeModel.deleteRecord(Integer.parseInt(request.getParameter("ward_id")));  // Pretty sure that organisation_type_id will be available.
         } else if (task.equals("Save") || task.equals("Save AS New")) {
+              String zonename = request.getParameter("zone_name_m");
+             
+                
+                 request.setAttribute("zone", zonename);
             int ward_id_m;
             try {
                 ward_id_m = Integer.parseInt(request.getParameter("ward_id"));

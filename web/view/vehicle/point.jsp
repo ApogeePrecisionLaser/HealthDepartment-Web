@@ -23,10 +23,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <script type="text/javascript">
-            jQuery(function(){
+            jQuery(function () {
                 $("#search_city_location").autocomplete("PointController", {
                     extraParams: {
-                        action1: function() { return "getsearch_city_name"}
+                        action1: function () {
+                            return "getsearch_city_name"
+                        }
                     }
                 });
             });
@@ -39,59 +41,100 @@
             //            });
 
 
-            jQuery(function(){
+            jQuery(function () {
                 $("#search_point").autocomplete("PointController", {
                     extraParams: {
-                        action1: function() { return "getpoint_name"}
+                        action1: function () {
+                            return "getpoint_name"
+                        }
                     }
                 });
             });
-            jQuery(function(){
+            jQuery(function () {
                 $("#city_location").autocomplete("PointController", {
                     extraParams: {
-                        action1: function() { return "getcity_name"}
+                        action1: function () {
+                            return "getcity_name"
+                        }
+                    }
+                });
+
+
+                $("#zone").autocomplete("cityLocationCont", {
+                    extraParams: {
+                        action1: function () {
+                            return "getZone"
+                        }
+                    }
+                });
+
+                $("#ward").autocomplete("cityLocationCont", {
+                    extraParams: {
+                        action1: function () {
+                            return "getWardName"
+                        },
+                        action2: function () {
+                            return  $("#zone").val();
+                        }
+                    }
+                });
+
+                $("#area").autocomplete("cityLocationCont", {
+                    extraParams: {
+                        action1: function () {
+                            return "getAreaName"
+                        },
+                        action2: function () {
+                            return  $("#ward").val();
+                        },
+                        action3: function () {
+                            return  $("#zone").val();
+                        }
                     }
                 });
             });
-            
+
             function fillColumns(id)
             {
                 var noOfRowsTraversed = document.getElementById("noOfRowsTraversed").value;
                 var noOfColumns = 6;
-                var columnId = id;                              <%-- holds the id of the column being clicked, excluding the prefix t1c e.g. t1c3 (column 3 of table 1). --%>
-                columnId = columnId.substring(3, id.length);    <%-- for e.g. suppose id is t1c3 we want characters after t1c i.e beginIndex = 3. --%>
+                var columnId = id;
+                <%-- holds the id of the column being clicked, excluding the prefix t1c e.g. t1c3 (column 3 of table 1). --%>
+                columnId = columnId.substring(3, id.length);
+                <%-- for e.g. suppose id is t1c3 we want characters after t1c i.e beginIndex = 3. --%>
                 var lowerLimit, higherLimit;
-                for(var i = 0; i < noOfRowsTraversed; i++)
+                for (var i = 0; i < noOfRowsTraversed; i++)
                 {
                     lowerLimit = i * noOfColumns + 1;       // e.g. 11 = (1 * 10 + 1)
                     higherLimit = (i + 1) * noOfColumns;    // e.g. 20 = ((1 + 1) * 10)
 
-                    if((columnId>= lowerLimit) && (columnId <= higherLimit)) break;
+                    if ((columnId >= lowerLimit) && (columnId <= higherLimit))
+                        break;
                 }
 
                 setDefaultColor(noOfRowsTraversed, noOfColumns);        // set default color of rows (i.e. of multiple coloumns).
                 var t1id = "t1c";       // particular column id of table 1 e.g. t1c3.
 
-                document.getElementById("point_id").value=document.getElementById(t1id + (lowerLimit + 0)).innerHTML;
-                document.getElementById("city_location").value=document.getElementById(t1id + (lowerLimit + 2)).innerHTML;
-                document.getElementById("point_name").value=document.getElementById(t1id + (lowerLimit + 3)).innerHTML;
-                document.getElementById("latitude").value=document.getElementById(t1id + (lowerLimit + 4)).innerHTML;
-                document.getElementById("longitude").value=document.getElementById(t1id + (lowerLimit + 5)).innerHTML;
+                document.getElementById("point_id").value = document.getElementById(t1id + (lowerLimit + 0)).innerHTML;
+                document.getElementById("city_location").value = document.getElementById(t1id + (lowerLimit + 2)).innerHTML;
+                document.getElementById("point_name").value = document.getElementById(t1id + (lowerLimit + 3)).innerHTML;
+                document.getElementById("latitude").value = document.getElementById(t1id + (lowerLimit + 4)).innerHTML;
+                document.getElementById("longitude").value = document.getElementById(t1id + (lowerLimit + 5)).innerHTML;
 
 
-                for(var i = 0; i < noOfColumns; i++) {
+                for (var i = 0; i < noOfColumns; i++) {
                     document.getElementById(t1id + (lowerLimit + i)).bgColor = "#d0dafd";
                 }
 
 
                 document.getElementById("edit").disabled = false;
 
-                if(!document.getElementById("save").disabled)
+                if (!document.getElementById("save").disabled)
                 {
                     document.getElementById("save_as_new").disabled = true;
                     document.getElementById("delete").disabled = false;
                     // document.getElementById("revised").disabled = false;
-                    dodument.getElementById("save").disabled=true;
+                    dodument.getElementById("save").disabled = true;
 
                 }
 
@@ -99,19 +142,21 @@
             }
             function setDefaultColor(noOfRowsTraversed, noOfColumns) {
 
-                for(var i = 0; i < noOfRowsTraversed; i++) {
+                for (var i = 0; i < noOfRowsTraversed; i++) {
 
-                    for(var j = 1; j <= noOfColumns; j++) {
+                    for (var j = 1; j <= noOfColumns; j++) {
 
                         document.getElementById("t1c" + (i * noOfColumns + j)).bgColor = "";
                     }
-                }}
+                }
+            }
             function myLeftTrim(str) {
                 var beginIndex = 0;
-                for(var i = 0; i < str.length; i++) {
-                    if(str.charAt(i) == ' ')
+                for (var i = 0; i < str.length; i++) {
+                    if (str.charAt(i) == ' ')
                         beginIndex++;
-                    else break;
+                    else
+                        break;
                 }
                 return str.substring(beginIndex, str.length);
             }
@@ -119,23 +164,26 @@
 
             function makeEditable(id) {
                 //         alert(id);
+                document.getElementById("zone").disabled = false;
+                document.getElementById("ward").disabled = false;
+                document.getElementById("area").disabled = false;
                 document.getElementById("city_location").disabled = false;
                 document.getElementById("point_name").disabled = false;
                 document.getElementById("latitude").disabled = false;
                 document.getElementById("longitude").disabled = false;
                 document.getElementById("save").disabled = true;
-
-                if(id == 'new') {
+                document.getElementById("get_cordinate").disabled = false;
+                if (id == 'new') {
                     $("#message").html("");
                     document.getElementById("edit").disabled = true;
                     document.getElementById("delete").disabled = true;
-                    document.getElementById("save_as").disabled =true;
-                    document.getElementById("save").disabled =false;
-                    document.getElementById("point_id").value=0;
+                    document.getElementById("save_as").disabled = true;
+                    document.getElementById("save").disabled = false;
+                    document.getElementById("point_id").value = 0;
                     document.getElementById("get_cordinate").disabled = false;
 
                 }
-                if(id == 'edit'){
+                if (id == 'edit') {
                     $("#message").html("");
                     document.getElementById("save_as").disabled = false;
                     document.getElementById("delete").disabled = false;
@@ -149,19 +197,16 @@
 
             function setStatus(id) {
 
-                if(id == 'save'){
+                if (id == 'save') {
 
                     document.getElementById("clickedButton").value = "save";
-                }
-                else if(id == 'save_as'){
+                } else if (id == 'save_as') {
                     document.getElementById("clickedButton").value = "Save AS New";
-                }
-                else if(id == 'delete'){
+                } else if (id == 'delete') {
                     document.getElementById("clickedButton").value = "Delete";
+                } else
+                {
                 }
-
-                else
-                {}
             }
 
             function openPopUp(url, window_name, popup_height, popup_width) {
@@ -174,13 +219,13 @@
 
 
             function openMapForCord() {
-                var url="generalCont?task=GetCordinates4";//"getCordinate";
-                popupwin = openPopUp(url, "",  600, 630);
+                var url = "generalCont?task=GetCordinates4";//"getCordinate";
+                popupwin = openPopUp(url, "", 600, 630);
             }
             function openMap(point_id) {
                 //alert(vehicle_key_person_map_id);
-                var url="PointController?task=showMapWindow&point_id="+point_id;
-                popupwin = openPopUp(url, "",  580, 620);
+                var url = "PointController?task=showMapWindow&point_id=" + point_id;
+                popupwin = openPopUp(url, "", 580, 620);
             }
         </script>
     </head>
@@ -301,13 +346,19 @@
                                     </c:if>
                                 </tr>
                                 <tr><input class="input" type="hidden" id="point_id" name="point_id" value="" ></tr>
-
-                                <tr>
+                                <tr> <th class="heading1">Zone</th><td><input class="new_input" type="text" id="zone" name="zone" value="${zone}" size="20" disabled></td>
+                                    <th class="heading1">Ward</th><td><input class="new_input" type="text" id="ward" name="ward" value="${ward}" size="20" disabled></td>
+                                
+                                </tr>
+                                                                       
+                                                                           <tr>
+                                            <th class="heading1">Area</th><td><input class="new_input" type="text" id="area" name="area" value="${areaname}" size="20" disabled></td>
+                                                                        
                                     <th class="heading1">City Location</th>
-                                    <td><input type="text" class="new_input" id="city_location" size="19" name="city_location" value="" disabled></td>
-
-                                    <th class="heading1"> Point Name </th>
-                                    <td><input type="text" class="new_input" id="point_name" size="19" name="point_name" value="" disabled></td>
+                                    <td><input type="text" class="new_input" id="city_location"   name="city_location" value="${city_location}" size="20" disabled></td>
+             </tr>
+                                                                               <tr><th class="heading1"> Point Name </th>
+                                    <td><input type="text" class="new_input" id="point_name"   name="point_name" value="" size="20" disabled></td>
 
                                 </tr>
                                 <tr>

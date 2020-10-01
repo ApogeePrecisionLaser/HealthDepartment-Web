@@ -32,16 +32,16 @@ public class ShiftTimeModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
 
 
      public static int  getNoOfRows(String zone,String ward,String area)
  {
-             zone = krutiToUnicode.convert_to_unicode(zone);
-          ward = krutiToUnicode.convert_to_unicode(ward);
-          area = krutiToUnicode.convert_to_unicode(area);
+//             zone = krutiToUnicode.convert_to_unicode(zone);
+//          ward = krutiToUnicode.convert_to_unicode(ward);
+//          area = krutiToUnicode.convert_to_unicode(area);
          int noOfRows = 0;
         try {
             String query ="select count(beneficiary_id) from  beneficiary as b,city_location as cl,area as a,ward as w,zone as z "
@@ -62,9 +62,9 @@ public class ShiftTimeModel {
 
      public static List<ShiftTimeBean> showData(int lowerLimit,int noOfRowsToDisplay,String zone,String ward,String area)
     {
-          zone = krutiToUnicode.convert_to_unicode(zone);
-          ward = krutiToUnicode.convert_to_unicode(ward);
-          area = krutiToUnicode.convert_to_unicode(area);
+//          zone = krutiToUnicode.convert_to_unicode(zone);
+//          ward = krutiToUnicode.convert_to_unicode(ward);
+//          area = krutiToUnicode.convert_to_unicode(area);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -172,7 +172,7 @@ return status;
 
  public static int getShiftKeyPersonMapId(String person_name)
 {
-     person_name=krutiToUnicode.convert_to_unicode(person_name);
+    // person_name=krutiToUnicode.convert_to_unicode(person_name);
         int shift_key_person_map_id = 0;
         try {
             String  query= " select shift_key_person_map_id from shift_key_person_map as skpm,key_person as kp "
@@ -199,7 +199,7 @@ return status;
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                   String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                   String key_person_name = rset.getString("key_person_name");
                     list.add(key_person_name);
                     count++;
             }
@@ -214,7 +214,7 @@ return status;
 
    public static List<String> getEmpCode(String q,String person_name){
      List<String> list=new ArrayList<String>();
-      person_name=krutiToUnicode.convert_to_unicode(person_name);
+      //person_name=krutiToUnicode.convert_to_unicode(person_name);
    String query = " SELECT emp_code FROM  key_person "
                +  "WHERE  IF('" + person_name + "'='', key_person_name like '%%', key_person_name ='" + person_name + "') "
                  + "Group by emp_code ";
@@ -256,7 +256,7 @@ return status;
           DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
             String current_date = dateFormat.format(date);
-     person_name=krutiToUnicode.convert_to_unicode(person_name);
+ //    person_name=krutiToUnicode.convert_to_unicode(person_name);
      List<String> list=new ArrayList<String>();
    String query = "select z.zone_name,z.zone_no,w.ward_name,a.area_name,lt.location_type_name "
                     + " from key_person as kp "

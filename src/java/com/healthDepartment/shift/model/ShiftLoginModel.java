@@ -45,17 +45,17 @@ public class ShiftLoginModel {
     private String st;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
     private boolean personflag = true;
 
     public int getNoOfRows(String searchdate, String searchCityName, String searchZoneName, String searchWardName, String searchAreaName, String searchemp, String mobileno, String occupationtype) {
-        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
-        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
-        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
-        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
-        searchemp = krutiToUnicode.convert_to_unicode(searchemp);
-        occupationtype = krutiToUnicode.convert_to_unicode(occupationtype);
+//        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
+//        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
+//        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
+//        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
+//        searchemp = krutiToUnicode.convert_to_unicode(searchemp);
+//        occupationtype = krutiToUnicode.convert_to_unicode(occupationtype);
         int noOfRows = 0;
         try {
             if (!searchdate.isEmpty()) {
@@ -101,12 +101,12 @@ public class ShiftLoginModel {
 
     public List<ShiftLoginBean> showData(int lowerLimit, int noOfRowsToDisplay, String searchdate, String searchCityName, String searchZoneName, String searchWardName, String searchAreaName, String searchemp, String mobileno, String occupationtype) {
         List list = new ArrayList();
-        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
-        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
-        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
-        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
-        occupationtype = krutiToUnicode.convert_to_unicode(occupationtype);
-        searchemp = krutiToUnicode.convert_to_unicode(searchemp);
+//        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
+//        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
+//        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
+//        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
+//        occupationtype = krutiToUnicode.convert_to_unicode(occupationtype);
+//        searchemp = krutiToUnicode.convert_to_unicode(searchemp);
         String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
         if (lowerLimit == -1) {
             addQuery = "";
@@ -152,14 +152,14 @@ public class ShiftLoginModel {
             while (rs.next()) {
                 ShiftLoginBean slb = new ShiftLoginBean();
                 slb.setShift_key_person_detail_id(rs.getInt("shift_key_person_detail_id"));
-                slb.setEmp_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("cleaner")));
+                slb.setEmp_name(rs.getString("cleaner"));
                 slb.setEmp_code(rs.getString("emp_code"));
-                slb.setName(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("key_person_name")));
-                slb.setFather_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("father_name")));
+                slb.setName(rs.getString("key_person_name"));
+                slb.setFather_name(rs.getString("father_name"));
                 slb.setMobile_no(rs.getString("mobile_no1"));
-                slb.setOccupation_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("occupation_name")));
-                slb.setOccupation_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("name")));
-                slb.setLocation(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("location")));
+                slb.setOccupation_name(rs.getString("occupation_name"));
+                slb.setOccupation_type(rs.getString("name"));
+                slb.setLocation(rs.getString("location"));
                 slb.setIs_residencial(rs.getString("is_residencial"));
                 String[] datetime = rs.getString("date").split(" ");
                 String[] date = datetime[0].split("-");
@@ -176,7 +176,7 @@ public class ShiftLoginModel {
                 } else {
                     slb.setStatus("No");
                 }
-                slb.setReason(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("reason_name")));
+                slb.setReason(rs.getString("reason_name"));
                 list.add(slb);
             }
         } catch (Exception e) {
@@ -193,7 +193,7 @@ public class ShiftLoginModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("name"));
+                String name = rset.getString("name");
                 if (name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(name);
                     count++;
@@ -240,7 +240,7 @@ public class ShiftLoginModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                String key_person_name =rset.getString("key_person_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -740,7 +740,7 @@ public class ShiftLoginModel {
     public static int getCityLocationId(String location) {
         int city_location_id = 0;
         try {
-            location = krutiToUnicode.convert_to_unicode(location);
+          //  location = krutiToUnicode.convert_to_unicode(location);
             String query = "select city_location_id from city_location"
                     + " where location='" + location + "' ";
             ResultSet rset = connection.prepareStatement(query).executeQuery();

@@ -409,12 +409,12 @@ jQuery(function(){
                                                     <th class="heading1">Zone Name</th>
                                                     <td>
 
-                                                        <input class="new_input" type="text" id="zone_name" name="zone_name" size="30" value="" disabled>
+                                                        <input class="new_input" type="text" id="zone_name" name="zone_name" size="30" value="${zone}" disabled>
                                                     </td>
                                                     <th class="heading1">Ward Name</th>
                                                     <td>
 
-                                                        <input class="new_input"  type="text" id="ward_name" name="ward_name" size="30" value="" disabled>
+                                                        <input class="new_input"  type="text" id="ward_name" name="ward_name" size="30" value="${ward}" disabled>
                                                     </td>
                                                 </tr>
                                                 <tr>

@@ -1,15 +1,12 @@
 package com.healthDepartment.location.model;
 
-import static com.healthDepartment.dustbin.model.DustbinModel.krutiToUnicode;
 import com.healthDepartment.location.tableClasses.CityBean;
 import com.healthDepartment.util.KrutiDevToUnicodeConverter;
 import com.healthDepartment.util.UnicodeToKrutiDevConverter;
 import java.io.ByteArrayOutputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import net.sf.jasperreports.engine.JRExporterParameter;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -24,8 +21,8 @@ public class CityModel {
     private Connection connection;
     private String driver,url,user,password;
     private String message,messageBGColor;
-    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
      public byte[] generateMapReport(String jrxmlFilePath,List<CityBean> listAll) {
         byte[] reportInbytes = null;        
@@ -57,7 +54,7 @@ public class CityModel {
             }
     public List<CityBean> showAllData(String cityName)
     {
-        cityName = krutiToUnicode.convert_to_unicode(cityName);
+      //  cityName = krutiToUnicode.convert_to_unicode(cityName);
         ArrayList<CityBean> list = new ArrayList<CityBean>();
         String query=   "select city_name,pin_code,std_code,city_description from city where "
            + " if('"+cityName+"'='',city_name LIKE '%%',city_name='"+cityName+"')" ;
@@ -67,8 +64,8 @@ public class CityModel {
             ResultSet rset = pstmt.executeQuery();           
             while (rset.next()) {                
                 CityBean cityBean= new CityBean();
-                cityBean.setCityName(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("city_name")));
-                cityBean.setCityDescription(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("city_description")));
+                cityBean.setCityName(rset.getString("city_name"));
+                cityBean.setCityDescription(rset.getString("city_description"));
                 cityBean.setPin_code(rset.getInt("pin_code"));
                  cityBean.setStd_code(rset.getInt("std_code"));
                 list.add(cityBean);
@@ -88,7 +85,7 @@ public class CityModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String division_type = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("division_name"));
+                String division_type = (rset.getString("division_name"));
                 if (division_type.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(division_type);
                     count++;
@@ -110,7 +107,7 @@ public class CityModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String city_type = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("city_name"));
+                String city_type = (rset.getString("city_name"));
                 if (city_type.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(city_type);
                     count++;
@@ -149,14 +146,14 @@ public class CityModel {
     }
     public List<String> getDistrict(String q,String diviName) {
         List<String> list = new ArrayList<String>();
-        diviName = krutiToUnicode.convert_to_unicode(diviName);
+      //  diviName = krutiToUnicode.convert_to_unicode(diviName);
         String query = " SELECT district_name FROM district where district.division_id=(select division.division_id from division where division.division_name='"+diviName+"') GROUP BY district_name ORDER BY district_name ";
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String district_type = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("district_name"));
+                String district_type = (rset.getString("district_name"));
                 if (district_type.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(district_type);
                     count++;
@@ -197,7 +194,7 @@ public class CityModel {
     }
     public ArrayList<CityBean> getAllRecords(int lowerLimit,int noOfRowsToDisplay,String searchCity)
     {
-        searchCity = krutiToUnicode.convert_to_unicode(searchCity);
+      //  searchCity = krutiToUnicode.convert_to_unicode(searchCity);
         ArrayList<CityBean> list = new ArrayList<CityBean>();
         /*
         String query = " SELECT city_id, city_name, city_description,district_id,division_id "
@@ -218,10 +215,10 @@ public class CityModel {
             while (rset.next()) {
                 CityBean CityBean = new CityBean();
                 CityBean.setCityId(rset.getInt(1));
-                CityBean.setCityName(unicodeToKruti.Convert_to_Kritidev_010(rset.getString(2)));
+                CityBean.setCityName(rset.getString(2));
                 CityBean.setPin_code(rset.getInt(3));
                 CityBean.setStd_code(rset.getInt(4));
-                CityBean.setCityDescription(unicodeToKruti.Convert_to_Kritidev_010(rset.getString(5)));
+                CityBean.setCityDescription((rset.getString(5)));
                 list.add(CityBean);
             }
         } catch (Exception e) {
@@ -233,7 +230,7 @@ public class CityModel {
    
     public int getTotalRowsInTable(String searchCity)
     {
-        searchCity = krutiToUnicode.convert_to_unicode(searchCity);
+      //  searchCity = krutiToUnicode.convert_to_unicode(searchCity);
          String query = " SELECT Count(*) "
                 + " FROM city "
                 + " WHERE IF('" + searchCity + "' = '', city_name LIKE '%%',city_name =?) "
@@ -259,7 +256,7 @@ public class CityModel {
         {
                       String query = "insert into city(city_name,city_description,pin_code,std_code) values(?,?,?,?)";
                       PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
-                      ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getCityName()));
+                      ps.setString(1,bean.getCityName());
                       ps.setString(2,bean.getCityDescription());
                       ps.setInt(3,bean.getPin_code());
                       ps.setInt(4,bean.getStd_code());
@@ -283,7 +280,7 @@ public class CityModel {
         try {
             PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
 
-              ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getCityName()));
+              ps.setString(1,bean.getCityName());
                       ps.setString(2,bean.getCityDescription());
                       ps.setInt(3,bean.getPin_code());
                       ps.setInt(4,bean.getStd_code());
