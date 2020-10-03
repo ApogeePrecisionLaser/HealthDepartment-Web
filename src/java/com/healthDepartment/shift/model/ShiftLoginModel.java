@@ -1211,6 +1211,12 @@ public class ShiftLoginModel {
    
    
     public int InsertLatLong(String ridestatus,String latitude,String longitude,String datetime) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+           Date dateobj = new Date();
+             System.out.println(df.format(dateobj));
+             
+             datetime = df.format(dateobj);
+             
         String query = "";
         int rowsAffected = 0;
         query = "insert into app_cordinates(latitude,longitude,status,created_at) "

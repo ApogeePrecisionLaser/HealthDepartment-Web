@@ -331,12 +331,12 @@ public class HealthDepartmentWebServices {
     public String rideCordinates(JSONObject jsonObj) throws Exception {
         JSONObject obj = new JSONObject();
         Response res = null;
-        String rideStatus, ride_id, date_time, latitude, longitude;
+        String rideStatus="", ride_id, date_time="", latitude="", longitude="";
        
         rideStatus = jsonObj.get("status").toString();
         latitude = jsonObj.get("latitude").toString();
         longitude = jsonObj.get("longitude").toString();
-        date_time = jsonObj.get("date_time").toString();
+       // date_time = jsonObj.get("date_time").toString();
         System.out.println("rideCordinates");
        ShiftLoginModel slm = new ShiftLoginModel();
        try {
@@ -344,7 +344,7 @@ public class HealthDepartmentWebServices {
         } catch (Exception ex) {
             System.out.println("ERROR : in insertRecord() in ShiftWebservices : " + ex);
         }
-        String status = "Successfully";
+        String status = "success";
         
         
         int result = slm.InsertLatLong(rideStatus, latitude, longitude, date_time);
