@@ -24,11 +24,11 @@ private static Connection connection;
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-        public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//        public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
  public static int  getNoOfRows(String vehicleType)
  {
-      vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
+    //  vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
         int noOfRows = 0;
         try {
         String query="SELECT count(vehicle_type_id) from vehicle_type "
@@ -46,7 +46,7 @@ private static Connection connection;
 
  public static List<VehicleType> showData(int lowerLimit,int noOfRowsToDisplay,String vehicleType)
   {
-        vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
+        //vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -60,8 +60,8 @@ private static Connection connection;
              while(rs.next()){
              VehicleType vt=new VehicleType();
              vt.setVehicle_type_id(rs.getInt("vehicle_type_id"));
-             vt.setVehicle_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("vehicle_name")));
-             vt.setRemark(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("remark")));
+             vt.setVehicle_type(rs.getString("vehicle_name"));
+             vt.setRemark(rs.getString("remark"));
               list.add(vt);
           }
           }
@@ -86,8 +86,8 @@ if(vehicle_type_id>0)
 
         try{
          PreparedStatement ps=(PreparedStatement) connection.prepareStatement(query);
-        ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getVehicle_type()));
-        ps.setString(2,krutiToUnicode.convert_to_unicode(bean.getRemark()));
+        ps.setString(1,bean.getVehicle_type());
+        ps.setString(2,bean.getRemark());
          if(vehicle_type_id>0)
            ps.setInt(3,vehicle_type_id);
          rowsAffected = ps.executeUpdate();
@@ -139,7 +139,7 @@ public static List<String> getVehicleType(String q)
                     int count = 0;
                     q = q.trim();
                     while (rset.next()) {
-                     String vehicle_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("vehicle_name"));
+                     String vehicle_name = rset.getString("vehicle_name");
                        if(vehicle_name.toUpperCase().startsWith(q.toUpperCase())){
                      list.add(vehicle_name);
                      count++;

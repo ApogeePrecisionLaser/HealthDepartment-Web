@@ -24,11 +24,11 @@ private static Connection connection;
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
  public static int  getNoOfRows(String dustbinType)
  {
-       // dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
+        dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
         int noOfRows = 0;
         try {
         String query="SELECT count(dustbin_type_id) from dustbin_type "
@@ -46,7 +46,7 @@ private static Connection connection;
 
  public static List<DustbinType> showData(int lowerLimit,int noOfRowsToDisplay,String dustbinType)
   {
-     // dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
+      dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -60,10 +60,10 @@ private static Connection connection;
              while(rs.next()){
              DustbinType vt=new DustbinType();
              vt.setDustbin_type_id(rs.getInt("dustbin_type_id"));
-             vt.setDustbin_type(rs.getString("type_name"));
+             vt.setDustbin_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("type_name")));
              vt.setHeight(rs.getDouble("height"));
               vt.setVolume(rs.getDouble("volume"));
-              vt.setRemark(rs.getString("remark"));
+              vt.setRemark(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("remark")));
               list.add(vt);
           }
           }
@@ -89,10 +89,10 @@ if(dustbin_type_id>0)
         try
         {
          PreparedStatement ps=(PreparedStatement) connection.prepareStatement(query);
-         ps.setString(1,bean.getDustbin_type());
+         ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getDustbin_type()));
          ps.setDouble(2, bean.getHeight());
          ps.setDouble(3, bean.getVolume());
-        ps.setString(4,bean.getRemark());
+        ps.setString(4,krutiToUnicode.convert_to_unicode(bean.getRemark()));
          if(dustbin_type_id>0)
            ps.setInt(5,dustbin_type_id);
          rowsAffected = ps.executeUpdate();

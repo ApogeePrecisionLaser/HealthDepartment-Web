@@ -35,8 +35,8 @@ private Connection connection;
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public String Showtime(String week_days) {
         String start_time = "";
@@ -85,7 +85,7 @@ private Connection connection;
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String route_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("route_name"));
+                String route_name =rset.getString("route_name");
                 if (route_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(route_name);
                     count++;
@@ -149,7 +149,7 @@ private Connection connection;
     }
 
     public int getNoOfRows(String searchRoute, String searchDay, String searchTime) {
-        searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
+       // searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
         int noOfRows = 0;
         try {
             String query = " select count(*) from (select count( trip_id) "
@@ -173,7 +173,7 @@ private Connection connection;
 
     public List<TripBean> showData(int lowerLimit, int noOfRowsToDisplay, String searchRoute, String searchDay, String searchTime) {
         List list = new ArrayList();
-        searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
+       // searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
         String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
         if (lowerLimit == -1) {
             addQuery = "";
@@ -197,8 +197,8 @@ private Connection connection;
                 sb.setStart_time(rs.getString("start_time"));
                 sb.setWeek_days(rs.getString("day"));
                 if (lowerLimit == -1) {
-                    sb.setRoute_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("route_name")));
-                    sb.setTrip_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("trip_name")));
+                    sb.setRoute_name(rs.getString("route_name"));
+                    sb.setTrip_name(rs.getString("trip_name"));
                 } else {
                     sb.setRoute_name(rs.getString("route_name"));
                     sb.setTrip_name(rs.getString("trip_name"));
@@ -218,7 +218,7 @@ private Connection connection;
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement(query);
-            pstmt.setString(1, krutiToUnicode.convert_to_unicode(bean.getRoute_name()));
+            pstmt.setString(1, bean.getRoute_name());
             pstmt.setString(2, bean.getWeek_days());
             pstmt.setString(3, bean.getTrip_name());
             pstmt.setString(4, bean.getStart_time());
@@ -240,7 +240,7 @@ private Connection connection;
     public boolean insertRecord(TripBean bean, String every_day) {
         boolean status = false;
         int rowsAffected = 0;
-        String route_name = krutiToUnicode.convert_to_unicode(bean.getRoute_name());
+        String route_name =bean.getRoute_name();
         String trip_name = bean.getTrip_name();//krutiToUnicode.convert_to_unicode(bean.getTrip_name());
         String weekDaysQuery = "SELECT week_days_id, day FROM week_days";
         String query = "insert into trip (trip_name, route_id,week_days_id,start_time) "

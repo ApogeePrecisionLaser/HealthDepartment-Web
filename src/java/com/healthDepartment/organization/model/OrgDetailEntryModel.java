@@ -26,8 +26,8 @@ public class OrgDetailEntryModel {
     private String msgBgColor;
     private final String COLOR_OK = "lightyellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
     public void setConnection(Connection con) {
         try {
 
@@ -38,7 +38,7 @@ public class OrgDetailEntryModel {
     }
 
     public OrgDetailEntry showData(String organisation) {
-        organisation = krutiToUnicode.convert_to_unicode(organisation);
+      //  organisation = krutiToUnicode.convert_to_unicode(organisation);
         OrgDetailEntry orgDE = new OrgDetailEntry();
         String query = "SELECT org.organisation_id, organisation_name, org_type_name ,organisation_sub_type_name, om.org_map_id , "
                 + " of.org_office_id ,org_office_code,of.org_office_name, office_type ,c.city_name AS officeCity , of.address_line1, of.address_line2, of.email_id1, of.email_id2, of.mobile_no1, of.mobile_no2, of.landline_no1, of.landline_no2, "
@@ -289,7 +289,7 @@ public class OrgDetailEntryModel {
 
     // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     public int getofficeType_id(String office_type) {
-         office_type = krutiToUnicode.convert_to_unicode(office_type);
+         //office_type = krutiToUnicode.convert_to_unicode(office_type);
         String query = "SELECT office_type_id FROM org_office_type WHERE office_type = ? ";
         int office_type_id = 0;
         try {
@@ -305,7 +305,7 @@ public class OrgDetailEntryModel {
     }
 
     public List<String> getOfficeCode(String q, String office_type) {
-         office_type = krutiToUnicode.convert_to_unicode(office_type);
+       // office_type = krutiToUnicode.convert_to_unicode(office_type);
         List<String> list = new ArrayList<String>();
         int count = 0;
         try {
@@ -348,7 +348,7 @@ public class OrgDetailEntryModel {
     }
 
     public int getCity_id(String city_name) {
-       city_name = krutiToUnicode.convert_to_unicode(city_name);
+     //  city_name = krutiToUnicode.convert_to_unicode(city_name);
         String query = "SELECT city_id FROM city WHERE city_name = ? ";
         int city_id = 0;
         try {
@@ -364,7 +364,7 @@ public class OrgDetailEntryModel {
     }
 
     public boolean isOrganisationExist(String organisation) {
-         organisation = krutiToUnicode.convert_to_unicode(organisation);
+       //  organisation = krutiToUnicode.convert_to_unicode(organisation);
         String query = "select count(*) from organisation_name where organisation_name= ? ";
         int count = 0;
         try {
@@ -457,8 +457,8 @@ public class OrgDetailEntryModel {
     }
 
     public int getOrgOffice_id(String org_office_name, String organisation_name) {
-          org_office_name = krutiToUnicode.convert_to_unicode(org_office_name);
-          organisation_name = krutiToUnicode.convert_to_unicode(organisation_name);
+        //  org_office_name = krutiToUnicode.convert_to_unicode(org_office_name);
+        //  organisation_name = krutiToUnicode.convert_to_unicode(organisation_name);
         String query = "SELECT of.org_office_id FROM org_office AS of,organisation_name AS o "
                 + "WHERE o.organisation_id=of.organisation_id AND of.org_office_name = ? AND o.organisation_name = ? ";
         int org_office_id = 0;
@@ -476,7 +476,7 @@ public class OrgDetailEntryModel {
     }
 
     public int getOrganisation_id(String organisation_name) {
-        organisation_name = krutiToUnicode.convert_to_unicode(organisation_name);
+      //  organisation_name = krutiToUnicode.convert_to_unicode(organisation_name);
         String query = "SELECT organisation_id FROM organisation_name WHERE organisation_name = ? ";
         int organisation_id = 0;
         try {
@@ -492,7 +492,7 @@ public class OrgDetailEntryModel {
     }
 
     public int getDegination_id(String designation) {
-        designation = krutiToUnicode.convert_to_unicode(designation);
+      //  designation = krutiToUnicode.convert_to_unicode(designation);
         String query = "SELECT designation_id FROM designation WHERE designation ='" + designation + "'";
         int designation_id = 0;
         try {
@@ -530,7 +530,7 @@ public class OrgDetailEntryModel {
     }
 
     public List<String> getOrganisation_subType_Name(String q, String org_type_name) {
-           org_type_name = krutiToUnicode.convert_to_unicode(org_type_name);
+        //   org_type_name = krutiToUnicode.convert_to_unicode(org_type_name);
         List<String> list = new ArrayList<String>();
         String query = "SELECT ost.organisation_sub_type_name "
                 + "FROM organisation_sub_type AS ost ,organisation_type AS ot "
@@ -559,8 +559,8 @@ public class OrgDetailEntryModel {
     }
 
     public List<Integer> getOrgTypeSubTypeId(String org_type, String org_sub_type) {
-        org_type = krutiToUnicode.convert_to_unicode(org_type);
-        org_sub_type = krutiToUnicode.convert_to_unicode(org_sub_type);
+       // org_type = krutiToUnicode.convert_to_unicode(org_type);
+       // org_sub_type = krutiToUnicode.convert_to_unicode(org_sub_type);
         List<Integer> list = new ArrayList<Integer>();
         String query = "SELECT o.organisation_type_id, os.organisation_sub_type_id FROM organisation_type o , "
                 + " organisation_sub_type  os "
@@ -606,7 +606,7 @@ public class OrgDetailEntryModel {
             try {
                 connection.setAutoCommit(false);
                 pstmt = connection.prepareStatement(orgDetail);
-                pstmt.setString(1, krutiToUnicode.convert_to_unicode(createorgn.getOrganisation()));
+                pstmt.setString(1,createorgn.getOrganisation());
                 rowsAffected = pstmt.executeUpdate();
                 if (rowsAffected > 0) {
                     pstmt.close();
@@ -620,12 +620,12 @@ public class OrgDetailEntryModel {
                         pstmt.close();
                         pstmt = connection.prepareStatement(office_query);
                         pstmt.setString(1, createorgn.getOffice_code());
-                        pstmt.setString(2, krutiToUnicode.convert_to_unicode(createorgn.getOffice_name()));
+                        pstmt.setString(2, createorgn.getOffice_name());
                         pstmt.setInt(3, createorgn.getOrganisation_id());
                         pstmt.setInt(4, createorgn.getOffice_type_id());
                         pstmt.setInt(5, createorgn.getOffice_city_id());
-                        pstmt.setString(6,  krutiToUnicode.convert_to_unicode(createorgn.getOffice_address1()));
-                        pstmt.setString(7, krutiToUnicode.convert_to_unicode( createorgn.getOffice_address2()));
+                        pstmt.setString(6,  createorgn.getOffice_address1());
+                        pstmt.setString(7,  createorgn.getOffice_address2());
                         pstmt.setString(8, createorgn.getOffice_mobile1());
                         pstmt.setString(9, createorgn.getOffice_mobile2());
                         pstmt.setString(10, createorgn.getOffice_mail_id1());
@@ -638,12 +638,12 @@ public class OrgDetailEntryModel {
                             createorgn.setOffice_id(getOrgOffice_id(createorgn.getOffice_name(), createorgn.getOrganisation()));
                             pstmt = connection.prepareStatement(keyperson_query);
                             pstmt.setString(1, createorgn.getSalutation());
-                            pstmt.setString(2, krutiToUnicode.convert_to_unicode( createorgn.getKeyperson()));
+                            pstmt.setString(2, createorgn.getKeyperson());
                             pstmt.setInt(3, createorgn.getDesiganition_id());
                             pstmt.setInt(4, createorgn.getOffice_id());
                             pstmt.setInt(5, createorgn.getPerson_city_id());
-                            pstmt.setString(6,  krutiToUnicode.convert_to_unicode(createorgn.getPerson_address1()));
-                            pstmt.setString(7,  krutiToUnicode.convert_to_unicode(createorgn.getPerson_address2()));
+                            pstmt.setString(6,  createorgn.getPerson_address1());
+                            pstmt.setString(7,  createorgn.getPerson_address2());
                             pstmt.setString(8, createorgn.getPerson_mobile1());
                             pstmt.setString(9, createorgn.getPerson_mobile2());
                             pstmt.setString(10, createorgn.getPerson_mail_id1());
@@ -812,10 +812,10 @@ public class OrgDetailEntryModel {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, orgOffice.getOrganisation_id());
             pstmt.setString(2, orgOffice.getOffice_code());
-            pstmt.setString(3, krutiToUnicode.convert_to_unicode(orgOffice.getOffice_name()));
+            pstmt.setString(3,orgOffice.getOffice_name());
             pstmt.setInt(4, orgOffice.getOffice_type_id());
-            pstmt.setString(5, krutiToUnicode.convert_to_unicode(orgOffice.getOffice_address1()));
-            pstmt.setString(6,  krutiToUnicode.convert_to_unicode(orgOffice.getOffice_address2()));
+            pstmt.setString(5, orgOffice.getOffice_address1());
+            pstmt.setString(6,  orgOffice.getOffice_address2());
             pstmt.setInt(7, orgOffice.getOffice_city_id());
             pstmt.setString(8, orgOffice.getOffice_mail_id1());
             pstmt.setString(9, orgOffice.getOffice_mail_id2());
@@ -847,10 +847,10 @@ public class OrgDetailEntryModel {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, orgOffice.getOrganisation_id());
             pstmt.setString(2, orgOffice.getOffice_code());
-            pstmt.setString(3, krutiToUnicode.convert_to_unicode( orgOffice.getOffice_name()));
+            pstmt.setString(3, orgOffice.getOffice_name());
             pstmt.setInt(4, orgOffice.getOffice_type_id());
-            pstmt.setString(5,  krutiToUnicode.convert_to_unicode(orgOffice.getOffice_address1()));
-            pstmt.setString(6,  krutiToUnicode.convert_to_unicode(orgOffice.getOffice_address2()));
+            pstmt.setString(5,  orgOffice.getOffice_address1());
+            pstmt.setString(6,  orgOffice.getOffice_address2());
             pstmt.setInt(7, orgOffice.getOffice_city_id());
             pstmt.setString(8, orgOffice.getOffice_mail_id1());
             pstmt.setString(9, orgOffice.getOffice_mail_id2());
@@ -921,12 +921,12 @@ public class OrgDetailEntryModel {
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, orgKp.getSalutation());
-            pstmt.setString(2,  krutiToUnicode.convert_to_unicode(orgKp.getKeyperson()));
+            pstmt.setString(2,  orgKp.getKeyperson());
             pstmt.setInt(3, orgKp.getDesiganition_id());
             pstmt.setInt(4, orgKp.getOffice_id());
             pstmt.setInt(5, orgKp.getPerson_city_id());
-            pstmt.setString(6,  krutiToUnicode.convert_to_unicode(orgKp.getPerson_address1()));
-            pstmt.setString(7,  krutiToUnicode.convert_to_unicode(orgKp.getPerson_address2()));
+            pstmt.setString(6,  orgKp.getPerson_address1());
+            pstmt.setString(7,  orgKp.getPerson_address2());
             pstmt.setString(8, orgKp.getPerson_mobile1());
             pstmt.setString(9, orgKp.getPerson_mobile2());
             pstmt.setString(10, orgKp.getPerson_landLine1());
@@ -959,12 +959,12 @@ public class OrgDetailEntryModel {
             PreparedStatement pstmt = connection.prepareStatement(query);
 
             pstmt.setString(1, orgKp.getSalutation());
-            pstmt.setString(2,  krutiToUnicode.convert_to_unicode(orgKp.getKeyperson()));
+            pstmt.setString(2,  orgKp.getKeyperson());
             pstmt.setInt(3, orgKp.getDesiganition_id());
             pstmt.setInt(4, orgKp.getOffice_id());
             pstmt.setInt(5, orgKp.getPerson_city_id());
-            pstmt.setString(6,  krutiToUnicode.convert_to_unicode(orgKp.getPerson_address1()));
-            pstmt.setString(7,  krutiToUnicode.convert_to_unicode(orgKp.getPerson_address2()));
+            pstmt.setString(6,  orgKp.getPerson_address1());
+            pstmt.setString(7,  orgKp.getPerson_address2());
             pstmt.setString(8, orgKp.getPerson_mobile1());
             pstmt.setString(9, orgKp.getPerson_mobile2());
             pstmt.setString(10, orgKp.getPerson_landLine1());

@@ -47,8 +47,8 @@ public class KeypersonModel {
     private String db_username;
     private String db_password;
     private String driverClass;
-//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
-//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
 
     public Connection getConnection() {
         return connection;
@@ -115,10 +115,10 @@ public class KeypersonModel {
 
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, searchOrganisation);
-            pstmt.setString(2, searchKeyPerson);
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(searchKeyPerson));
             pstmt.setString(3, searchOfficeCode);
             pstmt.setString(4, searchEmpCode);
-            pstmt.setString(5, searchDesignation);
+            pstmt.setString(5, krutiToUnicode.convert_to_unicode(searchDesignation));
 
             ResultSet rset = pstmt.executeQuery();
             rset.next();
@@ -152,26 +152,26 @@ public class KeypersonModel {
                     + "LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, searchOrganisation);
-            pstmt.setString(2, searchKeyPerson);
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(searchKeyPerson));
             pstmt.setString(3, searchOfficeCode);
             pstmt.setString(4, searchEmpCode);
-            pstmt.setString(5, searchDesignation);
+            pstmt.setString(5, krutiToUnicode.convert_to_unicode(searchDesignation));
             ResultSet rset = pstmt.executeQuery();
             while (rset.next()) {
                 KeyPerson key = new KeyPerson();
                 key.setKey_person_id(rset.getInt("key_person_id"));
                 key.setOrg_office_code(rset.getString("org_office_code"));
                 key.setOffice_type(rset.getString("office_type"));
-                key.setOrganisation_name(rset.getString("organisation_name"));
-                key.setOrg_office_name(rset.getString("org_office_name"));
-                key.setKey_person_name(rset.getString("key_person_name"));
+                key.setOrganisation_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("organisation_name")));
+                key.setOrg_office_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("org_office_name")));
+                key.setKey_person_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name")));
                 key.setImage_path(rset.getString("image_path"));
-                key.setDesignation(rset.getString("designation"));
+                key.setDesignation(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("designation")));
                // key.setState_name(rset.getString("state_name"));
-                key.setCity_name(rset.getString("city_name"));
-                key.setAddress_line1(rset.getString("address_line1"));
-                key.setAddress_line2(rset.getString("address_line2"));
-                key.setAddress_line3(rset.getString("address_line3"));
+                key.setCity_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("city_name")));
+                key.setAddress_line1(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("address_line1")));
+                key.setAddress_line2(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("address_line2")));
+                key.setAddress_line3(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("address_line3")));
                 key.setMobile_no1(rset.getString("mobile_no1"));
                 key.setMobile_no2(rset.getString("mobile_no2"));
                 key.setLandline_no1(rset.getString("landline_no1"));
@@ -181,7 +181,7 @@ public class KeypersonModel {
                 key.setSalutation(rset.getString("salutation"));
                 key.setEmp_code(rset.getString("emp_code"));
                 key.setGeneral_image_details_id(rset.getInt("general_image_details_id"));
-                key.setFather_name(rset.getString("father_name"));
+                key.setFather_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("father_name")));
                 key.setAge(rset.getInt("age"));
                 //key.setImage_name(rset.getString("image_name"));
                 list.add(key);
@@ -208,19 +208,19 @@ public class KeypersonModel {
                               + addQuery ;
              try{
                  PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
-                     ps.setString(1, searchKeyPerson);
+                     ps.setString(1, krutiToUnicode.convert_to_unicode(searchKeyPerson));
                      ps.setString(2, searchOfficeCode);
                      ps.setString(3, searchEmpCode);
-                     ps.setString(4,searchDesignation);
+                     ps.setString(4, krutiToUnicode.convert_to_unicode(searchDesignation));
                      ResultSet rset =ps.executeQuery();
                  while(rset.next()){
                     KeyPerson key = new KeyPerson();
                     key.setEmp_code(rset.getString("emp_code"));
-                    key.setKey_person_name(rset.getString("key_person_name"));
-                    key.setDesignation(rset.getString("designation"));
+                    key.setKey_person_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name")));
+                    key.setDesignation(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("designation")));
                     key.setMobile_no1(rset.getString("mobile_no1"));
                     key.setEmail_id1(rset.getString("email_id1"));
-                    key.setAddress_line1(rset.getString("address_line1"));
+                    key.setAddress_line1(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("address_line1")));
                     list.add(key);
           }
           }
@@ -303,13 +303,13 @@ public class KeypersonModel {
             // pstmt.setInt(17,Integer.parseInt(key.getImage_id()));
             //}
             pstmt.setString(1, key.getSalutation());
-            pstmt.setString(2, key.getKey_person_name());
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(key.getKey_person_name()));
             pstmt.setInt(3, key.getDesignation_id());
             pstmt.setInt(4, key.getOrg_office_id());
             pstmt.setInt(5, key.getCity_id());
-            pstmt.setString(6, key.getAddress_line1());
-            pstmt.setString(7, key.getAddress_line2());
-            pstmt.setString(8, key.getAddress_line3());
+            pstmt.setString(6, krutiToUnicode.convert_to_unicode(key.getAddress_line1()));
+            pstmt.setString(7, krutiToUnicode.convert_to_unicode(key.getAddress_line2()));
+            pstmt.setString(8, krutiToUnicode.convert_to_unicode(key.getAddress_line3()));
             pstmt.setString(9, key.getMobile_no1());
             pstmt.setString(10, key.getMobile_no2());
             pstmt.setString(11, key.getLandline_no1());
@@ -317,7 +317,7 @@ public class KeypersonModel {
             pstmt.setString(13, key.getEmail_id1());
             pstmt.setString(14, key.getEmail_id2());
             pstmt.setString(15, key.getEmp_code());
-            pstmt.setString(16, key.getFather_name());
+            pstmt.setString(16, krutiToUnicode.convert_to_unicode(key.getFather_name()));
             pstmt.setInt(17, key.getAge());
 
             rowsAffected = pstmt.executeUpdate();
@@ -354,7 +354,7 @@ public class KeypersonModel {
                     int index1 = tempExt.length();
                     String Extention = tempExt.substring(index + 1, index1);
                     tempExt = "." + Extention;
-                    String imageName =key.getDesignation() + "_" + middleName + "_" + kp_id + tempExt;
+                    String imageName = krutiToUnicode.convert_to_unicode(key.getDesignation()) + "_" + middleName + "_" + kp_id + tempExt;
                     key.setImage_name(imageName);
                     rowsAffected = insertImageRecord(imageName, image_uploaded_for, current_date, kp_id);
                     if(rowsAffected > 0)
@@ -717,20 +717,20 @@ public class KeypersonModel {
             PreparedStatement pstmt = connection.prepareStatement(query);
 
             pstmt.setString(1, key.getSalutation());
-            pstmt.setString(2,key.getKey_person_name());
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(key.getKey_person_name()));
             pstmt.setInt(3, key.getDesignation_id());
             pstmt.setInt(4, key.getOrg_office_id());
             pstmt.setInt(5, key.getCity_id());
-            pstmt.setString(6, key.getAddress_line1());
-            pstmt.setString(7, key.getAddress_line2());
-            pstmt.setString(8, key.getAddress_line3());
+            pstmt.setString(6, krutiToUnicode.convert_to_unicode(key.getAddress_line1()));
+            pstmt.setString(7, krutiToUnicode.convert_to_unicode(key.getAddress_line2()));
+            pstmt.setString(8, krutiToUnicode.convert_to_unicode(key.getAddress_line3()));
             pstmt.setString(9, key.getMobile_no1());
             pstmt.setString(10, key.getMobile_no2());
             pstmt.setString(11, key.getLandline_no1());
             pstmt.setString(12, key.getLandline_no2());
             pstmt.setString(13, key.getEmail_id1());
             pstmt.setString(14, key.getEmail_id2());
-            pstmt.setString(15, key.getFather_name());
+            pstmt.setString(15, krutiToUnicode.convert_to_unicode(key.getFather_name()));
             pstmt.setInt(16, key.getAge());
             pstmt.setInt(17, key_person_id);
             rowsAffected = pstmt.executeUpdate();
@@ -775,7 +775,7 @@ public class KeypersonModel {
                     int index1 = tempExt.length();
                     String Extention = tempExt.substring(index + 1, index1);
                     tempExt = "." + Extention;
-                    String imageName = key.getDesignation() + "_" + middleName + "_" + key_person_id + rev + tempExt;
+                    String imageName = krutiToUnicode.convert_to_unicode(key.getDesignation()) + "_" + middleName + "_" + key_person_id + rev + tempExt;
                     key.setImage_name(imageName);
                     rowsAffected = insertImageRecord(imageName, image_uploaded_for, current_date, key_person_id);
                     if(rowsAffected > 0)
@@ -1103,7 +1103,7 @@ public class KeypersonModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String key_person_name = rset.getString("key_person_name");
+                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -1131,7 +1131,7 @@ public class KeypersonModel {
             ResultSet rset = pstmt.executeQuery();
 
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String office_name = rset.getString("org_office_name");
+                String office_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("org_office_name"));
                 if (office_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(office_name);
                     count++;
@@ -1178,7 +1178,7 @@ public class KeypersonModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String AdvertiseName = rset.getString("city_name");
+                String AdvertiseName = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("city_name"));
                 if (AdvertiseName.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(AdvertiseName);
                     count++;
@@ -1201,7 +1201,7 @@ public class KeypersonModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String state_name = rset.getString("state_name");
+                String state_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("state_name"));
                 if (state_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(state_name);
                     count++;
@@ -1239,7 +1239,7 @@ public class KeypersonModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String designation = rset.getString("designation");
+                String designation = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("designation"));
                 if (designation.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(designation);
                     count++;

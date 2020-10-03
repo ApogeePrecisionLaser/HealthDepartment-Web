@@ -42,8 +42,8 @@ public class OrgOfficeModel {
     private String msgBgColor;
     private final String COLOR_OK = "lightyellow";
     private final String COLOR_ERROR = "red";
-//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public void setConnection(Connection con) {
         try {
@@ -70,8 +70,8 @@ public class OrgOfficeModel {
         int noOfRowNUM = 0;
         // int org_id = getOrganisation_id(org_name);
         try {
-           // org_name = krutiToUnicode.convert_to_unicode(org_name);
-           // office_name_search = krutiToUnicode.convert_to_unicode(office_name_search);
+            org_name = krutiToUnicode.convert_to_unicode(org_name);
+            office_name_search = krutiToUnicode.convert_to_unicode(office_name_search);
             String query = "  SELECT COUNT(*) as count "
                     + " FROM  org_office AS o LEFT JOIN org_office_type AS oft ON oft.office_type_id = o.office_type_id , "
                     + " city AS c, organisation_name AS org "
@@ -101,8 +101,8 @@ public class OrgOfficeModel {
         String query;
         List<Org_Office> list = new ArrayList<Org_Office>();
         try {
-         //   org_name = krutiToUnicode.convert_to_unicode(org_name);
-          //  office_name_search = krutiToUnicode.convert_to_unicode(office_name_search);
+            org_name = krutiToUnicode.convert_to_unicode(org_name);
+            office_name_search = krutiToUnicode.convert_to_unicode(office_name_search);
             // Use DESC or ASC for descending or ascending order respectively of fetched data.
 
             query = " SELECT o.org_office_code, o.org_office_id ,org.organisation_name, o.org_office_name, oft.office_type , o.address_line1, "
@@ -128,14 +128,14 @@ public class OrgOfficeModel {
                 Org_Office organisation = new Org_Office();
                 organisation.setOrg_office_id(rset.getInt("org_office_id"));
                 organisation.setOrg_office_code(rset.getString("org_office_code"));
-                organisation.setOrg_office_name(rset.getString("org_office_name"));
-                organisation.setOrganisation_name(rset.getString("organisation_name"));
-                organisation.setOffice_type(rset.getString("office_type"));
-                organisation.setAddress_line1(rset.getString("address_line1"));
-                organisation.setAddress_line2(rset.getString("address_line2"));
-                organisation.setAddress_line3(rset.getString("address_line3"));
+                organisation.setOrg_office_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("org_office_name")));
+                organisation.setOrganisation_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("organisation_name")));
+                organisation.setOffice_type(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("office_type")));
+                organisation.setAddress_line1(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("address_line1")));
+                organisation.setAddress_line2(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("address_line2")));
+                organisation.setAddress_line3(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("address_line3")));
                // organisation.setState_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("state_name")));
-                organisation.setCity_name(rset.getString("city_name"));
+                organisation.setCity_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("city_name")));
                 organisation.setEmail_id1(rset.getString("email_id1"));
                 organisation.setEmail_id2(rset.getString("email_id2"));
                 organisation.setMobile_no1(rset.getString("mobile_no1"));
@@ -159,12 +159,12 @@ public class OrgOfficeModel {
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, orgOffice.getOrganisation_id());
-            pstmt.setString(2,orgOffice.getOrg_office_name());
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(orgOffice.getOrg_office_name()));
             pstmt.setString(3,orgOffice.getOrg_office_code());
             pstmt.setInt(4, orgOffice.getOffice_type_id());
-            pstmt.setString(5, orgOffice.getAddress_line1());
-            pstmt.setString(6, orgOffice.getAddress_line2());
-            pstmt.setString(7, orgOffice.getAddress_line3());
+            pstmt.setString(5, krutiToUnicode.convert_to_unicode(orgOffice.getAddress_line1()));
+            pstmt.setString(6, krutiToUnicode.convert_to_unicode(orgOffice.getAddress_line2()));
+            pstmt.setString(7, krutiToUnicode.convert_to_unicode(orgOffice.getAddress_line3()));
             pstmt.setInt(8, orgOffice.getCity_id());
             pstmt.setString(9, orgOffice.getEmail_id1());
             pstmt.setString(10, orgOffice.getEmail_id2());
@@ -196,11 +196,11 @@ public class OrgOfficeModel {
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setInt(1, orgOffice.getOrganisation_id());
-            pstmt.setString(2, orgOffice.getOrg_office_name());
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(orgOffice.getOrg_office_name()));
             pstmt.setInt(3, orgOffice.getOffice_type_id());
-            pstmt.setString(4, orgOffice.getAddress_line1());
-            pstmt.setString(5, orgOffice.getAddress_line2());
-            pstmt.setString(6, orgOffice.getAddress_line3());
+            pstmt.setString(4, krutiToUnicode.convert_to_unicode(orgOffice.getAddress_line1()));
+            pstmt.setString(5, krutiToUnicode.convert_to_unicode(orgOffice.getAddress_line2()));
+            pstmt.setString(6, krutiToUnicode.convert_to_unicode(orgOffice.getAddress_line3()));
             pstmt.setInt(7, orgOffice.getCity_id());
             pstmt.setString(8, orgOffice.getEmail_id1());
             pstmt.setString(9, orgOffice.getEmail_id2());
@@ -251,7 +251,7 @@ public class OrgOfficeModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String organisation_name = rset.getString("organisation_name");
+                String organisation_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("organisation_name"));
                 if (organisation_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(organisation_name);
                     count++;
@@ -294,7 +294,7 @@ public class OrgOfficeModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String office_type = rset.getString("office_type");
+                String office_type = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("office_type"));
                  if (office_type.startsWith(q)){
                     list.add(office_type);
                     count++;
@@ -319,7 +319,7 @@ public class OrgOfficeModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String org_office = rset.getString("org_office_name");
+                String org_office = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("org_office_name"));
                 if (org_office.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(org_office);
                     count++;
@@ -401,7 +401,7 @@ public class OrgOfficeModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String AdvertiseName = rset.getString("city_name");
+                String AdvertiseName = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("city_name"));
                 if (AdvertiseName.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(AdvertiseName);
                     count++;
@@ -424,7 +424,7 @@ public class OrgOfficeModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String state_name = rset.getString("state_name");
+                String state_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("state_name"));
                 if (state_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(state_name);
                     count++;

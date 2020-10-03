@@ -3,11 +3,11 @@
  * and open the template in the editor.
  */
 
-package com.healthDepartment.dustbin.model;
+package com.healthDepartment.vehicle.model;
 
-import com.healthDepartment.dustbin.tableClasses.DustbinType;
 import com.healthDepartment.util.KrutiDevToUnicodeConverter;
 import com.healthDepartment.util.UnicodeToKrutiDevConverter;
+import com.healthDepartment.vehicle.tableClasses.VehicleType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,21 +18,21 @@ import java.util.List;
  *
  * @author Administrator
  */
-public class DustbinTypeModel {
+public class VehicleTypeModel {
 private static Connection connection;
     private String message;
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
- public static int  getNoOfRows(String dustbinType)
+        public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+ public static int  getNoOfRows(String vehicleType)
  {
-       // dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
+      vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
         int noOfRows = 0;
         try {
-        String query="SELECT count(dustbin_type_id) from dustbin_type "
-                     + " where IF('" + dustbinType + "' = '', type_name LIKE '%%',type_name  ='" + dustbinType + "') ";
+        String query="SELECT count(vehicle_type_id) from vehicle_type "
+                       + " where  IF('" + vehicleType + "' = '', vehicle_name LIKE '%%',vehicle_name  ='" + vehicleType + "') " ;
            PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement(query);
             ResultSet rset = pstmt.executeQuery();
             rset.next();
@@ -44,26 +44,24 @@ private static Connection connection;
         return noOfRows;
     }
 
- public static List<DustbinType> showData(int lowerLimit,int noOfRowsToDisplay,String dustbinType)
+ public static List<VehicleType> showData(int lowerLimit,int noOfRowsToDisplay,String vehicleType)
   {
-     // dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
+        vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
             addQuery = "";
-            String query="SELECT * from dustbin_type"
-                       + " where IF('" + dustbinType + "' = '', type_name LIKE '%%',type_name  ='" + dustbinType + "') "
-                       + addQuery;
+            String query="SELECT * from vehicle_type"
+                     + " where  IF('" + vehicleType + "' = '', vehicle_name LIKE '%%',vehicle_name  ='" + vehicleType + "') "
+                    + addQuery;
     try{
-           PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
-           ResultSet rs =ps.executeQuery();
+       PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
+              ResultSet rs =ps.executeQuery();
              while(rs.next()){
-             DustbinType vt=new DustbinType();
-             vt.setDustbin_type_id(rs.getInt("dustbin_type_id"));
-             vt.setDustbin_type(rs.getString("type_name"));
-             vt.setHeight(rs.getDouble("height"));
-              vt.setVolume(rs.getDouble("volume"));
-              vt.setRemark(rs.getString("remark"));
+             VehicleType vt=new VehicleType();
+             vt.setVehicle_type_id(rs.getInt("vehicle_type_id"));
+             vt.setVehicle_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("vehicle_name")));
+             vt.setRemark(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("remark")));
               list.add(vt);
           }
           }
@@ -74,27 +72,24 @@ private static Connection connection;
      return list;
     }
 
-public  boolean insertRecord(DustbinType bean)
+public  boolean insertRecord(VehicleType bean)
  {
 boolean status=false;
 String query="";
 int rowsAffected=0;
-int dustbin_type_id=bean.getDustbin_type_id();
-if(dustbin_type_id==0)
- query="insert into dustbin_type (type_name,height,volume,remark) values(?,?,?,?)";
-if(dustbin_type_id>0)
- query=" update dustbin_type set type_name=?,height=?,volume=?,remark=? where dustbin_type_id=?";
+int vehicle_type_id=bean.getVehicle_type_id();
+if(vehicle_type_id==0)
+ query="insert into vehicle_type (vehicle_name,remark) values(?,?)";
+if(vehicle_type_id>0)
+ query=" update vehicle_type set vehicle_name=?,remark=? where vehicle_type_id=?";
 
 
-        try
-        {
+        try{
          PreparedStatement ps=(PreparedStatement) connection.prepareStatement(query);
-         ps.setString(1,bean.getDustbin_type());
-         ps.setDouble(2, bean.getHeight());
-         ps.setDouble(3, bean.getVolume());
-        ps.setString(4,bean.getRemark());
-         if(dustbin_type_id>0)
-           ps.setInt(5,dustbin_type_id);
+        ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getVehicle_type()));
+        ps.setString(2,krutiToUnicode.convert_to_unicode(bean.getRemark()));
+         if(vehicle_type_id>0)
+           ps.setInt(3,vehicle_type_id);
          rowsAffected = ps.executeUpdate();
         if(rowsAffected > 0)
         status=true;
@@ -114,11 +109,11 @@ if(dustbin_type_id>0)
 return status;
 }
 
-public  boolean deleteRecord(String dustbin_type_id){
+public  boolean deleteRecord(String vehicle_type_id){
     boolean status=false;
    int rowsAffected=0;
 try{
- rowsAffected = connection.prepareStatement("Delete from dustbin_type where dustbin_type_id="+dustbin_type_id+" ").executeUpdate();
+ rowsAffected = connection.prepareStatement("Delete from vehicle_type where vehicle_type_id="+vehicle_type_id+" ").executeUpdate();
 if(rowsAffected > 0)
     status=true;
 else status=false;
@@ -135,6 +130,29 @@ else status=false;
             System.out.println("not Deleted");}
 return status;
 }
+public static List<String> getVehicleType(String q)
+    {
+     List<String> list=new ArrayList<String>();
+   String query ="select vehicle_name from vehicle_type";
+      try {
+                    ResultSet rset = connection.prepareStatement(query).executeQuery();
+                    int count = 0;
+                    q = q.trim();
+                    while (rset.next()) {
+                     String vehicle_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("vehicle_name"));
+                       if(vehicle_name.toUpperCase().startsWith(q.toUpperCase())){
+                     list.add(vehicle_name);
+                     count++;
+                        }
+            }
+            if (count == 0) {
+                list.add("No such Status exists.......");
+            }
+        } catch (Exception e) {
+            System.out.println( e);
+        }
+        return list;
+    }
 
        public String getMessage() {
         return message;

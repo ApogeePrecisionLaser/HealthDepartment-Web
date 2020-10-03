@@ -36,8 +36,8 @@ public class OrganisationTypeModel {
     private String msgBgColor;
     private final String COLOR_OK = "lightyellow";
     private final String COLOR_ERROR = "red";
-//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
 
     public void setConnection(Connection con) {
@@ -51,7 +51,7 @@ public class OrganisationTypeModel {
 
     public int getNoOfRows(String searchOrgType) {
         int noOfRows = 0;
-       // searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
+        searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
         try {
             String query = " SELECT Count(*) "
                     + " FROM organisation_type "
@@ -69,7 +69,7 @@ public class OrganisationTypeModel {
     }
     public List<OrganisationType> showAllData(String searchOrgType )
     {     List<OrganisationType> list = new ArrayList<OrganisationType>();
-         // searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
+          searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
         String query = " SELECT organisation_type_id, org_type_name, description "
                 + " FROM organisation_type "
                  + " WHERE IF('" + searchOrgType + "' = '', org_type_name LIKE '%%',org_type_name=?) ";              
@@ -91,7 +91,7 @@ public class OrganisationTypeModel {
     }
     public List<OrganisationType> showData(int lowerLimit, int noOfRowsToDisplay, String searchOrgType) {
         List<OrganisationType> list = new ArrayList<OrganisationType>();
-        //searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
+        searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
         // Use DESC or ASC for descending or ascending order respectively of fetched data.
         String query = " SELECT organisation_type_id, org_type_name, description "
                 + " FROM organisation_type "
@@ -105,8 +105,8 @@ public class OrganisationTypeModel {
             while (rset.next()) {
                 OrganisationType organisationType = new OrganisationType();
                 organisationType.setOrganisation_type_id(rset.getInt("organisation_type_id"));
-                organisationType.setOrg_type_name(rset.getString("org_type_name"));
-                organisationType.setDescription(rset.getString("description"));
+                organisationType.setOrg_type_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("org_type_name")));
+                organisationType.setDescription(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("description")));
                 list.add(organisationType);
             }
         } catch (Exception e) {
@@ -120,8 +120,8 @@ public class OrganisationTypeModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1,organisationType.getOrg_type_name());
-            pstmt.setString(2, organisationType.getDescription());
+            pstmt.setString(1, krutiToUnicode.convert_to_unicode(organisationType.getOrg_type_name()));
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(organisationType.getDescription()));
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("Error: " + e);
@@ -141,8 +141,8 @@ public class OrganisationTypeModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1,organisationType.getOrg_type_name());
-            pstmt.setString(2, organisationType.getDescription());
+            pstmt.setString(1, krutiToUnicode.convert_to_unicode(organisationType.getOrg_type_name()));
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(organisationType.getDescription()));
             pstmt.setInt(3, organisationType.getOrganisation_type_id());
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
@@ -184,7 +184,7 @@ public class OrganisationTypeModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String org_type_name = rset.getString("org_type_name");
+                String org_type_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("org_type_name"));
                 if (org_type_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(org_type_name);
                     count++;

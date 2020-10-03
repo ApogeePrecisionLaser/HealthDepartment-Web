@@ -34,16 +34,16 @@ public class BeneficiaryModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
  public static int  getNoOfRows(String searchoccupation_name,String searchCityName, String searchZoneName, String searchWardName,String searchAreaName,String searchPersonName,String person_code)
  {
-        searchoccupation_name = krutiToUnicode.convert_to_unicode(searchoccupation_name);
-        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
-        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
-        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
-        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
-       searchPersonName = krutiToUnicode.convert_to_unicode(searchPersonName);
+//        searchoccupation_name = krutiToUnicode.convert_to_unicode(searchoccupation_name);
+//        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
+//        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
+//        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
+//        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
+//       searchPersonName = krutiToUnicode.convert_to_unicode(searchPersonName);
         int noOfRows = 0;
         try {
         String query="select count(b.beneficiary_id) "
@@ -77,12 +77,12 @@ public class BeneficiaryModel {
 
  public static List<Beneficiary> showData(int lowerLimit,int noOfRowsToDisplay,String searchoccupation_name,String searchCityName, String searchZoneName, String searchWardName,String searchAreaName,String searchPersonName,String person_code)
   {
-           searchoccupation_name = krutiToUnicode.convert_to_unicode(searchoccupation_name);
-           searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
-           searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
-           searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
-           searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
-           searchPersonName = krutiToUnicode.convert_to_unicode(searchPersonName);
+//           searchoccupation_name = krutiToUnicode.convert_to_unicode(searchoccupation_name);
+//           searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
+//           searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
+//           searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
+//           searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
+//           searchPersonName = krutiToUnicode.convert_to_unicode(searchPersonName);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -141,12 +141,12 @@ public class BeneficiaryModel {
 
  public static List<Beneficiary> showAll(int lowerLimit,int noOfRowsToDisplay,String searchoccupation_name,String searchCityName, String searchZoneName, String searchWardName,String searchAreaName,String searchPersonName,String person_code)
   {
-        searchoccupation_name = krutiToUnicode.convert_to_unicode(searchoccupation_name);
-        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
-        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
-        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
-        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
-        searchPersonName = krutiToUnicode.convert_to_unicode(searchPersonName);
+//        searchoccupation_name = krutiToUnicode.convert_to_unicode(searchoccupation_name);
+//        searchCityName = krutiToUnicode.convert_to_unicode(searchCityName);
+//        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
+//        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
+//        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
+//        searchPersonName = krutiToUnicode.convert_to_unicode(searchPersonName);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -177,16 +177,16 @@ public class BeneficiaryModel {
                  ResultSet rs =ps.executeQuery();
                  while(rs.next()){
                  Beneficiary b=new Beneficiary();
-                 b.setKey_person_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("key_person_name")));
+                 b.setKey_person_name(rs.getString("key_person_name"));
                  b.setPerson_code(rs.getInt("emp_code"));
-                 b.setFather_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("father_name")));
-                 b.setAddress(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("address")));
+                 b.setFather_name(rs.getString("father_name"));
+                 b.setAddress(rs.getString("address"));
                  b.setNo_of_person(rs.getInt("no_of_person"));
-                 b.setOccupation_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("occupation_name")));
-                 b.setType_of_beneficiary(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("name")));
+                 b.setOccupation_name(rs.getString("occupation_name"));
+                 b.setType_of_beneficiary(rs.getString("name"));
                  b.setMobile_no1(rs.getString("mobile_no1"));
                  b.setIs_residencial(rs.getString("is_residencial"));
-                 b.setDescription(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("Description")));
+                 b.setDescription(rs.getString("Description"));
                 list.add(b);
           }
           }
@@ -207,16 +207,16 @@ public class BeneficiaryModel {
           if(beneficiary_id>0)
           query="update beneficiary set occupation_name=?,key_person_id=?,is_residencial=?,Description=?,no_of_person=?,type_of_occupation_id=?,city_location_id=?,rfid=? where beneficiary_id=?" ;
          PreparedStatement ps=(PreparedStatement) connection.prepareStatement(query);
-         ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getOccupation_name()));
+         ps.setString(1,bean.getOccupation_name());
          int key_person_id=getKey_Person_id(bean.getPerson_code());
          if(key_person_id == 0)
          ps.setNull(2, java.sql.Types.NULL);
          else
          ps.setInt(2, key_person_id);
          ps.setString(3, bean.getIs_residencial());
-         ps.setString(4,krutiToUnicode.convert_to_unicode(bean.getDescription()));
+         ps.setString(4,bean.getDescription());
          ps.setInt(5, bean.getNo_of_person());
-         int type_of_occupation_id=getType_of_occupation_id(krutiToUnicode.convert_to_unicode(bean.getType_of_beneficiary()));
+         int type_of_occupation_id=getType_of_occupation_id(bean.getType_of_beneficiary());
          if(type_of_occupation_id == 0)
          ps.setNull(6, java.sql.Types.NULL);
          else
@@ -263,7 +263,7 @@ return status;
         int city_location_id = 0;
         try {
 
-               location=krutiToUnicode.convert_to_unicode(location);
+               //location=krutiToUnicode.convert_to_unicode(location);
             String query = "select city_location_id from city_location"
                     +" where location='"+location+"' ";
             ResultSet rset =connection.prepareStatement(query).executeQuery();
@@ -278,7 +278,7 @@ return status;
 public static int getType_of_occupation_id(String type_of_occupation_name) {
         int type_of_occupation_id = 0;
         try {
-            type_of_occupation_name=krutiToUnicode.convert_to_unicode(type_of_occupation_name);
+            type_of_occupation_name=type_of_occupation_name;
             String query = "select type_of_occupation_id from type_of_occupation"
                     +" where name='"+type_of_occupation_name+"' ";
             ResultSet rset =connection.prepareStatement(query).executeQuery();
@@ -320,7 +320,7 @@ public static int getType_of_occupation_id(String type_of_occupation_name) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("name"));
+                String name = rset.getString("name");
                 if (name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(name);
                     count++;
@@ -344,7 +344,7 @@ public static int getType_of_occupation_id(String type_of_occupation_name) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                String key_person_name = rset.getString("key_person_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -366,7 +366,7 @@ public static int getType_of_occupation_id(String type_of_occupation_name) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                String key_person_name = rset.getString("key_person_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -404,7 +404,7 @@ public static int getType_of_occupation_id(String type_of_occupation_name) {
     }
             public List<String> getEmp_code(String q,String person_name)
             {
-           person_name=krutiToUnicode.convert_to_unicode(person_name);
+         //  person_name=krutiToUnicode.convert_to_unicode(person_name);
         List<String> list = new ArrayList<String>();
         String query = " select emp_code from key_person as kp where  "
                  +  "  IF('" + person_name + "'='', key_person_name like '%%', key_person_name ='" + person_name + "') " ;
@@ -436,7 +436,7 @@ public static int getType_of_occupation_id(String type_of_occupation_name) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {   
-                String occupation_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("occupation_name"));
+                String occupation_name = rset.getString("occupation_name");
                 if (occupation_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(occupation_name);
                     count++;

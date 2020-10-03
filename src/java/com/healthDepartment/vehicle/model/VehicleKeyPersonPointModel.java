@@ -26,12 +26,12 @@ public class VehicleKeyPersonPointModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public int getNoOfRows(String search_point_name, String search_key_person_name) {
-        search_point_name = krutiToUnicode.convert_to_unicode(search_point_name);
-        search_key_person_name = krutiToUnicode.convert_to_unicode(search_key_person_name);
+    //    search_point_name = krutiToUnicode.convert_to_unicode(search_point_name);
+   //     search_key_person_name = krutiToUnicode.convert_to_unicode(search_key_person_name);
         int noOfRows = 0;
         try {
             //String query="SELECT count(vehicle_key_person_point_id) from vehicle_key_person_point ";
@@ -87,8 +87,8 @@ public class VehicleKeyPersonPointModel {
     }
 
     public List<VehicleKeyPersonPoint> showData(int lowerLimit, int noOfRowsToDisplay, String search_point_name, String search_key_person_name) {
-        search_point_name = krutiToUnicode.convert_to_unicode(search_point_name);
-        search_key_person_name = krutiToUnicode.convert_to_unicode(search_key_person_name);
+      //  search_point_name = krutiToUnicode.convert_to_unicode(search_point_name);
+     //   search_key_person_name = krutiToUnicode.convert_to_unicode(search_key_person_name);
         List list = new ArrayList();
 
         String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
@@ -114,7 +114,7 @@ public class VehicleKeyPersonPointModel {
             while (rs.next()) {
                 VehicleKeyPersonPoint vt = new VehicleKeyPersonPoint();
                 vt.setVehicle_key_person_point_id(rs.getInt("vehicle_key_person_point_id"));
-                vt.setKey_person_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("key_person_name")));
+                vt.setKey_person_name(rs.getString("key_person_name"));
                 vt.setPoint_name(rs.getString("point_name"));
                 vt.setVehicle_code(rs.getString("vehicle_code"));
                  String date = getSplit(rs.getString("date"));
@@ -299,7 +299,7 @@ public class VehicleKeyPersonPointModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("point_name"));
+                String key_person_name = rset.getString("point_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -324,7 +324,7 @@ public class VehicleKeyPersonPointModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                String key_person_name = rset.getString("key_person_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -378,7 +378,7 @@ public class VehicleKeyPersonPointModel {
     }
 
     public int getVehicleKeyPersonId(String key_person) {
-        key_person = krutiToUnicode.convert_to_unicode(key_person);
+      //  key_person = krutiToUnicode.convert_to_unicode(key_person);
 
         int vehicle_key_person_id = 0;
         String query = "select vehicle_key_person_id from key_person kp,vehicle_key_person vkp,shift_key_person_map as skpm"

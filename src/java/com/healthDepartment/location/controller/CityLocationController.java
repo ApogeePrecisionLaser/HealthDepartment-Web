@@ -49,7 +49,7 @@ public class CityLocationController extends HttpServlet {
           String searchWardNo= request.getParameter("searchWardNo");
           String searchArea= request.getParameter("searchArea");
           String searchAreaNo= request.getParameter("searchAreaNo");
-           if(searchCityName==null)
+           if(searchCityName==null)    
             searchCityName="";
            if(searchCityNo==null)
             searchCityNo="";
@@ -61,6 +61,8 @@ public class CityLocationController extends HttpServlet {
             searchCityNo="";
           if(searchWardNo==null)
             searchWardNo="";
+          if(searchWardType==null)
+            searchWardType="";
           if(searchAreaNo==null)
             searchAreaNo="";
          if(searchArea==null)
