@@ -38,8 +38,8 @@ public class OrganisationNameModel {
     private String msgBgColor;
     private final String COLOR_OK = "lightyellow";
     private final String COLOR_ERROR = "red";
-//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
   public void setConnection(Connection con) {
         try {
@@ -64,7 +64,7 @@ public class OrganisationNameModel {
 
     public int getNoOfRows(String organisation_name) {
         int noOfRows = 0;
-        //organisation_name = krutiToUnicode.convert_to_unicode(organisation_name);
+        organisation_name = krutiToUnicode.convert_to_unicode(organisation_name);
         try {
             String query = " select  COUNT(*) from organisation_name  where  organisation_name like ?  ";
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -80,7 +80,7 @@ public class OrganisationNameModel {
 
     public List<OrganisationName> showData(int lowerLimit, int noOfRowsToDisplay, String org_name) {
         List<OrganisationName> list = new ArrayList<OrganisationName>();
-       // org_name = krutiToUnicode.convert_to_unicode(org_name);
+        org_name = krutiToUnicode.convert_to_unicode(org_name);
         String query;
         PreparedStatement pstmt = null;
         // Use DESC or ASC for descending or ascending order respectively of fetched data.
@@ -99,8 +99,8 @@ public class OrganisationNameModel {
             while (rset.next()) {
                 OrganisationName orgName = new OrganisationName();
                 orgName.setOrganisation_id(rset.getInt("organisation_id"));
-                orgName.setOrganisation_name(rset.getString("organisation_name"));
-                orgName.setDescription(rset.getString("description"));
+                orgName.setOrganisation_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("organisation_name")));
+                orgName.setDescription(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("description")));
                 list.add(orgName);
             }
         } catch (Exception e) {
@@ -114,8 +114,8 @@ public class OrganisationNameModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, organisation_name.getOrganisation_name());
-            pstmt.setString(2, organisation_name.getDescription());
+            pstmt.setString(1, krutiToUnicode.convert_to_unicode(organisation_name.getOrganisation_name()));
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(organisation_name.getDescription()));
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("OrganisationNameModel insertRecord() Error: " + e);
@@ -135,8 +135,8 @@ public class OrganisationNameModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, organisation_name.getOrganisation_name());
-            pstmt.setString(2, organisation_name.getDescription());
+            pstmt.setString(1, krutiToUnicode.convert_to_unicode(organisation_name.getOrganisation_name()));
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(organisation_name.getDescription()));
             pstmt.setInt(3, organisation_name.getOrganisation_id());
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
@@ -178,7 +178,7 @@ public class OrganisationNameModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String orgTypeName = rset.getString("organisation_name");
+                String orgTypeName = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("organisation_name"));
                 if (orgTypeName.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(orgTypeName);
                     count++;

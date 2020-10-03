@@ -35,11 +35,12 @@ public class TypeOfOccupationModel {
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
 
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
  public static int  getNoOfRows(String searchtypeofoccupation)
- {  searchtypeofoccupation = krutiToUnicode.convert_to_unicode(searchtypeofoccupation);
+ { 
+     //searchtypeofoccupation = krutiToUnicode.convert_to_unicode(searchtypeofoccupation);
         int noOfRows = 0;
         try {
         String query="SELECT count(*) from type_of_occupation where "
@@ -58,7 +59,7 @@ public class TypeOfOccupationModel {
  
   public static List<TypeOfOccupation> showData(int lowerLimit,int noOfRowsToDisplay,String searchtypeofoccupation)
   {
-        searchtypeofoccupation = krutiToUnicode.convert_to_unicode(searchtypeofoccupation);
+      // searchtypeofoccupation = krutiToUnicode.convert_to_unicode(searchtypeofoccupation);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -86,7 +87,7 @@ public class TypeOfOccupationModel {
     }
     public static List<TypeOfOccupation> showAll(int lowerLimit,int noOfRowsToDisplay,String searchtypeofoccupation)
   {
-        searchtypeofoccupation = krutiToUnicode.convert_to_unicode(searchtypeofoccupation);
+        //searchtypeofoccupation = krutiToUnicode.convert_to_unicode(searchtypeofoccupation);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -100,8 +101,8 @@ public class TypeOfOccupationModel {
               ResultSet rs =ps.executeQuery();
              while(rs.next()){
              TypeOfOccupation to=new TypeOfOccupation();
-             to.setName(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("name")));
-             to.setDescription(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("Description")));
+             to.setName(rs.getString("name"));
+             to.setDescription(rs.getString("Description"));
               list.add(to);
           }
           }
@@ -117,8 +118,8 @@ boolean status=false;
 int rowsAffected=0;
         try{
          PreparedStatement ps=(PreparedStatement) connection.prepareStatement("insert into type_of_occupation (name,Description) values(?,?)");
-        ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getName()));
-        ps.setString(2,krutiToUnicode.convert_to_unicode(bean.getDescription()));
+        ps.setString(1,bean.getName());
+        ps.setString(2,bean.getDescription());
 
          rowsAffected = ps.executeUpdate();
         if(rowsAffected > 0)
@@ -169,7 +170,7 @@ return status;
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("name"));
+                String name = rset.getString("name");
                 if (name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(name);
                     count++;

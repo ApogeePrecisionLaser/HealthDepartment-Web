@@ -34,12 +34,12 @@ public class TripPointModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public String Showtime(String week_days,String route_name) {
         String start_time = "";
-          route_name = krutiToUnicode.convert_to_unicode(route_name);
+      //    route_name = krutiToUnicode.convert_to_unicode(route_name);
         String query = "select start_time, t.trip_id from trip t,route_name rm, "
                 + " route r,week_days w  where r.route_id=t.route_id  "
                 + " and t.week_days_id=w.week_days_id and rm.route_name_id=r.route_name_id "
@@ -62,7 +62,7 @@ public class TripPointModel {
 
     public String Showweek(String route) {
         String day = "";
-        route = krutiToUnicode.convert_to_unicode(route);
+        //route = krutiToUnicode.convert_to_unicode(route);
         String query = "select day from trip t,route r,week_days w, route_name rn  where r.route_id=t.route_id "
                 + " and t.week_days_id=w.week_days_id and rn.route_name_id=r.route_name_id "
                 + " and(rn.route_name='" + route + "') GROUP BY day ";
@@ -92,7 +92,7 @@ public class TripPointModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String route_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("route_name"));
+                String route_name =rset.getString("route_name");
                 if (route_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(route_name);
                     count++;
@@ -126,7 +126,7 @@ public class TripPointModel {
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
             if (rset.next()) {    // move cursor from BOR to valid record.
-                String stopage_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("point_name"));
+                String stopage_name = rset.getString("point_name");
                 list.add(stopage_name);
             } else {
                 list.add("");
@@ -187,7 +187,7 @@ public class TripPointModel {
     }
 
     public int getNoOfRows(String searchRoute, String searchDay, String searchTime) {
-        searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
+        //searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
         int noOfRows = 0;
         try {
             String query = "select count(*) "
@@ -212,7 +212,7 @@ public class TripPointModel {
     }
 
     public List<TripPointBean> showData(int lowerLimit, int noOfRowsToDisplay, String searchRoute, String searchDay, String searchTime) {
-        searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
+      //  searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
         List list = new ArrayList();
         String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
         if (lowerLimit == -1) {
@@ -241,10 +241,10 @@ public class TripPointModel {
                 //sb.setLocation_code(rs.getString("location_code"));
                 sb.setWeek_days(rs.getString("day"));
                 if (lowerLimit == -1) {
-                    sb.setRoute_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("route_name")));
-                    sb.setTrip_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("trip_name")));
+                    sb.setRoute_name(rs.getString("route_name"));
+                    sb.setTrip_name(rs.getString("trip_name"));
                     // sb.setLocation(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("location")));
-                    sb.setStopage_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("point_name")));
+                    sb.setStopage_name(rs.getString("point_name"));
                 } else {
                     sb.setRoute_name(rs.getString("route_name"));
                     sb.setTrip_name(rs.getString("trip_name"));
@@ -266,8 +266,8 @@ public class TripPointModel {
     }
 
     public int updateRecord(TripPointBean bean) {
-        String stopage_name = krutiToUnicode.convert_to_unicode(bean.getStopage_name());
-        String route_name = krutiToUnicode.convert_to_unicode(bean.getRoute_name());
+        String stopage_name = bean.getStopage_name();
+        String route_name =bean.getRoute_name();
         String query = " UPDATE trip_stopage_map SET trip_id=" + bean.getStart_time() + ", "
                 //                + "(select trip_id from trip t,week_days w,route r,route_name rn "
                 //                + " where t.week_days_id=w.week_days_id "
@@ -312,7 +312,7 @@ public class TripPointModel {
         int rowsAffected = 0;
         try {
             // String stopage_name = krutiToUnicode.convert_to_unicode(bean.getStopage_name());
-            String route_name = krutiToUnicode.convert_to_unicode(bean.getRoute_name());
+            String route_name = bean.getRoute_name();
 
             String stopage_name = bean.getStopage_name();
             // String route_name = bean.getRoute_name();

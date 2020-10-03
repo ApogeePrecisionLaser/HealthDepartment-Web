@@ -34,8 +34,8 @@ private static Connection connection;
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-        public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//        public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
  public static int  getNoOfRows(String search_vehicle_code,String search_trip_name)
  {
       //vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
@@ -293,7 +293,7 @@ public static List<String> getSearchVehicleCode(String q)    {
                     int count = 0;
                     q = q.trim();
                     while (rset.next()) {
-                     String vehicle_code = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("vehicle_code"));
+                     String vehicle_code = rset.getString("vehicle_code");
                        if(vehicle_code.toUpperCase().startsWith(q.toUpperCase())){
                      list.add(vehicle_code);
                      count++;

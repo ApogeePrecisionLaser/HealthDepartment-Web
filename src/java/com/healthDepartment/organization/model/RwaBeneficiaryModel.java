@@ -24,9 +24,9 @@ public class RwaBeneficiaryModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
-    
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    
  public static int  getNoOfRows()
  {
         int noOfRows = 0;
@@ -58,8 +58,8 @@ public class RwaBeneficiaryModel {
              while(rs.next()){
              RwaBeneficiaryBean r=new RwaBeneficiaryBean();
              r.setRwa_beneficiary_mapping_id(rs.getInt("rwa_beneficiary_mapping_id"));
-             r.setRwa_name(krutiToUnicode.convert_to_unicode(rs.getString("rwa_name")));
-             r.setB_name(krutiToUnicode.convert_to_unicode(rs.getString("key_person_name")));
+             r.setRwa_name(rs.getString("rwa_name"));
+             r.setB_name(rs.getString("key_person_name"));
              r.setEmp_code(rs.getInt("emp_code"));
 
               list.add(r);
@@ -139,7 +139,7 @@ return status;
 public static int getRwa_id(String rwa_name) {
         int rwa_id = 0;
         try {
-            String  name=krutiToUnicode.convert_to_unicode(rwa_name);
+            String  name=rwa_name;
             String query = "select rwa_id from rwa"
                     +" where rwa_name='"+name+"' ";
             ResultSet rset =connection.prepareStatement(query).executeQuery();
@@ -177,7 +177,7 @@ public static int getRwa_id(String rwa_name) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String rwa_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("rwa_name"));
+                String rwa_name = rset.getString("rwa_name");
                 if (rwa_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(rwa_name);
                     count++;
@@ -201,7 +201,7 @@ public static int getRwa_id(String rwa_name) {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                String key_person_name = rset.getString("key_person_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -217,7 +217,7 @@ public static int getRwa_id(String rwa_name) {
     }
    public List<String> getEmp_code(String q,String person_name)
             {
-           person_name=krutiToUnicode.convert_to_unicode(person_name);
+          // person_name=krutiToUnicode.convert_to_unicode(person_name);
         List<String> list = new ArrayList<String>();
         String query = " select emp_code from key_person as kp where  "
                  +  "  IF('" + person_name + "'='', key_person_name like '%%', key_person_name ='" + person_name + "') " ;

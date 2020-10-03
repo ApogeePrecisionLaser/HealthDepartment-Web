@@ -32,11 +32,11 @@ public class VehicleWeightModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-        public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//        public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
  public static int  getNoOfRows(String search_vehicle_code,String search_vehicle_number)
  {
-      search_vehicle_code = krutiToUnicode.convert_to_unicode(search_vehicle_code);
+    //  search_vehicle_code = krutiToUnicode.convert_to_unicode(search_vehicle_code);
       //search_taken_by = krutiToUnicode.convert_to_unicode(search_taken_by);
         int noOfRows = 0;
         try {
@@ -65,7 +65,7 @@ public class VehicleWeightModel {
  public static List<VehicleWeight> showData(int lowerLimit,int noOfRowsToDisplay,String search_vehicle_code,String search_vehicle_number)
   {
         //vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
-     search_vehicle_code = krutiToUnicode.convert_to_unicode(search_vehicle_code);
+    // search_vehicle_code = krutiToUnicode.convert_to_unicode(search_vehicle_code);
      // search_taken_by = krutiToUnicode.convert_to_unicode(search_taken_by);
        List list = new ArrayList();
 

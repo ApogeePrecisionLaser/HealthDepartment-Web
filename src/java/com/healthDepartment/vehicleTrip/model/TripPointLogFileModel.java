@@ -34,8 +34,8 @@ private Connection connection;
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public String Showtime(String week_days) {
         String start_time = "";
@@ -59,7 +59,7 @@ private Connection connection;
 
     public String Showweek(String route) {
         String day = "";
-        route = krutiToUnicode.convert_to_unicode(route);
+      //  route = krutiToUnicode.convert_to_unicode(route);
         String query = "select day from trip t,route r,week_days w, route_name rn  where r.route_id=t.route_id "
                 + " and t.week_days_id=w.week_days_id and rn.route_name_id=r.route_name_id "
                 + " and(rn.route_name='" + route + "') GROUP BY day ";
@@ -85,7 +85,7 @@ private Connection connection;
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String route_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("route_name"));
+                String route_name =rset.getString("route_name");
                 if (route_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(route_name);
                     count++;
@@ -151,7 +151,7 @@ private Connection connection;
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
             if (rset.next()) {    // move cursor from BOR to valid record.
-                String stopage_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("stopage_name"));
+                String stopage_name = rset.getString("stopage_name");
                 list.add(stopage_name);
             } else {
                 list.add("");
@@ -212,7 +212,7 @@ private Connection connection;
     }
 
     public int getNoOfRows(String searchRoute, String searchDay, String searchTime, String date) {
-        searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
+      //  searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
         if (date != null && !date.isEmpty()) {
             String[] sdate_array = date.split("-");
             date = sdate_array[2] + "-" + sdate_array[1] + "-" + sdate_array[0];
@@ -242,7 +242,7 @@ private Connection connection;
     }
 
     public List<TripPointLogFileBean> showData(int lowerLimit, int noOfRowsToDisplay, String searchRoute, String searchDay, String searchTime, String date) {
-        searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
+       // searchRoute = krutiToUnicode.convert_to_unicode(searchRoute);
         if (date != null && !date.isEmpty()) {
             String[] sdate_array = date.split("-");
             date = sdate_array[2] + "-" + sdate_array[1] + "-" + sdate_array[0];
@@ -288,7 +288,7 @@ private Connection connection;
 
 
                 if (lowerLimit == -1) {
-                    sb.setRoute_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("route_name")));
+                    sb.setRoute_name(rs.getString("route_name"));
                     //sb.setTrip_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("trip_name")));
                 } else {
                     sb.setRoute_name(rs.getString("route_name"));
@@ -312,8 +312,8 @@ private Connection connection;
     }
 
     public int updateRecord(TripPointLogFileBean bean) {
-        String stopage_name = krutiToUnicode.convert_to_unicode(bean.getStopage_name());
-        String route_name = krutiToUnicode.convert_to_unicode(bean.getRoute_name());
+        String stopage_name = bean.getStopage_name();
+        String route_name =bean.getRoute_name();
         String query = " UPDATE trip_stopage_map SET trip_id=" + bean.getStart_time() + ", "
                 //                + "(select trip_id from trip t,week_days w,route r,route_name rn "
                 //                + " where t.week_days_id=w.week_days_id "
@@ -357,8 +357,8 @@ private Connection connection;
         boolean status = false;
         int rowsAffected = 0;
         try {
-            String stopage_name = krutiToUnicode.convert_to_unicode(bean.getStopage_name());
-            String route_name = krutiToUnicode.convert_to_unicode(bean.getRoute_name());
+            String stopage_name = bean.getStopage_name();
+            String route_name = bean.getRoute_name();
 //            String query = "insert into trip_stopage_map (trip_id,stopage_id,order_no,arrival_time,depature_time) "
 //                    + " VALUES((select trip_id from trip t,week_days w,route r,route_name rn "
 //                    + " WHERE t.week_days_id=w.week_days_id "

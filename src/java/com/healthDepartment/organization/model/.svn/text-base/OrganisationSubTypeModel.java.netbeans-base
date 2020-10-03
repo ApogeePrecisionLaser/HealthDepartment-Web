@@ -31,8 +31,8 @@ public class OrganisationSubTypeModel {
     private String msgBgColor;
     private final String COLOR_OK = "lightyellow";
     private final String COLOR_ERROR = "red";
-//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
   public void setConnection(Connection con) {
         try {
@@ -44,8 +44,8 @@ public class OrganisationSubTypeModel {
     }
     public int getNoOfRows(String searchOrgType, String searchOrgSubType) {
         int noOfRows = 0;
-      //  searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
-      //  searchOrgSubType = krutiToUnicode.convert_to_unicode(searchOrgSubType);
+        searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
+        searchOrgSubType = krutiToUnicode.convert_to_unicode(searchOrgSubType);
         try {
             String query = "select count(*) FROM organisation_sub_type AS ost, organisation_type AS ot "
                     + "WHERE ost.organisation_type_id=ot.organisation_type_id "
@@ -62,8 +62,8 @@ public class OrganisationSubTypeModel {
      public List<OrganisationSubType> showAllData(String searchOrgType, String searchOrgSubType)
     {
           List<OrganisationSubType> list = new ArrayList<OrganisationSubType>();
-       //   searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
-     //   searchOrgSubType = krutiToUnicode.convert_to_unicode(searchOrgSubType);
+          searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
+        searchOrgSubType = krutiToUnicode.convert_to_unicode(searchOrgSubType);
         // Use DESC or ASC for descending or ascending order respectively of fetched data.
         String query = "SELECT ost.organisation_sub_type_id, ost.organisation_sub_type_name, ot.org_type_name "
                 + "FROM organisation_sub_type AS ost, organisation_type AS ot "
@@ -89,8 +89,8 @@ public class OrganisationSubTypeModel {
      }
     public List<OrganisationSubType> showData(int lowerLimit, int noOfRowsToDisplay, String searchOrgType, String searchOrgSubType) {
         List<OrganisationSubType> list = new ArrayList<OrganisationSubType>();
-      //  searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
-      //  searchOrgSubType = krutiToUnicode.convert_to_unicode(searchOrgSubType);
+        searchOrgType = krutiToUnicode.convert_to_unicode(searchOrgType);
+        searchOrgSubType = krutiToUnicode.convert_to_unicode(searchOrgSubType);
         // Use DESC or ASC for descending or ascending order respectively of fetched data.
         String query = "SELECT ost.organisation_sub_type_id, ost.organisation_sub_type_name, ot.org_type_name "
                 + "FROM organisation_sub_type AS ost, organisation_type AS ot "
@@ -104,8 +104,8 @@ public class OrganisationSubTypeModel {
             while (rset.next()) {
                 OrganisationSubType organisationSubType = new OrganisationSubType();
                 organisationSubType.setOrganisation_sub_type_id(rset.getInt("organisation_sub_type_id"));
-                organisationSubType.setOrganisation_sub_type_name(rset.getString("organisation_sub_type_name"));
-                organisationSubType.setOrg_type_name(rset.getString("org_type_name"));
+                organisationSubType.setOrganisation_sub_type_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("organisation_sub_type_name")));
+                organisationSubType.setOrg_type_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("org_type_name")));
                 list.add(organisationSubType);
             }
         } catch (Exception e) {
@@ -120,7 +120,7 @@ public class OrganisationSubTypeModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1,organisationSubType.getOrganisation_sub_type_name());
+            pstmt.setString(1, krutiToUnicode.convert_to_unicode(organisationSubType.getOrganisation_sub_type_name()));
             pstmt.setInt(2, organisationSubType.getOrganisation_type_id());
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
@@ -141,7 +141,7 @@ public class OrganisationSubTypeModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, organisationSubType.getOrganisation_sub_type_name());
+            pstmt.setString(1, krutiToUnicode.convert_to_unicode(organisationSubType.getOrganisation_sub_type_name()));
             pstmt.setInt(2, organisationSubType.getOrganisation_type_id());
             pstmt.setInt(3, organisationSubType.getOrganisation_sub_type_id());
             rowsAffected = pstmt.executeUpdate();
@@ -177,7 +177,7 @@ public class OrganisationSubTypeModel {
     }
 
     public int getOrganisationTypeID(String org_type_name) {
-      //  org_type_name = krutiToUnicode.convert_to_unicode(org_type_name);
+        org_type_name = krutiToUnicode.convert_to_unicode(org_type_name);
         String query = "SELECT organisation_type_id FROM organisation_type WHERE org_type_name = ?";
         int id = 0;
         try {
@@ -200,7 +200,7 @@ public class OrganisationSubTypeModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String org_type_name = rset.getString("org_type_name");
+                String org_type_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("org_type_name"));
                 if (org_type_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(org_type_name);
                     count++;
@@ -223,7 +223,7 @@ public class OrganisationSubTypeModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String org_sub_type_name = rset.getString("organisation_sub_type_name");
+                String org_sub_type_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("organisation_sub_type_name"));
                 if (org_sub_type_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(org_sub_type_name);
                     count++;

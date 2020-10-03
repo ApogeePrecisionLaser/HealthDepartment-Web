@@ -27,9 +27,9 @@ public class RwaModel {
     private static int emp_code;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
-    
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    
 
  public static int  getNoOfRows()
  {
@@ -64,7 +64,7 @@ public class RwaModel {
              while(rs.next()){
              Rwa r=new Rwa();
              r.setRwa_id(rs.getInt("rwa_id"));
-             r.setRwa_name(krutiToUnicode.convert_to_unicode(rs.getString("rwa_name")));
+             r.setRwa_name(rs.getString("rwa_name"));
              String president_name=getKey_Person_Name(rs.getInt("president_id"));
              r.setPresident_name(president_name);
              r.setEmp_code1(emp_code);
@@ -160,7 +160,7 @@ public class RwaModel {
          ps.setNull(6, java.sql.Types.NULL);
          else
          ps.setInt(6, emp_code6);
-         ps.setString(7, krutiToUnicode.convert_to_unicode(bean.getRwa_name()));
+         ps.setString(7,bean.getRwa_name());
          ps.setInt(8, bean.getMonthly_fee());
          ps.setInt(9, bean.getPayment_schedule());
          ps.setString(10, bean.getDescription());
@@ -241,7 +241,7 @@ return status;
          psmt.setNull(7, java.sql.Types.NULL);
          else
          psmt.setInt(7, emp_code6);
-         psmt.setString(8, krutiToUnicode.convert_to_unicode(bean.getRwa_name()));
+         psmt.setString(8, bean.getRwa_name());
          psmt.setInt(9, bean.getMonthly_fee());
          psmt.setInt(10, bean.getPayment_schedule());
          psmt.setString(11, bean.getDescription());
@@ -333,7 +333,7 @@ return status;
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                String key_person_name = rset.getString("key_person_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -349,7 +349,7 @@ return status;
     }
    public List<String> getEmp_code(String q,String person_name)
             {
-           person_name=krutiToUnicode.convert_to_unicode(person_name);
+         //  person_name=krutiToUnicode.convert_to_unicode(person_name);
         List<String> list = new ArrayList<String>();
         String query = " select emp_code from key_person as kp where  "
                  +  "  IF('" + person_name + "'='', key_person_name like '%%', key_person_name ='" + person_name + "') " ;

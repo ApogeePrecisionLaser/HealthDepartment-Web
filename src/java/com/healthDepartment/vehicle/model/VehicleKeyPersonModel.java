@@ -26,12 +26,12 @@ public class VehicleKeyPersonModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public static int getNoOfRows(String vehicleType, String key_person_name) {
-        vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
-        key_person_name = krutiToUnicode.convert_to_unicode(key_person_name);
+       // vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
+      //  key_person_name = krutiToUnicode.convert_to_unicode(key_person_name);
         int noOfRows = 0;
         try {
             String query = " SELECT  count(vehicle_key_person_id) "
@@ -55,8 +55,8 @@ public class VehicleKeyPersonModel {
 
     public static List<VehicleKeyPerson> showData(int lowerLimit, int noOfRowsToDisplay, String vehicleType, String key_person_name) {
         //vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
-        vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
-        key_person_name = krutiToUnicode.convert_to_unicode(key_person_name);
+       // vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
+       // key_person_name = krutiToUnicode.convert_to_unicode(key_person_name);
         List list = new ArrayList();
 
         String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
@@ -84,7 +84,7 @@ public class VehicleKeyPersonModel {
             while (rs.next()) {
                 VehicleKeyPerson vt = new VehicleKeyPerson();
                 vt.setVehicle_key_person_id(rs.getInt("vehicle_key_person_id"));
-                vt.setKey_person_name(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("key_person_name")));
+                vt.setKey_person_name(rs.getString("key_person_name"));
                 vt.setVehicle_code(rs.getInt("vehicle_code"));
                 vt.setDate(rs.getString("date"));
                 vt.setVerify(rs.getString("verify"));
@@ -222,7 +222,7 @@ public class VehicleKeyPersonModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                String key_person_name = rset.getString("key_person_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -247,7 +247,7 @@ public class VehicleKeyPersonModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                String key_person_name =rset.getString("key_person_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -272,7 +272,7 @@ public class VehicleKeyPersonModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String vehicle_code = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("vehicle_code"));
+                String vehicle_code =rset.getString("vehicle_code");
                 if (vehicle_code.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(vehicle_code);
                     count++;
@@ -326,7 +326,7 @@ public class VehicleKeyPersonModel {
     }
 
     public int getKeyPersonId(String key_person) {
-        key_person = krutiToUnicode.convert_to_unicode(key_person);
+       // key_person = krutiToUnicode.convert_to_unicode(key_person);
 
         int key_person_id = 0;
         String query = "select shift_key_person_map_id  from key_person kp,shift_key_person_map skpm"

@@ -24,15 +24,15 @@ private static Connection connection;
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
 
 
  public static int  getNoOfRows(String vehicleType,String vehicleSubType)
  {
-      // vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
-     //  vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
+       vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
+       vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
         int noOfRows = 0;
         try {
         String query="select count(vehicle_sub_type_id) from vehicle_sub_type as vst,vehicle_type as vt where vst.vehicle_type_id=vt.vehicle_type_id"
@@ -51,8 +51,8 @@ private static Connection connection;
 
  public static List<VehicleSubType> showData(int lowerLimit,int noOfRowsToDisplay,String vehicleType,String vehicleSubType)
   {
-     //  vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
-     //  vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
+       vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
+       vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -67,9 +67,9 @@ private static Connection connection;
              while(rs.next()){
              VehicleSubType vst=new VehicleSubType();
              vst.setVehicle_sub_type_id(rs.getInt("vehicle_sub_type_id"));
-             vst.setVehicle_type(rs.getString("vehicle_name"));
-             vst.setVehicle_sub_type(rs.getString("type_name"));
-             vst.setRemark(rs.getString("remark"));
+             vst.setVehicle_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("vehicle_name")));
+             vst.setVehicle_sub_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("type_name")));
+             vst.setRemark(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("remark")));
               list.add(vst);
           }
           }
@@ -92,8 +92,8 @@ if(vehicle_sub_type_id>0)
  query=" update vehicle_sub_type set type_name=?,remark=?,vehicle_type_id=? where vehicle_sub_type_id=? ";
         try{
          PreparedStatement ps=(PreparedStatement) connection.prepareStatement(query);
-        ps.setString(1,bean.getVehicle_sub_type());
-        ps.setString(2,bean.getRemark());
+        ps.setString(1,krutiToUnicode.convert_to_unicode(bean.getVehicle_sub_type()));
+        ps.setString(2,krutiToUnicode.convert_to_unicode(bean.getRemark()));
         int vehicle_type_id=getvehicle_type_id(bean.getVehicle_type());
            ps.setInt(3,vehicle_type_id);
         if(vehicle_sub_type_id>0)
@@ -143,7 +143,7 @@ return status;
 public static int getvehicle_type_id(String vehicle_type) {
         int vehicle_type_id = 0;
         try {
-             //vehicle_type=krutiToUnicode.convert_to_unicode(vehicle_type);
+             vehicle_type=krutiToUnicode.convert_to_unicode(vehicle_type);
             String query = "select vehicle_type_id from vehicle_type"
                     +" where vehicle_name='"+vehicle_type+"' ";
             ResultSet rset =connection.prepareStatement(query).executeQuery();
@@ -165,7 +165,7 @@ public static List<String> getVehicleType(String q)
                     int count = 0;
                     q = q.trim();
                     while (rset.next()) {
-                     String vehicle_name = rset.getString("vehicle_name");
+                     String vehicle_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("vehicle_name"));
                        if(vehicle_name.toUpperCase().startsWith(q.toUpperCase())){
                      list.add(vehicle_name);
                      count++;
@@ -189,7 +189,7 @@ public static List<String> getVehicleSubType(String q)
                     int count = 0;
                     q = q.trim();
                     while (rset.next()) {
-                     String type_name = rset.getString("type_name");
+                     String type_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("type_name"));
                        if(type_name.toUpperCase().startsWith(q.toUpperCase())){
                      list.add(type_name);
                      count++;

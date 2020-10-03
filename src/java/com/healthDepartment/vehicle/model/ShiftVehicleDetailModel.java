@@ -32,12 +32,12 @@ public class ShiftVehicleDetailModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public int getNoOfRows(String search_given_by, String search_taken_by, String searchdate) {
-        search_given_by = krutiToUnicode.convert_to_unicode(search_given_by);
-        search_taken_by = krutiToUnicode.convert_to_unicode(search_taken_by);
+      //  search_given_by = krutiToUnicode.convert_to_unicode(search_given_by);
+      //  search_taken_by = krutiToUnicode.convert_to_unicode(search_taken_by);
         if (!searchdate.isEmpty()) {
             try {
                 searchdate = new GeneralModel().convertToSqlDate(searchdate).toString();
@@ -81,8 +81,8 @@ public class ShiftVehicleDetailModel {
 
     public List<ShiftVehicleDetail> showData(int lowerLimit, int noOfRowsToDisplay, String search_given_by, String search_taken_by, String searchdate) {
         //vehicleType = krutiToUnicode.convert_to_unicode(vehicleType);
-        search_given_by = krutiToUnicode.convert_to_unicode(search_given_by);
-        search_taken_by = krutiToUnicode.convert_to_unicode(search_taken_by);
+     //   search_given_by = krutiToUnicode.convert_to_unicode(search_given_by);
+     //   search_taken_by = krutiToUnicode.convert_to_unicode(search_taken_by);
         List list = new ArrayList();
         if (!searchdate.isEmpty()) {
             try {
@@ -305,7 +305,7 @@ public class ShiftVehicleDetailModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {
-                String key_person_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("key_person_name"));
+                String key_person_name = rset.getString("key_person_name");
                 if (key_person_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(key_person_name);
                     count++;
@@ -530,7 +530,7 @@ public class ShiftVehicleDetailModel {
     }
 
     public int getKeyPersonId(String key_person) {
-        key_person = krutiToUnicode.convert_to_unicode(key_person);
+       // key_person = krutiToUnicode.convert_to_unicode(key_person);
 
         int shift_key_person_map_id = 0;
         String query = "select shift_key_person_map_id from key_person kp,shift_key_person_map skp "

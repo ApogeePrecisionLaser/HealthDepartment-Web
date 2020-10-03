@@ -35,8 +35,8 @@ public class DesignationModel {
     private String msgBgColor;
     private final String COLOR_OK = "lightyellow";
     private final String COLOR_ERROR = "red";
-//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
      public void setConnection(Connection con) {
         try {
@@ -48,7 +48,7 @@ public class DesignationModel {
 
     public int getNoOfRows(String searchDesignation,String searchDesignationCode) {
         int noOfRows = 0;
-        //searchDesignation = krutiToUnicode.convert_to_unicode(searchDesignation);
+        searchDesignation = krutiToUnicode.convert_to_unicode(searchDesignation);
         try {
             String query = "select count(*) from designation "
                     + "WHERE if('" + searchDesignation + "' = '', designation like '%%',  designation = '" + searchDesignation + "')"
@@ -92,7 +92,7 @@ public class DesignationModel {
        }
     public List<Designation> showData(int lowerLimit, int noOfRowsToDisplay, String searchDesignation,String  searchDesignationCode) {
         List<Designation> list = new ArrayList<Designation>();
-       // searchDesignation = krutiToUnicode.convert_to_unicode(searchDesignation);
+        searchDesignation = krutiToUnicode.convert_to_unicode(searchDesignation);
         // Use DESC or ASC for descending or ascending order respectively of fetched data.
         String query = "SELECT * FROM designation "
                 + "WHERE if('" + searchDesignation + "' = '', designation like '%%', designation = '" + searchDesignation + "')"
@@ -108,8 +108,8 @@ public class DesignationModel {
             while (rset.next()) {
                 Designation media = new Designation();
                 media.setDesignation_id(rset.getInt("designation_id"));
-                media.setDesignation(rset.getString("designation"));
-                media.setDescription(rset.getString("description"));
+                media.setDesignation(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("designation")));
+                media.setDescription(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("description")));
                 media.setDesignation_code(rset.getString("designation_code"));
                 list.add(media);
             }
@@ -124,8 +124,8 @@ public class DesignationModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, designation.getDesignation());
-            pstmt.setString(2, designation.getDescription());
+            pstmt.setString(1, krutiToUnicode.convert_to_unicode(designation.getDesignation()));
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(designation.getDescription()));
             pstmt.setString(3, designation.getDesignation_code());
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
@@ -146,8 +146,8 @@ public class DesignationModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, designation.getDesignation());
-            pstmt.setString(2, designation.getDescription());
+            pstmt.setString(1, krutiToUnicode.convert_to_unicode(designation.getDesignation()));
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(designation.getDescription()));
             pstmt.setString(3,designation.getDesignation_code());
             pstmt.setInt(4, designation.getDesignation_id());
             rowsAffected = pstmt.executeUpdate();
@@ -191,7 +191,7 @@ public class DesignationModel {
             PreparedStatement pstmt = connection.prepareStatement(query);
             ResultSet rset = pstmt.executeQuery();
             while (rset.next()) {
-                String designation = rset.getString("designation");
+                String designation = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("designation"));
                 if (designation.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(designation);
                     count++;

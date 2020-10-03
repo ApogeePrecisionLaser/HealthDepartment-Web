@@ -35,8 +35,8 @@ private Connection connection;
     private String msgBgColor;
     private final String COLOR_OK = "lightyellow";
     private final String COLOR_ERROR = "red";
-    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public void setConnection(Connection con) {
         try {
@@ -49,7 +49,7 @@ private Connection connection;
 
     public int getNoOfRows(String searchRouteName, String searchStopageName) {
         int noOfRows = 0;
-        searchRouteName = krutiToUnicode.convert_to_unicode(searchRouteName);
+       // searchRouteName = krutiToUnicode.convert_to_unicode(searchRouteName);
        // searchStopageName = krutiToUnicode.convert_to_unicode(searchStopageName);
         try {
 
@@ -85,7 +85,7 @@ private Connection connection;
 
     public List<RouteBean> showData(int lowerLimit, int noOfRowsToDisplay, String searchRouteName, String searchStopageName) {
         List<RouteBean> list = new ArrayList<RouteBean>();
-        searchRouteName = krutiToUnicode.convert_to_unicode(searchRouteName);
+      //  searchRouteName = krutiToUnicode.convert_to_unicode(searchRouteName);
         //searchStopageName = krutiToUnicode.convert_to_unicode(searchStopageName);
         String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
         if (lowerLimit == -1 && noOfRowsToDisplay == -1) {
@@ -107,8 +107,8 @@ private Connection connection;
                 RouteBean routeBean = new RouteBean();
                 routeBean.setRoute_id(rset.getInt("route_id"));
                 if (lowerLimit == -1 && noOfRowsToDisplay == -1) {
-                    routeBean.setRoute_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("route_name")));
-                    routeBean.setStopage_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("point_name")));
+                    routeBean.setRoute_name(rset.getString("route_name"));
+                    routeBean.setStopage_name(rset.getString("point_name"));
                 } else {
                     routeBean.setRoute_name(rset.getString("route_name"));
                     routeBean.setStopage_name(rset.getString("point_name"));
@@ -124,7 +124,7 @@ private Connection connection;
 
     public int getRouteNameId(String route_name) {
         int route_name_id = 0;
-        route_name = krutiToUnicode.convert_to_unicode(route_name);
+        //route_name = krutiToUnicode.convert_to_unicode(route_name);
         String query = "SELECT route_name_id FROM route_name WHERE route_name = ? ";
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);

@@ -5,6 +5,7 @@
 package com.healthDepartment.organization.model;
 
 import com.healthDepartment.organization.tableClasses.OrgOfficeType;
+import com.healthDepartment.shift.tableClasses.ShiftTimeBean;
 import com.healthDepartment.util.KrutiDevToUnicodeConverter;
 import com.healthDepartment.util.UnicodeToKrutiDevConverter;
 import java.io.ByteArrayOutputStream;
@@ -27,7 +28,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
  *
  * @author Tarun
  */
-public class OrgOfficeTypeModel {
+public class BeneficiaryShiftSearchModel {
 
     private Connection connection;
    
@@ -35,8 +36,8 @@ public class OrgOfficeTypeModel {
     private String msgBgColor;
     private final String COLOR_OK = "lightyellow";
     private final String COLOR_ERROR = "red";
-//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
    public void setConnection(Connection con) {
         try {
@@ -51,7 +52,7 @@ public class OrgOfficeTypeModel {
         int noOfRows = 0;
         
         try {
-         //   searchOrgOfficeType = krutiToUnicode.convert_to_unicode(searchOrgOfficeType);
+            searchOrgOfficeType = krutiToUnicode.convert_to_unicode(searchOrgOfficeType);
             String query = " SELECT COUNT(*) FROM org_office_type "
                     + " WHERE IF('" + searchOrgOfficeType + "'='' ,office_type LIKE '%%',office_type = ?) ";
             PreparedStatement pst = connection.prepareStatement(query);
@@ -70,7 +71,7 @@ public class OrgOfficeTypeModel {
               String query = " SELECT office_type_id, office_type,  description FROM org_office_type "
                 + " WHERE IF('" + searchOrgOfficeType + "'='' ,office_type LIKE '%%',office_type = ?)  ";
                try {
-                 //  searchOrgOfficeType = krutiToUnicode.convert_to_unicode(searchOrgOfficeType);
+                   searchOrgOfficeType = krutiToUnicode.convert_to_unicode(searchOrgOfficeType);
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, searchOrgOfficeType);
             ResultSet rset = pstmt.executeQuery();
@@ -86,24 +87,36 @@ public class OrgOfficeTypeModel {
         }
         return list;
      }
-    public List<OrgOfficeType> showData(int lowerLimit, int noOfRowsToDisplay, String searchOrgOfficeType) {
-        List<OrgOfficeType> list = new ArrayList<OrgOfficeType>();
+    public List<ShiftTimeBean> showData(int lowerLimit, int noOfRowsToDisplay, String beneficiaryMobileNo) {
+        List<ShiftTimeBean> list = new ArrayList<ShiftTimeBean>();
         
         // Use DESC or ASC for descending or ascending order respectively of fetched data.
-        String query = " SELECT office_type_id, office_type,  description FROM org_office_type "
-                + " WHERE IF('" + searchOrgOfficeType + "'='' ,office_type LIKE '%%',office_type = ?)  "
-                + " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
-        try {
-           // searchOrgOfficeType = krutiToUnicode.convert_to_unicode(searchOrgOfficeType);
-            PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, searchOrgOfficeType);
+//        String query = " SELECT office_type_id, office_type,  description FROM org_office_type "
+//                + " WHERE IF('" + searchOrgOfficeType + "'='' ,office_type LIKE '%%',office_type = ?)  "
+//                + " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
+        String query = " SELECT sk.shift_key_person_map_id, kp.key_person_name AS person_name, sk.date,  kp1.key_person_name AS emp_name, "
+                + " kp1.emp_code, st.starting_time, st.ending_time, cl.location, a.area_name, kp1.mobile_no1 "
+                + " FROM key_person kp, beneficiary b, city_location cl, Area a, designation_location_type d, "
+                + " shift_designation_location_map s, shift_key_person_map sk, key_person kp1, shift_type st "
+                + " WHERE st.shift_type_id = s.shift_type_id AND kp1.key_person_id=sk.key_person_id AND sk.map_id1=s.map_id1 "
+                + " AND sk.map_id2=s.map_id2 AND s.designation_location_type_id = d.designation_location_type_id "
+                + " AND  d.area_id=a.area_id AND a.area_id = cl.area_id AND cl.city_location_id = b.city_location_id "
+                + " AND kp.key_person_id=b.key_person_id AND sk.date = current_date() AND kp.mobile_no1='"+ beneficiaryMobileNo +"'";
+        try {            
+            PreparedStatement pstmt = connection.prepareStatement(query);            
             ResultSet rset = pstmt.executeQuery();
             while (rset.next()) {
-                OrgOfficeType orgOfficeType = new OrgOfficeType();
-                orgOfficeType.setOffice_type_id(rset.getInt("office_type_id"));
-                orgOfficeType.setOffice_type(rset.getString("office_type"));
-                orgOfficeType.setDescription(rset.getString("description"));
-                list.add(orgOfficeType);
+                ShiftTimeBean bean = new ShiftTimeBean();
+                bean.setEmp_code(rset.getInt("emp_code"));
+                bean.setPerson_name(rset.getString("person_name"));
+                bean.setName(rset.getString("emp_name"));
+                bean.setMobile_no(rset.getString("mobile_no1"));
+                bean.setArea(rset.getString("area_name"));
+                bean.setLocation(rset.getString("location"));
+                bean.setDate(rset.getString("date"));
+                bean.setStart_time(rset.getString("starting_time"));
+                bean.setEnd_time(rset.getString("ending_time"));
+                list.add(bean);
             }
         } catch (Exception e) {
             System.out.println("OrgOfficeTypeModel showData() Error: " + e);
@@ -116,8 +129,8 @@ public class OrgOfficeTypeModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, org_office_type.getOffice_type());
-            pstmt.setString(2, org_office_type.getDescription());
+            pstmt.setString(1, krutiToUnicode.convert_to_unicode(org_office_type.getOffice_type()));
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(org_office_type.getDescription()));
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("OrgOfficeTypeModel insertRecord() Error: " + e);
@@ -137,8 +150,8 @@ public class OrgOfficeTypeModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, org_office_type.getOffice_type());
-            pstmt.setString(2,org_office_type.getDescription());
+            pstmt.setString(1, krutiToUnicode.convert_to_unicode(org_office_type.getOffice_type()));
+            pstmt.setString(2, krutiToUnicode.convert_to_unicode(org_office_type.getDescription()));
             pstmt.setInt(3, org_office_type.getOffice_type_id());
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
@@ -180,7 +193,7 @@ public class OrgOfficeTypeModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String office_type = rset.getString("office_type");
+                String office_type = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("office_type"));
                 if (office_type.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(office_type);
                     count++;

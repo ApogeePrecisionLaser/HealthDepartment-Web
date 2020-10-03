@@ -34,12 +34,12 @@ public class RouteNameModel {
     private String msgBgColor;
     private final String COLOR_OK = "lightyellow";
     private final String COLOR_ERROR = "red";
-    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
     public List<RouteName> showData(int lowerLimit, int noOfRowsToDisplay, String search_route_name, String search_route_no) {
         List<RouteName> list = new ArrayList<RouteName>();
-        search_route_name = krutiToUnicode.convert_to_unicode(search_route_name);
+       // search_route_name = krutiToUnicode.convert_to_unicode(search_route_name);
         String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
         if (lowerLimit == -1 && noOfRowsToDisplay == -1) {
             addQuery = "";
@@ -63,7 +63,7 @@ public class RouteNameModel {
                 RouteName rn = new RouteName();
                 rn.setRoute_name_id(rset.getInt("route_name_id"));
                 if (lowerLimit == -1 && noOfRowsToDisplay == -1) {
-                    rn.setRoute_name(unicodeToKruti.Convert_to_Kritidev_010(rset.getString("route_name")));
+                    rn.setRoute_name(rset.getString("route_name"));
                 } else {
                     rn.setRoute_name(rset.getString("route_name"));
                 }
@@ -79,7 +79,7 @@ public class RouteNameModel {
     }
 
     public int getNoOfRows( String search_route_name, String search_route_no) {
-        search_route_name = krutiToUnicode.convert_to_unicode(search_route_name);
+       // search_route_name = krutiToUnicode.convert_to_unicode(search_route_name);
         int noOfRows = 0;
         try {
 //            String query = " Select count(route_name_id) from route_name r,route_type rt where r.route_type_id=rt.route_type_id "
@@ -114,7 +114,7 @@ public class RouteNameModel {
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             //pstmt.setInt(1, getRouteTypeId(rn.getRoute_type()));
-            pstmt.setString(1, krutiToUnicode.convert_to_unicode(rn.getRoute_name()));
+            pstmt.setString(1,rn.getRoute_name());
             pstmt.setString(2, rn.getRoute_no());
             pstmt.setString(3, rn.getRemark());
             if (rn.getRoute_name_id() > 0) {
@@ -179,7 +179,7 @@ public class RouteNameModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String route_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("route_name"));
+                String route_name = rset.getString("route_name");
                 if (route_name.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(route_name);
                     count++;

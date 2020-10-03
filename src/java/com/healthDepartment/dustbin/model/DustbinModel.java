@@ -24,18 +24,18 @@ public class DustbinModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
-
-
-
+//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//
+//
+//
 
 
 
  public static int  getNoOfRows(String dustbinType,String cityLocation)
  {
-         dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
-       cityLocation = krutiToUnicode.convert_to_unicode(cityLocation);
+      //   dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
+     //  cityLocation = krutiToUnicode.convert_to_unicode(cityLocation);
         int noOfRows = 0;
         try {
         String query="select count(dustbin_id) from dustbin_type as dt,city_location as cl,dustbin as d "
@@ -54,8 +54,8 @@ public class DustbinModel {
     }
  public static int  getNoOfRowsLevel(String dustbinType,String cityLocation)
  {
-      dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
-       cityLocation = krutiToUnicode.convert_to_unicode(cityLocation);
+     // dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
+     //  cityLocation = krutiToUnicode.convert_to_unicode(cityLocation);
         int noOfRows = 0;
         try {
         String query="select count(l.level_id) from dustbin_type as dt,dustbin as d,level as l,city_location as cl "
@@ -75,8 +75,8 @@ public class DustbinModel {
 
  public static List<Dustbin> showData(int lowerLimit,int noOfRowsToDisplay,String dustbinType,String cityLocation)
   {
-      dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
-       cityLocation = krutiToUnicode.convert_to_unicode(cityLocation);
+   //   dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
+    //   cityLocation = krutiToUnicode.convert_to_unicode(cityLocation);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -92,12 +92,12 @@ public class DustbinModel {
              while(rs.next()){
              Dustbin vt=new Dustbin();
              vt.setDustbin_id(rs.getInt("dustbin_id"));
-             vt.setDustbin_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("type_name")));
+             vt.setDustbin_type(rs.getString("type_name"));
              vt.setDustbin_no(rs.getInt("dustbin_no"));
              vt.setLatitude(rs.getDouble("latitude"));
              vt.setLongitude(rs.getDouble("longitude"));
-             vt.setCity_location(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("location")));
-             vt.setRemark(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("remark")));
+             vt.setCity_location(rs.getString("location"));
+             vt.setRemark(rs.getString("remark"));
               list.add(vt);
           }
           }
@@ -109,8 +109,8 @@ public class DustbinModel {
     }
  public static List<Dustbin> showDataLevel(int lowerLimit,int noOfRowsToDisplay,String dustbinType,String cityLocation)
   {
-      dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
-       cityLocation = krutiToUnicode.convert_to_unicode(cityLocation);
+     // dustbinType = krutiToUnicode.convert_to_unicode(dustbinType);
+      // cityLocation = krutiToUnicode.convert_to_unicode(cityLocation);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -126,7 +126,7 @@ public class DustbinModel {
              while(rs.next()){
              Dustbin vt=new Dustbin();
              vt.setLevel_id(rs.getInt("level_id"));
-             vt.setDustbin_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("type_name")));
+             vt.setDustbin_type(rs.getString("type_name"));
              vt.setDustbin_no(rs.getInt("dustbin_no"));
               vt.setLevel(rs.getInt("level"));
              vt.setHeight(rs.getDouble("height"));
@@ -161,7 +161,7 @@ if(dustbin_id>0)
             ps.setDouble(4, bean.getLongitude());
             int city_location_id=getCityLocation_id(bean.getCity_location());
             ps.setInt(5, city_location_id);
-            ps.setString(6,krutiToUnicode.convert_to_unicode(bean.getRemark()));
+            ps.setString(6,bean.getRemark());
            if(dustbin_id>0)
              ps.setInt(7, dustbin_id);
          rowsAffected = ps.executeUpdate();
@@ -208,7 +208,7 @@ return status;
 public static int getDustbin_type_id(String dustbin_type) {
         int dustbin_type_id = 0;
         try {
-             dustbin_type=krutiToUnicode.convert_to_unicode(dustbin_type);
+           //  dustbin_type=krutiToUnicode.convert_to_unicode(dustbin_type);
             String query = "select dustbin_type_id from dustbin_type"
                     +" where type_name='"+dustbin_type+"' ";
             ResultSet rset =connection.prepareStatement(query).executeQuery();
@@ -223,7 +223,7 @@ public static int getDustbin_type_id(String dustbin_type) {
 public static int getCityLocation_id(String city_location) {
         int city_location_id = 0;
         try {
-             city_location=krutiToUnicode.convert_to_unicode(city_location);
+            // city_location=krutiToUnicode.convert_to_unicode(city_location);
             String query = "select city_location_id from city_location"
                     +" where location='"+city_location+"' ";
             ResultSet rset =connection.prepareStatement(query).executeQuery();
@@ -245,7 +245,7 @@ public static List<String> getDustbinType(String q)
                     int count = 0;
                     q = q.trim();
                     while (rset.next()) {
-                     String type_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("type_name"));
+                     String type_name =rset.getString("type_name");
                        if(type_name.toUpperCase().startsWith(q.toUpperCase())){
                      list.add(type_name);
                      count++;
@@ -268,7 +268,7 @@ public static List<String> getDustbinType(String q)
                     int count = 0;
                     q = q.trim();
                     while (rset.next()) {
-                     String type_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("location"));
+                     String type_name = rset.getString("location");
                        if(type_name.toUpperCase().startsWith(q.toUpperCase())){
                      list.add(type_name);
                      count++;

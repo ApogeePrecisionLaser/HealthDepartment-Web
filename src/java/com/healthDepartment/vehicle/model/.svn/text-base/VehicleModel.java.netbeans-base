@@ -9,9 +9,9 @@ import com.healthDepartment.general.model.GeneralModel;
 import com.healthDepartment.util.KrutiDevToUnicodeConverter;
 import com.healthDepartment.util.UnicodeToKrutiDevConverter;
 import com.healthDepartment.vehicle.tableClasses.Vehicle;
+import com.mysql.jdbc.PreparedStatement;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +26,14 @@ public class VehicleModel {
     private String msgBgColor;
     private final String COLOR_OK = "yellow";
     private final String COLOR_ERROR = "red";
-//    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-//    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
-//    
+    public static KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+    public static UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+    
 
 
  public static int  getNoOfRows(String vehicleSubType,String vehicleNo, String mobileNo)
  {
-     // vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
+      vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
         int noOfRows = 0;
         try {
         String query="select count(vehicle_id) "
@@ -53,7 +53,7 @@ public class VehicleModel {
     }
  public static int  getNoOfRowsVehicleLocation(String vehicleSubType,String vehicleNo, String mobileNo)
  {
-       // vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
+        vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
         int noOfRows = 0;
         try {
         String query=" select count(vl.vehicle_location_id) "
@@ -74,7 +74,7 @@ public class VehicleModel {
     }
  public static List<Vehicle> showData(int lowerLimit,int noOfRowsToDisplay,String vehicleSubType,String vehicleNo, String mobileNo)
   {
-     // vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
+      vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -91,7 +91,7 @@ public class VehicleModel {
              while(rs.next()){
              Vehicle vt=new Vehicle();
              vt.setVehicle_id(rs.getInt("vehicle_id"));
-             vt.setVehicle_sub_type(rs.getString("type_name"));
+             vt.setVehicle_sub_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("type_name")));
              vt.setVehicle_no(rs.getString("vehicle_no"));
              vt.setVehicle_code(rs.getInt("vehicle_code"));
               String date=rs.getString("permit_validity");
@@ -114,7 +114,7 @@ public class VehicleModel {
              vt.setPuc_validity(date);
              vt.setMobile_no(rs.getString("mobile_no"));
              vt.setImei_no(rs.getString("imei_no"));
-             vt.setRemark(rs.getString("remark"));
+             vt.setRemark(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("remark")));
               list.add(vt);
           }
           }
@@ -126,7 +126,7 @@ public class VehicleModel {
     }
  public static List<Vehicle> showDataVehicleLocation(int lowerLimit,int noOfRowsToDisplay,String vehicleSubType,String vehicleNo, String mobileNo)
   {
-       // vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
+        vehicleSubType = krutiToUnicode.convert_to_unicode(vehicleSubType);
        List list = new ArrayList();
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
@@ -144,7 +144,7 @@ public class VehicleModel {
              while(rs.next()){
              Vehicle vt=new Vehicle();
              vt.setVehicle_location_id(rs.getInt("vehicle_location_id"));
-             vt.setVehicle_sub_type(rs.getString("type_name"));
+             vt.setVehicle_sub_type(unicodeToKruti.Convert_to_Kritidev_010(rs.getString("type_name")));
              vt.setVehicle_no(rs.getString("vehicle_no"));
              vt.setVehicle_code(rs.getInt("vehicle_code"));
              vt.setMobile_no(rs.getString("mobile_no"));
@@ -186,7 +186,7 @@ if(vehicle_id>0)
             ps.setDate(6, (java.sql.Date) puc_validity);
             ps.setString(7, bean.getMobile_no());
             ps.setString(8, bean.getImei_no());
-            ps.setString(9,bean.getRemark());
+            ps.setString(9,krutiToUnicode.convert_to_unicode(bean.getRemark()));
            if(vehicle_id>0)
              ps.setInt(10, vehicle_id);
          rowsAffected = ps.executeUpdate();
@@ -233,7 +233,7 @@ return status;
 public static int getvehicle_sub_type_id(String vehicle_sub_type) {
         int vehicle_type_id = 0;
         try {
-            // vehicle_sub_type=krutiToUnicode.convert_to_unicode(vehicle_sub_type);
+             vehicle_sub_type=krutiToUnicode.convert_to_unicode(vehicle_sub_type);
             String query = "select vehicle_sub_type_id from vehicle_sub_type"
                     +" where type_name='"+vehicle_sub_type+"' ";
             ResultSet rset =connection.prepareStatement(query).executeQuery();
@@ -255,7 +255,7 @@ public static List<String> getVehicleSubType(String q)
                     int count = 0;
                     q = q.trim();
                     while (rset.next()) {
-                     String type_name = rset.getString("type_name");
+                     String type_name = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("type_name"));
                        if(type_name.toUpperCase().startsWith(q.toUpperCase())){
                      list.add(type_name);
                      count++;
@@ -316,37 +316,6 @@ public static List<String> getMobileNo(String q)
         }
         return list;
     }
-
-
-public String getPointLatLong(String vehicle_location_id){
-    String lat="";
-    String longi="";
-//    String query="select latitude,longitude from vehicle_location p,vehicle_key_person_point vkpp "
-//            +" where vkpp.point_id=p.point_id "
-//            +" and vehicle_key_person_point_id=?";
-
-
-    String query="select latitude,longitude from vehicle_location p "
-            +" where p.vehicle_location_id=? ";
-
-    try{
-        PreparedStatement pst = connection.prepareStatement(query);
-        pst.setString(1,vehicle_location_id);
-        ResultSet rs  = pst.executeQuery();
-        while(rs.next()){
-            lat=rs.getString("latitude");
-            longi=rs.getString("longitude");
-
-
-        }
-    }catch(Exception e){
-        System.out.println(e);
-    }
-
-
-    return lat+","+longi;
-}
-
      public String getMessage() {
         return message;
     }

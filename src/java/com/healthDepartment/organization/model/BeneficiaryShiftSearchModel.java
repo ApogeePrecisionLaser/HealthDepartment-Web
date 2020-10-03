@@ -36,8 +36,8 @@ public class BeneficiaryShiftSearchModel {
     private String msgBgColor;
     private final String COLOR_OK = "lightyellow";
     private final String COLOR_ERROR = "red";
-    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
-    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
+//    private KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+//    private UnicodeToKrutiDevConverter unicodeToKruti = new UnicodeToKrutiDevConverter();
 
    public void setConnection(Connection con) {
         try {
@@ -52,7 +52,7 @@ public class BeneficiaryShiftSearchModel {
         int noOfRows = 0;
         
         try {
-            searchOrgOfficeType = krutiToUnicode.convert_to_unicode(searchOrgOfficeType);
+          //  searchOrgOfficeType = krutiToUnicode.convert_to_unicode(searchOrgOfficeType);
             String query = " SELECT COUNT(*) FROM org_office_type "
                     + " WHERE IF('" + searchOrgOfficeType + "'='' ,office_type LIKE '%%',office_type = ?) ";
             PreparedStatement pst = connection.prepareStatement(query);
@@ -71,7 +71,7 @@ public class BeneficiaryShiftSearchModel {
               String query = " SELECT office_type_id, office_type,  description FROM org_office_type "
                 + " WHERE IF('" + searchOrgOfficeType + "'='' ,office_type LIKE '%%',office_type = ?)  ";
                try {
-                   searchOrgOfficeType = krutiToUnicode.convert_to_unicode(searchOrgOfficeType);
+                 //  searchOrgOfficeType = krutiToUnicode.convert_to_unicode(searchOrgOfficeType);
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, searchOrgOfficeType);
             ResultSet rset = pstmt.executeQuery();
@@ -129,8 +129,8 @@ public class BeneficiaryShiftSearchModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, krutiToUnicode.convert_to_unicode(org_office_type.getOffice_type()));
-            pstmt.setString(2, krutiToUnicode.convert_to_unicode(org_office_type.getDescription()));
+            pstmt.setString(1, org_office_type.getOffice_type());
+            pstmt.setString(2,org_office_type.getDescription());
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("OrgOfficeTypeModel insertRecord() Error: " + e);
@@ -150,8 +150,8 @@ public class BeneficiaryShiftSearchModel {
         int rowsAffected = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, krutiToUnicode.convert_to_unicode(org_office_type.getOffice_type()));
-            pstmt.setString(2, krutiToUnicode.convert_to_unicode(org_office_type.getDescription()));
+            pstmt.setString(1, org_office_type.getOffice_type());
+            pstmt.setString(2, org_office_type.getDescription());
             pstmt.setInt(3, org_office_type.getOffice_type_id());
             rowsAffected = pstmt.executeUpdate();
         } catch (Exception e) {
@@ -193,7 +193,7 @@ public class BeneficiaryShiftSearchModel {
             int count = 0;
             q = q.trim();
             while (rset.next()) {    // move cursor from BOR to valid record.
-                String office_type = unicodeToKruti.Convert_to_Kritidev_010(rset.getString("office_type"));
+                String office_type = rset.getString("office_type");
                 if (office_type.toUpperCase().startsWith(q.toUpperCase())) {
                     list.add(office_type);
                     count++;
