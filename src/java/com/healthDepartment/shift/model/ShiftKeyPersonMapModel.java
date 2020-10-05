@@ -51,7 +51,7 @@ public class ShiftKeyPersonMapModel {
 //        searchZoneName = krutiToUnicode.convert_to_unicode(searchZoneName);
 //        searchWardName = krutiToUnicode.convert_to_unicode(searchWardName);
 //        searchAreaName = krutiToUnicode.convert_to_unicode(searchAreaName);
-//       search_designation = krutiToUnicode.convert_to_unicode(search_designation);
+//       search_designation = krutiToUnicode.convert_to_unicode(search_designation);    
 //       searchperson = krutiToUnicode.convert_to_unicode(searchperson);
          int noOfRows = 0;
          if(!searchdate.isEmpty())
@@ -87,9 +87,13 @@ public class ShiftKeyPersonMapModel {
  + " AND IF('"+ search_shift_type +"'='', st.shift_type LIKE '%%', st.shift_type='"+ search_shift_type +"')"
  + " AND IF('"+ search_designation +"'='', d.designation LIKE '%%', d.designation='"+ search_designation +"')"
  + " AND IF('"+ searchperson +"'='', kp.key_person_name LIKE '%%', kp.key_person_name='"+ searchperson +"')"
- + " AND IF('"+ emp_code +"'='', kp.emp_code LIKE '%%', kp.emp_code='"+ emp_code +"')"
- + " AND IF('"+ searchdate +"'='', skpm.date LIKE '%%', DATE_FORMAT(date,'%Y-%m-%d') ='"+ searchdate +"')"
- + "  group by shift_key_person_map_id) as t_no ";
+ + " AND IF('"+ emp_code +"'='', kp.emp_code LIKE '%%', kp.emp_code='"+ emp_code +"')";
+// + " AND IF('"+ searchdate +"'='', skpm.date LIKE '%%', DATE_FORMAT(date,'%Y-%m-%d') ='"+ searchdate +"')"
+ if(!searchdate.equals("")){
+                 query+=" and skpm.date='"+searchdate+"' " ;
+             }  
+                    
+                 query+="group by shift_key_person_map_id) as t_no ";
 
            PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement(query);
             ResultSet rset = pstmt.executeQuery();
@@ -151,10 +155,13 @@ public class ShiftKeyPersonMapModel {
                              + " AND IF('"+ search_shift_type +"'='', st.shift_type LIKE '%%', st.shift_type='"+ search_shift_type +"')"
                              + " AND IF('"+ search_designation +"'='', d.designation LIKE '%%', d.designation='"+ search_designation +"')"
                              + " AND IF('"+ searchperson +"'='', kp.key_person_name LIKE '%%', kp.key_person_name='"+ searchperson +"')"
-                             + " AND IF('"+ emp_code +"'='', kp.emp_code LIKE '%%', kp.emp_code='"+ emp_code +"')"
-                             + " AND IF('"+ searchdate +"'='', skpm.date LIKE '%%', DATE_FORMAT(date,'%Y-%m-%d') ='"+ searchdate +"')"
-                             + " group by shift_key_person_map_id "
-                             + addQuery;
+                             + " AND IF('"+ emp_code +"'='', kp.emp_code LIKE '%%', kp.emp_code='"+ emp_code +"')";
+                           //  + " AND IF('"+ searchdate +"'='', skpm.date LIKE '%%', DATE_FORMAT(date,'%Y-%m-%d') ='"+ searchdate +"')"
+                               if(!searchdate.equals("")){
+                 query+=" and skpm.date='"+searchdate+"' " ;
+             }  
+                     query+="group by shift_key_person_map_id   LIMIT "+lowerLimit+", "+noOfRowsToDisplay;
+                   
     try{
        PreparedStatement ps = (PreparedStatement) connection.prepareStatement(query);
 

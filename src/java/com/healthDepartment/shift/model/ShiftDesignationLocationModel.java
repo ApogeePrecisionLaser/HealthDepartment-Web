@@ -661,7 +661,7 @@ public static int getDesignation_id(String designation) {
      List<String> list=new ArrayList<String>();
       // ward=krutiToUnicode.convert_to_unicode(ward);
       //   zone=krutiToUnicode.convert_to_unicode(zone);
-   String query =" SELECT a.area_name "
+   String query =" SELECT  distinct a.area_name "
                 + "FROM area AS a ,ward AS w, zone AS z "
                + "WHERE a.ward_id = w.ward_id "
                +  "AND w.zone_id = z.zone_id "
@@ -715,7 +715,7 @@ public static int getDesignation_id(String designation) {
 
   public static List<String> getZone(String q,String zone_no){
      List<String> list=new ArrayList<String>();
-   String query =" SELECT zone_name FROM zone "
+   String query =" SELECT distinct zone_name FROM zone "
                    +  " WHERE  IF('" + zone_no + "'='', zone_no like '%%', zone_no ='" + zone_no + "') " ;
       try {
            ResultSet rset = connection.prepareStatement(query).executeQuery();
@@ -763,7 +763,7 @@ public static int getDesignation_id(String designation) {
     public static List<String> getWard(String q,String zone,String ward_no){
      List<String> list=new ArrayList<String>();
           // zone=krutiToUnicode.convert_to_unicode(zone);
-   String query = " SELECT w.ward_name  FROM ward AS w, zone AS z "
+   String query = " SELECT distinct w.ward_name  FROM ward AS w, zone AS z "
                +  "WHERE   w.zone_id = z.zone_id "
                 + "AND IF('" + zone + "'='', zone_name like '%%', zone_name ='" + zone + "') "
                  + "AND IF('" + ward_no + "'='', ward_no like '%%', ward_no ='" + ward_no + "') "
@@ -816,7 +816,7 @@ public static int getDesignation_id(String designation) {
 //          area=krutiToUnicode.convert_to_unicode(area);
 //          ward=krutiToUnicode.convert_to_unicode(ward);
 //          zone=krutiToUnicode.convert_to_unicode(zone);
-            String query =" SELECT cl.location "
+            String query =" SELECT distinct cl.location "
               + " FROM area AS a ,ward AS w, zone AS z,city_location as cl "
              + " WHERE cl.area_id=a.area_id "
              + " AND a.ward_id = w.ward_id "
@@ -873,7 +873,7 @@ public static int getDesignation_id(String designation) {
  public static List<String> getDesignation(String q)
     {
      List<String> list=new ArrayList<String>();
-   String query ="SELECT designation FROM designation"
+   String query ="SELECT distinct designation FROM designation"
                     +" GROUP BY designation ORDER BY designation ";
       try {
                  ResultSet rset = connection.prepareStatement(query).executeQuery();
@@ -899,7 +899,7 @@ public static int getDesignation_id(String designation) {
  public static List<String> getLocationType(String q)
     {
      List<String> list=new ArrayList<String>();
-   String query ="SELECT location_type_name FROM location_type"
+   String query ="SELECT distinct location_type_name FROM location_type"
                     +" GROUP BY location_type_name ORDER BY location_type_name ";
       try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();

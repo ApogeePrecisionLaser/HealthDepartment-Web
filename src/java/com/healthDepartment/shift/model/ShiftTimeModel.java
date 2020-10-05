@@ -65,19 +65,22 @@ public class ShiftTimeModel {
 //          zone = krutiToUnicode.convert_to_unicode(zone);
 //          ward = krutiToUnicode.convert_to_unicode(ward);
 //          area = krutiToUnicode.convert_to_unicode(area);
-       List list = new ArrayList();
+       List list = new ArrayList();    
          String addQuery = " LIMIT " + lowerLimit + ", " + noOfRowsToDisplay;
           if(lowerLimit == -1)
             addQuery = "";
    String query ="select beneficiary_id,kp.key_person_name,kp.father_name,kp.mobile_no1,occupation_name,cl.location,is_residencial from  beneficiary as b,city_location as cl,area as a,ward as w,zone as z,key_person as kp "
                   + " where b.city_location_id=cl.city_location_id and cl.area_id=a.area_id and a.ward_id=w.ward_id and w.zone_id=z.zone_id and b.key_person_id=kp.key_person_id "
-                  + "  and zone_name='"+zone+"' and ward_name='"+ward+"' and area_name='"+area+"' " 
-                  + addQuery;
+//                  + "  and zone_name='"+zone+"' and ward_name='"+ward+"' and area_name='"+area+"' " 
+             + "And IF('" + zone + "' = '', z.zone_name LIKE '%%', z.zone_name ='" + zone + "') "
+                           + "And IF('" + ward + "' = '', w.ward_name LIKE '%%', w.ward_name ='" + ward + "') "
+                           + "And IF('" + area + "' = '', a.area_name LIKE '%%', a.area_name ='" + area + "')  "   
+           + addQuery;
       try {
 
             ResultSet rs = connection.prepareStatement(query).executeQuery();
              while(rs.next()){
-                  ShiftTimeBean sb=new ShiftTimeBean();
+                  ShiftTimeBean sb=new ShiftTimeBean();   
                   sb.setBeneficiary_id(rs.getInt("beneficiary_id"));
                   sb.setName(rs.getString("key_person_name"));
                    sb.setFather_name(rs.getString("father_name"));

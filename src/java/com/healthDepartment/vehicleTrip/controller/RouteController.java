@@ -79,7 +79,13 @@ public class RouteController extends HttpServlet {
                         list = routeModel.getInputRouteName(q);
                     }
                     if (JQstring.equals("getInputStopageName")) {
-                        list = routeModel.getInputStopageName(q);
+                          String areaname = request.getParameter("action2");
+                          String wardname = request.getParameter("action3");
+                          String zonename = request.getParameter("action4");
+                         
+                        
+                        
+                        list = routeModel.getInputStopageName(areaname,wardname,zonename);
                     }
                     Iterator<String> iter = list.iterator();
                     while (iter.hasNext()) {
@@ -159,6 +165,9 @@ public class RouteController extends HttpServlet {
                 String order_no = request.getParameter("order_no").trim();
                 routeBean.setOrder_no(Integer.parseInt(order_no));
                 if (route_id == 0) {
+                     request.setAttribute("area", request.getParameter("area"));
+            request.setAttribute("ward", request.getParameter("ward"));
+            request.setAttribute("zone", request.getParameter("zone"));
                     // if route_id was not provided, that means insert new record.
                   //  if (routeModel.checkStopage(stopage_id, route_name_id)) {
                         routeModel.insertRecord(routeBean);

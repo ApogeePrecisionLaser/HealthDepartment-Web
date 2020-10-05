@@ -603,8 +603,7 @@ public int saveVehicleWeightRecord_webService(int vehicle_id,String weight,Strin
     int rowsAffected=0;
 
         query="insert into vehicle_weight(weight,date_time,image_path) "
- 
-    
+  
                 +" values(?,?,?) ";
 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
        Date date = new Date();

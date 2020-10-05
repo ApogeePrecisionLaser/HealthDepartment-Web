@@ -388,22 +388,60 @@ private Connection connection;
         }
         return list;
     }
+ public int getAreaId(String area,String ward,String zone) {
+        int area_id = 0;
+        //stopage_name = krutiToUnicode.convert_to_unicode(stopage_name);
+        String query = "select area_id from area as a, ward as w,zone as z "
+                + "where a.ward_id=w.ward_id and w.zone_id=z.zone_id and a.area_name='"+area+"' "
+                + "and w.ward_name='"+ward+"' and z.zone_name='"+zone+"' ";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+           
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                area_id = rset.getInt("area_id");
+            }
+        } catch (Exception e) {
+            System.out.println("RouteModel getStopageId() Error: " + e);
+        }
 
-    public List<String> getInputStopageName(String q) {
+        return area_id;
+    }
+  public int getCityId(int areaid) {
+        int city_location_id = 0;
+        //stopage_name = krutiToUnicode.convert_to_unicode(stopage_name);
+        String query = "select city_location_id from city_location where area_id='"+areaid+"'";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+           
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                city_location_id = rset.getInt("city_location_id");
+            }
+        } catch (Exception e) {
+            System.out.println("RouteModel getStopageId() Error: " + e);
+        }
+
+        return city_location_id;
+    }
+
+    public List<String> getInputStopageName(String area,String ward,String zone) {
+        int area_id=getAreaId( area, ward, zone);
+        int cl_id=getCityId(area_id);
         List<String> list = new ArrayList<String>();
-        String query = "SELECT s.point_name FROM point as s "
-                // + " Where r.stopage_id=s.stopage_id "
+        String query = "SELECT s.point_name FROM point as s  where s.city_location_id='"+cl_id+"' "
+              
                 + " group by s.point_name ORDER BY s.point_name ";
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
             int count = 0;
-            q = q.trim();
+            
             while (rset.next()) {    // move cursor from BOR to valid record.
                 String stopage_name = rset.getString("point_name");
-                if (stopage_name.toUpperCase().startsWith(q.toUpperCase())) {
+           
                     list.add(stopage_name);
                     count++;
-                }
+                
             }
         } catch (Exception e) {
             System.out.println("Error:RouteModel--getInputStopageName()-- " + e);

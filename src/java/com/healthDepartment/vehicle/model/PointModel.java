@@ -32,31 +32,29 @@ public class PointModel {
 //        search_point_name = krutiToUnicode.convert_to_unicode(search_point_name);
 
         int noOfRows = 0;
-        int city_location_id = getCityLocationId(search_city_location);
-        if (city_location_id == 0) //city_location_id="";
-        {
+       // int city_location_id = getCityLocationId(search_city_location);
+       
             try {
 //        String query="SELECT count(point_id) from point "
 //                       + " where  IF('" + search_point_name + "' = '', point_name LIKE '%%',point_name  ='" + search_point_name + "') "
 //                       +" AND IF('" + city_location_id + "' = '', city_location_id LIKE '%%',city_location_id  ='" + city_location_id + "') " ;
-
-                String query = "select count(*) from point p,city_location cl "
-                        + " WHERE p.city_location_id=cl.city_location_id "
-                        + " AND IF('" + search_city_location + "' = '', location LIKE '%%',location='" + search_city_location + "') "
-                    + " And IF('" + search_point_name + "' = '',point_name LIKE '%%', point_name='" + search_point_name + "')";
-
+ String query = " SELECT count(*) "
+                + " from point p,city_location cl "
+                + " where  p.city_location_id=cl.city_location_id "
+                + " AND IF('" + search_city_location + "' = '', location LIKE '%%',location='" + search_city_location + "') "
+                + " And IF('" + search_point_name + "' = '',point_name LIKE '%%', point_name='" + search_point_name + "')";
+                
                 PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement(query);
                 ResultSet rset = pstmt.executeQuery();
                while(rset.next())
                 noOfRows = Integer.parseInt(rset.getString(1));
             } catch (Exception e) {
                 System.out.println(e);
-            }
-        }
+        
         System.out.println("No of Rows in Table for search is****....." + noOfRows);
-        return noOfRows;
+       } return noOfRows;
+    
     }
-
     public List<Point> showData(int lowerLimit, int noOfRowsToDisplay, String search_city_location, String search_point_name) {
 //        search_city_location = krutiToUnicode.convert_to_unicode(search_city_location);
 //        search_point_name = krutiToUnicode.convert_to_unicode(search_point_name);
@@ -295,20 +293,58 @@ public class PointModel {
         }
         return city_location_id;
     }
+public int getAreaId(String area,String ward,String zone) {
+        int area_id = 0;
+        //stopage_name = krutiToUnicode.convert_to_unicode(stopage_name);
+        String query = "select area_id from area as a, ward as w,zone as z "
+                + "where a.ward_id=w.ward_id and w.zone_id=z.zone_id and a.area_name='"+area+"' "
+                + "and w.ward_name='"+ward+"' and z.zone_name='"+zone+"' ";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+           
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                area_id = rset.getInt("area_id");
+            }
+        } catch (Exception e) {
+            System.out.println("RouteModel getStopageId() Error: " + e);
+        }
 
-    public List<String> getCityName(String q) {
+        return area_id;
+    }
+  public int getCityId(int areaid) {
+        int city_location_id = 0;
+        //stopage_name = krutiToUnicode.convert_to_unicode(stopage_name);
+        String query = "select city_location_id from city_location where area_id='"+areaid+"'";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+           
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                city_location_id = rset.getInt("city_location_id");
+            }
+        } catch (Exception e) {
+            System.out.println("RouteModel getStopageId() Error: " + e);
+        }
+
+        return city_location_id;
+    }
+
+    public List<String> getCityName(String area,String ward,String zone) {
+         int area_id=getAreaId( area, ward, zone);
+        int cl_id=getCityId(area_id);
         List<String> list = new ArrayList<String>();
-        String query = "select location from city_location";
+        String query = "select location from city_location where city_location_id='"+cl_id+"' ";
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
             int count = 0;
-            q = q.trim();
+            
             while (rset.next()) {
                 String city_location = rset.getString("location");
-                if (city_location.toUpperCase().startsWith(q.toUpperCase())) {
+               
                     list.add(city_location);
                     count++;
-                }
+              
             }
             if (count == 0) {
                 list.add("No such Status exists.......");
@@ -344,7 +380,7 @@ public class PointModel {
 
     public List<String> getSearchCityName(String q) {
         List<String> list = new ArrayList<String>();
-        String query = "select location from point p,city_location cl "
+        String query = "select distinct location from point p,city_location cl "
                       +" where p.city_location_id=cl.city_location_id ";
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
