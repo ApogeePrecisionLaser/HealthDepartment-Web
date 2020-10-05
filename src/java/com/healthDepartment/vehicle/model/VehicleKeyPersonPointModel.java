@@ -96,7 +96,7 @@ public class VehicleKeyPersonPointModel {
             addQuery = "";
         }
         String query = "SELECT  vkpp.vehicle_key_person_point_id,kp.key_person_name,p.point_name,vehicle_code,vkpp.date,vkpp.time"
-                + " from vehicle_key_person_point vkpp,key_person kp,vehicle_key_person vkp,shift_key_person_map as skpm,point p,vehicle v"
+                + " ,p.latitude,p.longitude from vehicle_key_person_point vkpp,key_person kp,vehicle_key_person vkp,shift_key_person_map as skpm,point p,vehicle v"
                 + "  where vkpp.vehicle_key_person_id=vkp.vehicle_key_person_id  and vkp.shift_key_person_map_id=skpm.shift_key_person_map_id and"
                 + "  skpm.key_person_id=kp.key_person_id and vkp.vehicle_id=v.vehicle_id"
                 + "   and vkpp.point_id=p.point_id AND vkpp.active='Y' AND vkp.active='Y'"
@@ -120,6 +120,8 @@ public class VehicleKeyPersonPointModel {
                  String date = getSplit(rs.getString("date"));
                 vt.setDate(date);
                 vt.setTime(rs.getString("time"));
+                vt.setLatitude(rs.getString("latitude"));
+                vt.setLongitude(rs.getString("longitude"));
                 list.add(vt);
             }
         } catch (Exception e) {

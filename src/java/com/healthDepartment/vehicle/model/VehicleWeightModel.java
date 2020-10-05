@@ -75,7 +75,7 @@ public class VehicleWeightModel {
 //           
 String query=" select vw.vehicle_weight_id,v.vehicle_code,v.vehicle_no,vw.weight,vw.date_time,vw.image_path"
         +" from vehicle_weight vw,vehicle v "
-        +" where vw.vehicle_id=v.vehicle_id "
+        +" where vw.vehicle_weight_id=v.vehicle_id "
         +" AND IF('" + search_vehicle_code + "' = '', vehicle_code LIKE '%%',vehicle_code='" + search_vehicle_code + "') "
         +" AND IF('" + search_vehicle_number + "' = '', vehicle_no LIKE '%%',vehicle_no='" + search_vehicle_number + "') "
         +addQuery;
@@ -599,10 +599,10 @@ public int saveVehicleWeightRecord_webService(int vehicle_id,String weight,Strin
 
     boolean status=false;
     String query="";
-    int rowsAffected=0;
-
-        query="insert into vehicle_weight(vehicle_id,weight,date_time,image_path) "
-                +" values(?,?,?,?) ";
+    int rowsAffected=0;  
+   
+        query="insert into vehicle_weight(weight,date_time,image_path) "   
+                +" values(?,?,?) ";
 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
        Date date = new Date();
       System.out.println((dateFormat.format(date)));
@@ -614,10 +614,10 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
        try{
         PreparedStatement ps=(PreparedStatement) connection.prepareStatement(query);
-        ps.setInt(1,vehicle_id);
-        ps.setDouble(2, Double.parseDouble(weight));
-        ps.setString(3,date1);
-        ps.setString(4,path);
+       
+        ps.setDouble(1, Double.parseDouble(weight));
+        ps.setString(2,date1);
+        ps.setString(3,path);
         rowsAffected = ps.executeUpdate();
        if(rowsAffected > 0)
        status=true;

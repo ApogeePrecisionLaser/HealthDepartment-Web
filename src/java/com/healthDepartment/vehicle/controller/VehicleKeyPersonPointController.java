@@ -151,19 +151,27 @@ public class VehicleKeyPersonPointController extends HttpServlet {
         if (task == null || task.isEmpty()) {
             task = "";
         }
-
-        if (task.equals("showMapWindow")) {
-
-            int vehicle__key_person_point_id = Integer.parseInt(request.getParameter("vehicle_key_person_map_id"));
-            String latitude = "";
-            String longitude = "";
-            int vehicle_key_person_id = vkpm.getVehicleKeyPersonId2(vehicle__key_person_point_id);
-
-            request.setAttribute("vehicle_key_person_id", vehicle_key_person_id);
-            request.getRequestDispatcher("waypoint").forward(request, response);
+ if (task.equals("showMapWindow")) {
+            String longi = request.getParameter("long");
+            String latti = request.getParameter("lat");
+            request.setAttribute("longi", longi);
+            request.setAttribute("latti", latti);
+            System.out.println(latti + "," + longi);
+            request.getRequestDispatcher("openMapWindowView1").forward(request, response);
             return;
-
         }
+//        if (task.equals("showMapWindow")) {
+//
+//            int vehicle__key_person_point_id = Integer.parseInt(request.getParameter("vehicle_key_person_map_id"));
+//            String latitude = "";
+//            String longitude = "";
+//            int vehicle_key_person_id = vkpm.getVehicleKeyPersonId2(vehicle__key_person_point_id);
+//
+//            request.setAttribute("vehicle_key_person_id", vehicle_key_person_id);
+//            request.getRequestDispatcher("openMapWindowView1").forward(request, response);
+//            return;
+//
+//        }
 
         if (task.equals("showAllPointMap")) {
             //  int key_person_id = 12;
