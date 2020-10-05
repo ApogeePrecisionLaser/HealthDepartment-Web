@@ -5,14 +5,10 @@
 package com.healthDepartment.webServices;
 
 import com.healthDepartment.dbCon.DBConnection;
-import com.healthDepartment.general.model.MapDetailClass;
 import com.healthDepartment.shift.model.ShiftLoginModel;
-import com.healthDepartment.shift.model.ShiftTimeModel;
 import com.healthDepartment.vehicle.model.VehicleWeightModel;
 import java.io.FileOutputStream;
 import java.sql.Connection;
-import java.util.Iterator;
-import java.util.List;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

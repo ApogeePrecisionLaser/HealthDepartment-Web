@@ -370,7 +370,28 @@
                 } else result = confirm("Are you sure you want to delete this record?")
                 return result;
             }
+  function setDefaultValues(id){
+            var result_type=   document.getElementById(id).checked;
+            var default_mobile_no="9999999999";
+            var default_email_id="abc@xyz.com";
+            var landline_no1= "123456789";
+            if(result_type){
+                $("#mobile_no1").val(default_mobile_no);
+                $("#mobile_no2").val(default_mobile_no);
+                $("#landline_no1").val(landline_no1);
+                $("#landline_no2").val(landline_no1);
+                $("#email_id1").val(default_email_id);
+                $("#email_id2").val(default_email_id);
+            }else{
+                $("#mobile_no1").val(" ");
+                $("#mobile_no2").val("");
+                $("#landline_no1").val(" ");
+                $("#landline_no2").val(" ");
+                $("#email_id1").val("");
+                $("#email_id2").val("");
+            }
 
+        }
             
             function displayOrgnList(id){
                 var queryString;
@@ -511,7 +532,7 @@
                                                     <input type="submit" class="button" name="task1" id="showAllRecords" value="Show All Records">
                                                       <input class="pdf_button" type="button" id="viewPdf" name="viewPdf" value="" onclick="displayOrgnList(id)">
                                                     <input class="button" type="button" id="viewExcel" name="viewExcel" value="Excel" onclick="displayOrgnList(id)">
-                                                    <label id="org_msg">  </label></td>
+                                                     default value<input type="checkbox" id="default" name="default" onclick="setDefaultValues(id)"> <label id="org_msg">  </label></td>
                                             </tr>
                                         </table>
                                     </form>

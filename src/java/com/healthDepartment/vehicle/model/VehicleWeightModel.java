@@ -599,9 +599,15 @@ public int saveVehicleWeightRecord_webService(int vehicle_id,String weight,Strin
 
     boolean status=false;
     String query="";
+<<<<<<< HEAD
     int rowsAffected=0;
 
         query="insert into vehicle_weight(weight,date_time,image_path) "
+=======
+    int rowsAffected=0;  
+   
+        query="insert into vehicle_weight(weight,date_time,image_path) "   
+>>>>>>> 952920c62bf5e0d018622a221a28379e8faf0fa3
                 +" values(?,?,?) ";
 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
        Date date = new Date();

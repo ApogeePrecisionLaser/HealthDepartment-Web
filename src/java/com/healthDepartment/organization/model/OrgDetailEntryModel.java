@@ -36,18 +36,18 @@ public class OrgDetailEntryModel {
             System.out.println("OrgDetailEntryModel setConnection() Error: " + e);
         }
     }
-
+  
     public OrgDetailEntry showData(String organisation) {
       //  organisation = krutiToUnicode.convert_to_unicode(organisation);
         OrgDetailEntry orgDE = new OrgDetailEntry();
         String query = "SELECT org.organisation_id, organisation_name, org_type_name ,organisation_sub_type_name, om.org_map_id , "
-                + " of.org_office_id ,org_office_code,of.org_office_name, office_type ,c.city_name AS officeCity , of.address_line1, of.address_line2, of.email_id1, of.email_id2, of.mobile_no1, of.mobile_no2, of.landline_no1, of.landline_no2, "
+                + " of1.org_office_id ,org_office_code,of1.org_office_name, office_type ,c.city_name AS officeCity , of1.address_line1, of1.address_line2, of1.email_id1, of1.email_id2, of1.mobile_no1, of1.mobile_no2, of1.landline_no1, of1.landline_no2, "
                 + " emp_code, salutation, k.key_person_id, key_person_name , d.designation ,ck.city_name AS personCity, k.address_line1, k.address_line2, k.father_name,k.age,k.email_id1, k.email_id2 ,k.mobile_no1, k.mobile_no2, k.landline_no1, k.landline_no2 "
-                + " FROM organisation_name AS org "
-                + " LEFT JOIN (org_office AS of LEFT JOIN ( key_person AS k) ON  k.org_office_id = of.org_office_id) ON of.organisation_id = org.organisation_id "
-                + " LEFT JOIN (city AS c) ON c.city_id = of.city_id "
+                + " FROM organisation_name AS org "   
+                + " LEFT JOIN (org_office AS of1 LEFT JOIN ( key_person AS k) ON  k.org_office_id = of1.org_office_id) ON of1.organisation_id = org.organisation_id "
+                + " LEFT JOIN (city AS c) ON c.city_id = of1.city_id "
                 + " LEFT JOIN ( city AS ck ) ON ck.city_id = k.city_id "
-                + " LEFT JOIN ( org_office_type AS oft ) ON oft.office_type_id = of.office_type_id"
+                + " LEFT JOIN ( org_office_type AS oft ) ON oft.office_type_id = of1.office_type_id"
                 + " LEFT JOIN ( designation AS d ) ON k.designation_id = d.designation_id"
                 + " LEFT JOIN ( organisation_map AS om, organisation_sub_type AS ost, organisation_type AS ot )ON org.organisation_id = om.organisation_id AND om.organisation_sub_type_id = ost.organisation_sub_type_id "
                 + "  AND ost.organisation_type_id = ot.organisation_type_id "//AND om.organisation_type_id = ot.organisation_type_id
@@ -70,14 +70,14 @@ public class OrgDetailEntryModel {
                 orgDE.setOffice_name(rset.getString("org_office_name"));
                 orgDE.setOffice_type(rset.getString("office_type"));
                 orgDE.setOffice_city(rset.getString("officeCity"));
-                orgDE.setOffice_address1(rset.getString("of.address_line1"));
-                orgDE.setOffice_address2(rset.getString("of.address_line2"));
-                orgDE.setOffice_mail_id1(rset.getString("of.email_id1"));
-                orgDE.setOffice_mail_id2(rset.getString("of.email_id2"));
-                orgDE.setOffice_mobile1(rset.getString("of.mobile_no1"));
-                orgDE.setOffice_mobile2(rset.getString("of.mobile_no2"));
-                orgDE.setOffice_landLine1(rset.getString("of.landline_no1"));
-                orgDE.setOffice_landLine2(rset.getString("of.landline_no2"));
+                orgDE.setOffice_address1(rset.getString("of1.address_line1"));
+                orgDE.setOffice_address2(rset.getString("of1.address_line2"));
+                orgDE.setOffice_mail_id1(rset.getString("of1.email_id1"));
+                orgDE.setOffice_mail_id2(rset.getString("of1.email_id2"));
+                orgDE.setOffice_mobile1(rset.getString("of1.mobile_no1"));
+                orgDE.setOffice_mobile2(rset.getString("of1.mobile_no2"));
+                orgDE.setOffice_landLine1(rset.getString("of1.landline_no1"));
+                orgDE.setOffice_landLine2(rset.getString("of1.landline_no2"));
                 // -- Person Detail -----------
                 orgDE.setPersonList(getPersonlist(rset.getInt("organisation_id"), rset.getInt("org_office_id")));
                 orgDE.setEmployeeId(rset.getString("emp_code"));
@@ -125,9 +125,9 @@ public class OrgDetailEntryModel {
 
     public Map<Integer, String> getPersonlist(int orgId, int officeId) {
         Map<Integer, String> map = new LinkedHashMap<Integer, String>();
-        String query = " SELECT k.key_person_id, key_person_name FROM key_person AS k, org_office AS of, organisation_name As org "
-                + " WHERE k.org_office_id = of.org_office_id AND of.organisation_id = org.organisation_id "
-                + " AND org.organisation_id  = ? AND of.org_office_id = ?  "
+        String query = " SELECT k.key_person_id, key_person_name FROM key_person AS k, org_office AS of1, organisation_name As org "
+                + " WHERE k.org_office_id = of1.org_office_id AND of1.organisation_id = org.organisation_id "
+                + " AND org.organisation_id  = ? AND of1.org_office_id = ?  "
                 + "  ORDER BY key_person_name ";
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -146,15 +146,15 @@ public class OrgDetailEntryModel {
     public String getOfficePersonDetail(int organisationId, int officeId) {
         String jSON_format = "";
         String query = " SELECT organisation_name, "
-                + " of.org_office_id ,org_office_code,of.org_office_name, office_type ,c.city_name AS officeCity , of.address_line1, of.address_line2, of.email_id1, of.email_id2, of.mobile_no1, of.mobile_no2, of.landline_no1, of.landline_no2, "
+                + " of1.org_office_id ,org_office_code,of1.org_office_name, office_type ,c.city_name AS officeCity , of1.address_line1, of1.address_line2, of1.email_id1, of1.email_id2, of1.mobile_no1, of1.mobile_no2, of1.landline_no1, of1.landline_no2, "
                 + " salutation, key_person_name , d.designation ,ck.city_name AS personCity, k.address_line1, k.address_line2, k.email_id1, k.email_id2 ,k.mobile_no1, k.mobile_no2, k.landline_no1, k.landline_no2,k.emp_code "
                 + " FROM organisation_name AS org "
-                + " LEFT JOIN (org_office AS of LEFT JOIN ( key_person AS k) ON  k.org_office_id = of.org_office_id) ON of.organisation_id = org.organisation_id "
-                + " LEFT JOIN (city AS c) ON c.city_id = of.city_id "
+                + " LEFT JOIN (org_office AS of1 LEFT JOIN ( key_person AS k) ON  k.org_office_id = of1.org_office_id) ON of1.organisation_id = org.organisation_id "
+                + " LEFT JOIN (city AS c) ON c.city_id = of1.city_id "
                 + " LEFT JOIN ( city AS ck ) ON ck.city_id = k.city_id "
-                + " LEFT JOIN ( org_office_type AS oft ) ON oft.office_type_id = of.office_type_id "
+                + " LEFT JOIN ( org_office_type AS oft ) ON oft.office_type_id = of1.office_type_id "
                 + " LEFT JOIN ( designation AS d ) ON k.designation_id = d.designation_id "
-                + " WHERE org.organisation_id= ? AND of.org_office_id = ? "
+                + " WHERE org.organisation_id= ? AND of1.org_office_id = ? "
                 + " GROUP BY org.organisation_id ORDER BY organisation_name, org_office_name, key_person_name LIMIT 1 ";
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -233,10 +233,10 @@ public class OrgDetailEntryModel {
         String jSON_format = "";
         String query = " SELECT salutation, key_person_name , d.designation ,c.city_name AS personCity, k.address_line1, k.address_line2, "
                 + "  k.email_id1, k.email_id2 ,k.mobile_no1, k.mobile_no2, k.landline_no1, k.landline_no2,k.emp_code  "
-                + " FROM organisation_name AS org, org_office AS of , key_person AS k, city AS c, designation AS d "
-                + " WHERE   k.org_office_id = of.org_office_id AND of.organisation_id = org.organisation_id "
+                + " FROM organisation_name AS org, org_office AS of1 , key_person AS k, city AS c, designation AS d "
+                + " WHERE   k.org_office_id = of1.org_office_id AND of1.organisation_id = org.organisation_id "
                 + " AND c.city_id = k.city_id AND k.designation_id = d.designation_id "
-                + " AND org.organisation_id = ? AND of.org_office_id = ? AND k.key_person_id = ? "
+                + " AND org.organisation_id = ? AND of1.org_office_id = ? AND k.key_person_id = ? "
                 + " GROUP BY org.organisation_id ORDER BY organisation_name, org_office_name, key_person_name LIMIT 1 ";
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);

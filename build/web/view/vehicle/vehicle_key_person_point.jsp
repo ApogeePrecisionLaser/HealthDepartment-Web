@@ -184,10 +184,11 @@
                 return window.open(url, window_name, window_features);
             }
 
-         function openMap(vehicle_key_person_map_id) {
-        //alert(vehicle_key_person_map_id);
-        var url="VehicleKeyPersonPoint?task=showMapWindow&vehicle_key_person_map_id="+vehicle_key_person_map_id;
-        popupwin = openPopUp(url, "",  580, 620);
+         function openMap(lat,long) {
+        //var x = document.getElementById("search_key_person").value;
+          //      var y =document.getElementById("search_point_name").value;
+        var url="VehicleKeyPersonPoint?task=showMapWindow&lat="+lat+"&long="+long;
+        popupwin = openPopUp(url, "",  620, 620);
     }
 
             function openCurrentMap() {
@@ -231,8 +232,8 @@
                                     <td colspan="6" align="center">
                                         <input class="button" type="submit" name="task" id="searchIn" value="Search">
                                         <input class="button" type="submit" name="task" id="showAllRecords" value="Show All Records">
-                                        <input class="button" type="submit" name="task" id="Map" value="Map" onclick="openCurrentMap()">
-                                        <!--                  <input type="button" class="pdf_button" id="viewPdf" name="viewPdf" value="" onclick="getlist()">
+<!--                                        <input class="button" type="submit" name="task" id="Map" value="Map" onclick="openCurrentMap()">
+                                                          <input type="button" class="pdf_button" id="viewPdf" name="viewPdf" value="" onclick="getlist()">
                                                            <input type="button" class="button"  id="viewXls" name="viewXls" value="Excel" onclick="getCity()">-->
                                     </td>
                                 </tr>
@@ -250,6 +251,8 @@
                                 <TH class="heading">Point Name&nbsp;</TH>
                                 <TH class="heading">Date&nbsp;</TH>
                                 <TH class="heading">Time&nbsp;</TH>
+                                <TH class="heading">Latitude&nbsp;</TH>
+                                <TH class="heading">Longitude&nbsp;</TH>
 
 
 
@@ -264,8 +267,10 @@
                                         <td id="t1c${IDGenerator.uniqueID}"  class="new_input"  onclick="fillColumns(id)">${VehicleKeyPersonPoint.point_name}</td>
                                         <td id="t1c${IDGenerator.uniqueID}"  onclick="fillColumns(id)">${VehicleKeyPersonPoint.date}</td>
                                         <td id="t1c${IDGenerator.uniqueID}"   onclick="fillColumns(id)">${VehicleKeyPersonPoint.time}</td>
+                                        <td id="t1c${IDGenerator.uniqueID}"   onclick="fillColumns(id)">${VehicleKeyPersonPoint.latitude}</td>
+                                        <td id="t1c${IDGenerator.uniqueID}"   onclick="fillColumns(id)">${VehicleKeyPersonPoint.longitude}</td>
                                      <td>
-              <input type="button" class="btn"  value ="View Map" id="map_container${loopCounter.count}" onclick="openMap('${VehicleKeyPersonPoint.vehicle_key_person_point_id}');"/>
+              <input type="button" class="btn"  value ="View Map" id="map_container${loopCounter.count}" onclick="openMap('${VehicleKeyPersonPoint.latitude}','${VehicleKeyPersonPoint.longitude}');"/>
               </td>
 
                                     </tr>
