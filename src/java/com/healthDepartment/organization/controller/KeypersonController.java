@@ -47,7 +47,7 @@ public class KeypersonController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         KeypersonModel keyModel = new KeypersonModel();
-        KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
+       // KrutiDevToUnicodeConverter krutiToUnicode = new KrutiDevToUnicodeConverter();
         try {
             keyModel.setDriverClass(ctx.getInitParameter("driverClass"));
             keyModel.setDb_username(ctx.getInitParameter("db_user_name"));
@@ -291,10 +291,10 @@ public class KeypersonController extends HttpServlet {
                 key.setFather_name(map.get("father_name").trim());
                 key.setAge(Integer.parseInt(map.get("age").trim().isEmpty()?"0":map.get("age").trim()));
                 key.setDesignation(map.get("designation").trim());
-                key.setDesignation_id(keyModel.getDesignation_id(krutiToUnicode.convert_to_unicode(map.get("designation").trim())));
+                key.setDesignation_id(keyModel.getDesignation_id( map.get("designation").trim()));
 
-                key.setOrg_office_id(keyModel.getOrgOffice_id(krutiToUnicode.convert_to_unicode(map.get("org_office_name").trim()), map.get("office_code").trim()));
-                key.setCity_id(keyModel.getCity_id(krutiToUnicode.convert_to_unicode(map.get("city_name").trim())));
+                key.setOrg_office_id(keyModel.getOrgOffice_id(map.get("org_office_name").trim(), map.get("office_code").trim()));
+                key.setCity_id(keyModel.getCity_id(map.get("city_name").trim()));
                 key.setAddress_line1(map.get("address_line1").trim());
                 key.setAddress_line2(map.get("address_line2").trim());
                 key.setAddress_line3(map.get("address_line3").trim());

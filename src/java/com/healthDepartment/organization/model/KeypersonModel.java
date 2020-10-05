@@ -137,15 +137,15 @@ public class KeypersonModel {
         //InputStream binaryStream = null;
         try {
             // Use DESC or ASC for descending or ascending order respectively of fetched data.
-            query = "SELECT k.key_person_id,k.general_image_details_id, of.org_office_code, oft.office_type ,org.organisation_name, of.org_office_name , k.key_person_name, d.designation, "
+            query = "SELECT k.key_person_id,k.general_image_details_id, off.org_office_code, oft.office_type ,org.organisation_name, off.org_office_name , k.key_person_name, d.designation, "
                     + " c.city_name, k.address_line1, k.address_line2,k.address_line3,k.image_path, "
                     + "k.mobile_no1, k.mobile_no2, k.landline_no1, k.landline_no2, k.email_id1, k.email_id2, k.salutation,k.emp_code, k.father_name, k.age "
-                    + "FROM key_person AS k, organisation_name AS org, city AS c, org_office AS of, designation as d, org_office_type as oft "
-                    + "WHERE k.org_office_id=of.org_office_id AND oft.office_type_id = of.office_type_id AND of.organisation_id = org.organisation_id "
+                    + "FROM key_person AS k, organisation_name AS org, city AS c, org_office AS off, designation as d, org_office_type as oft "
+                    + "WHERE k.org_office_id=off.org_office_id AND oft.office_type_id = off.office_type_id AND off.organisation_id = org.organisation_id "
                     + "AND k.designation_id = d.designation_id "
                     + " AND if('" + searchOrganisation + "' = '' , organisation_name like '%%' , organisation_name = ? )  "
                     + "AND if('" + searchKeyPerson + "' = '' , key_person_name like '%%' , key_person_name = ? )  "
-                    + "AND if('" + searchOfficeCode + "' = '' , of.org_office_code like '%%' , of.org_office_code LIKE  '" + searchOfficeCode + ".%' OR of.org_office_code like ? )  "
+                    + "AND if('" + searchOfficeCode + "' = '' , off.org_office_code like '%%' , off.org_office_code LIKE  '" + searchOfficeCode + ".%' OR off.org_office_code like ? )  "
                     + "AND if('" + searchEmpCode + "' = '' , emp_code like '%%' , emp_code = ? )  "
                     + "AND if('" + searchDesignation + "' = '' ,d.designation like '%%' ,d.designation = ? ) GROUP BY k.key_person_id  "
                     + "ORDER BY emp_code desc  "
