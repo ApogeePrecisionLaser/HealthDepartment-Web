@@ -55,7 +55,10 @@
                     extraParams: {
                         action1: function () {
                             return "getcity_name"
-                        }
+                        },
+                           action2: function() { return  $("#area").val();},
+                action3: function() { return  $("#ward").val();},
+                action4: function() { return  $("#zone").val();}
                     }
                 });
 
@@ -253,7 +256,7 @@
                                     <td><input class="new_input" type="text" id="search_city_location" name="search_city_location" value="${search_city_location}" size="20" ></td>
 
                                     <th>Point Name</th>
-                                    <td><input class="new_input" type="text" id="search_point" name="search_point" value="${search_point}" size="20" ></td>
+                                    <td><input class="new_input" type="text" id="search_point" name="search_point" value="${search_point_name}" size="20" ></td>
 
 
                                     <td colspan="6" align="center">
@@ -333,6 +336,8 @@
                             </TABLE>
                             <input type="hidden"  name="lowerLimit" value="${lowerLimit}">
                             <input type="hidden"  name="noOfRowsTraversed" value="${noOfRowsTraversed}">
+                             <input type="hidden" name="manname" value="${manname}">
+                           <input type="hidden" name="pname" value="${pname}">
                         </form>
                         <br>
                         <br>

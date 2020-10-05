@@ -280,7 +280,7 @@ public class CityLocationModel {
 
     public List<String> searchCityName(String q) {
         List<String> list = new ArrayList<String>();
-        String query = " SELECT cl.location FROM city_location as cl "
+        String query = " SELECT distinct cl.location FROM city_location as cl "
                 + " GROUP BY cl.location ORDER BY cl.location";
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
@@ -304,7 +304,7 @@ public class CityLocationModel {
 
     public List<String> getCityName(String q) {
         List<String> list = new ArrayList<String>();
-        String query = "select city_name from city "
+        String query = "select distinct city_name from city "
                 + " GROUP BY city_name ORDER BY city_name";
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
@@ -329,7 +329,7 @@ public class CityLocationModel {
     public List<String> getZone(String q) {
         List<String> list = new ArrayList<String>();
        
-        String query = "select z.zone_name from zone as z "
+        String query = "select distinct z.zone_name from zone as z "
                 + " GROUP BY z.zone_name  ORDER BY z.zone_name ";
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
@@ -356,7 +356,7 @@ public class CityLocationModel {
         List<String> list = new ArrayList<String>();
          PreparedStatement pstmt;
           //zone_name=krutiToUnicode.convert_to_unicode(zone_name);
-        String query = " SELECT w.ward_name  FROM ward AS w, zone AS z "
+        String query = " SELECT distinct w.ward_name  FROM ward AS w, zone AS z "
                +  "WHERE   w.zone_id = z.zone_id "
                 + "AND IF('" + zone_name + "'='', zone_name like '%%', zone_name ='" + zone_name + "') "
                  + "Group by ward_name ";
@@ -444,7 +444,7 @@ public class CityLocationModel {
         List<String> list = new ArrayList<String>();
 //            zone_name=krutiToUnicode.convert_to_unicode(zone_name);
 //            ward_name=krutiToUnicode.convert_to_unicode(ward_name);
-        String query =" SELECT a.area_name "
+        String query =" SELECT distinct a.area_name "
                 + "FROM area AS a ,ward AS w, zone AS z "
                + "WHERE a.ward_id = w.ward_id "
                +  "AND w.zone_id = z.zone_id "
@@ -474,7 +474,7 @@ public class CityLocationModel {
 
     public List<String> getZoneName(String q) {
         List<String> list = new ArrayList<String>();
-        String query = "select zone from city_location as cl ,zone_new as z where cl.zone_new_id=z.zone_new_id"
+        String query = "select distinct zone from city_location as cl ,zone_new as z where cl.zone_new_id=z.zone_new_id"
                 + " GROUP BY zone ORDER BY zone";
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
@@ -498,7 +498,7 @@ public class CityLocationModel {
 
     public List<String> getLocationName(String q, String location_code) {
         List<String> list = new ArrayList<String>();
-        String query = "select location from city_location "
+        String query = "select distinct location from city_location "
                 + " WHERE IF('"+ location_code +"'='', location_code LIKE '%%', location_code='"+ location_code +"') "
                 + " GROUP BY location ORDER BY location";
         try {

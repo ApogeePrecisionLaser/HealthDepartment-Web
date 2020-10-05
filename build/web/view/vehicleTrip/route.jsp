@@ -44,12 +44,40 @@
 
                     $("#stopage_name").autocomplete("RouteCont.do", {
                     extraParams: {
-                        action1: function() { return "getInputStopageName"}
+                        action1: function() { return "getInputStopageName"},
+                          action2: function() { return  $("#area").val();},
+                action3: function() { return  $("#ward").val();},
+                action4: function() { return  $("#zone").val();}
+    
+    } 
                                             }
-                    });
+                   );
+                       $("#zone").autocomplete("cityLocationCont", {
+            extraParams: {
+                action1: function() { return "getZone"}
+            }
+        });
+
+               $("#ward").autocomplete("cityLocationCont", {
+            extraParams: {
+                action1: function() { return "getWardName"},
+                action2: function() { return  $("#zone").val();}
+            }
+        });
+
+            $("#area").autocomplete("cityLocationCont", {
+            extraParams: {
+                action1: function() { return "getAreaName"},
+                action2: function() { return  $("#ward").val();},
+                action3: function() { return  $("#zone").val();}
+           }
+        });
             });
 
             function makeEditable(id) {
+                 document.getElementById("zone").disabled = false;
+        document.getElementById("ward").disabled = false;
+        document.getElementById("area").disabled = false;
                 document.getElementById("route_name").disabled = false;
                 document.getElementById("stopage_name").disabled = false;
                   document.getElementById("order_no").disabled = false;
@@ -387,14 +415,19 @@
                                                     <td colspan="2" bgcolor="${msgBgColor}"><b>Result: ${message}</b></td>
                                                 </c:if>
                                             </tr>
-
-                                            <tr>
+                                              <tr>
                                                 <th class="heading1">Route Name</th>
                                                 <td>
                                                     <input class="input new_input" type="hidden" id="route_id" name="route_id" value="" >
                                                     <input class="input new_input" type="text" id="route_name" name="route_name" size="25" value="${route_name}" disabled>
                                                 </td>
                                             </tr>
+ <tr> <th class="heading1">Zone</th><td><input class="new_input" type="text" id="zone" name="zone" value="${zone}" size="20" disabled></td>
+                                   </tr>      <tr>       <th class="heading1">Ward</th><td><input class="new_input" type="text" id="ward" name="ward" value="${ward}" size="20" disabled></td>
+ </tr>
+                                            <tr>
+                                                <th class="heading1">Area</th><td><input class="new_input" type="text" id="area" name="area" value="${area}" size="20" disabled></td>
+                                          
 
                                             <tr>
                                                 <th class="heading1">Point Name</th>

@@ -37,7 +37,7 @@ public class ShiftTimeController extends HttpServlet {
         String task=request.getParameter("task");
          ServletContext ctx = getServletContext();
           ShiftTimeModel sm=new ShiftTimeModel();
-         int lowerLimit=0, noOfRowsTraversed=0, noOfRowsToDisplay=1000, noOfRowsInTable = 0;
+         int lowerLimit=0, noOfRowsTraversed=0, noOfRowsToDisplay=10, noOfRowsInTable = 0;
         try
         {
             sm.setConnection((Connection) DBConnection.getConnectionForUtf(ctx));
@@ -108,7 +108,15 @@ public class ShiftTimeController extends HttpServlet {
         String area_no=request.getParameter("area_no");
         String date=request.getParameter("date");
         emp_code=request.getParameter("emp_code");
-  
+  if(zone==null){
+  zone="";
+  }
+  if(ward==null){
+  ward="";
+  }
+  if(area==null){
+  area="";
+  }
       if(task.equals("Save"))
                {
         String[] b_name=request.getParameterValues("name");
@@ -170,7 +178,7 @@ public class ShiftTimeController extends HttpServlet {
             } else if (buttonAction.equals("First")) {
                 lowerLimit = 0;
             } else if (buttonAction.equals("Last")) {
-                lowerLimit = noOfRowsInTable - noOfRowsToDisplay;
+                lowerLimit = noOfRowsInTable - noOfRowsToDisplay;    
                 if (lowerLimit < 0) {
                     lowerLimit = 0;
                 }
