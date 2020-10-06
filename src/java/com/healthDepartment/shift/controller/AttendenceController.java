@@ -48,7 +48,9 @@ public class AttendenceController extends HttpServlet {
         }
         try {
             String  date=request.getParameter("date");
-         
+         if(date==null){
+         date="";
+         }
              String buttonAction = request.getParameter("buttonAction");
              if(buttonAction == null)
                  buttonAction = "none";
@@ -92,7 +94,7 @@ public class AttendenceController extends HttpServlet {
        if (task.equals("save") || task.equals("Save AS New") || task.equals("Revised") || task.equals("Delete") ) {
             lowerLimit = lowerLimit - noOfRowsTraversed;
         }
-         List<ShiftLoginBean>  list=  am.showData(date);
+         List<ShiftLoginBean>  list=  am.showData(date,lowerLimit,noOfRowsToDisplay);
 
           lowerLimit = lowerLimit + list.size();
             noOfRowsTraversed = list.size();
