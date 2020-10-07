@@ -406,23 +406,25 @@ public class HealthDepartmentWebServices {
     public String InsertVehicleRecord1(JSONObject jsonObj) throws Exception {
         int result = 0;
         String reply = "";
-        String beneficiary_id, emp_code, latitude, longitude, date_time, status;        org.json.JSONObject jsn = new org.json.JSONObject(jsonObj.toString());
+        String beneficiary_id, emp_code, latitude, longitude, date_time, status;        
+        org.json.JSONObject jsn = new org.json.JSONObject(jsonObj.toString());
         org.json.JSONArray jsonArray = jsn.getJSONArray("Nfc_Driver");
         int size = jsonArray.length();
 
-        ShiftLoginModel slm = new ShiftLoginModel();
+        ShiftLoginModel slm = new ShiftLoginModel();     
         try {
-            slm.setConnection(DBConnection.getConnectionForUtf(serveletContext));
+            slm.setConnection(DBConnection.getConnectionForUtf(serveletContext));    
         } catch (Exception ex) {
             System.out.println("ERROR : in insertRecord() in ShiftWebservices : " + ex);
         }
         for (int i = 0; i < size; i++) {
-            beneficiary_id = jsonObj.get("beneficiary_id").toString();
-            emp_code = jsonObj.get("emp_code").toString();
-            latitude = jsonObj.get("latitude").toString();
-            date_time = jsonObj.get("date").toString();
-            longitude = jsonObj.get("longitude").toString();
-            status = jsonObj.get("weight").toString();
+              org.json.JSONObject  jsonObject1 = jsonArray.getJSONObject(i);
+            beneficiary_id = jsonObject1.get("vehicle_code").toString();
+            emp_code = jsonObject1.get("Driver_emp_code").toString();
+            latitude = jsonObject1.get("latitude").toString();
+            date_time = jsonObject1.get("date_time").toString();
+            longitude = jsonObject1.get("longitude").toString();
+            status = jsonObject1.get("weight").toString();
             System.out.println("insertRecord");
             result = slm.insertVehicle(emp_code, beneficiary_id, latitude, longitude, date_time, status);
         }

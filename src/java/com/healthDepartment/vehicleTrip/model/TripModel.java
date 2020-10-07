@@ -158,15 +158,15 @@ private Connection connection;
                     + "and w.week_days_id=t.week_days_id and rn.route_name_id=r.route_name_id "
                     + "And IF('" + searchRoute + "' = '', rn.route_name LIKE '%%', rn.route_name ='" + searchRoute + "') "
                     + "And IF('" + searchDay + "' = '', w.day LIKE '%%', w.day ='" + searchDay + "') "
-                    + "And IF('" + searchTime + "' = '', t.start_time LIKE '%%', t.start_time ='" + searchTime + "') group by trip_id ) as t ";
+                    + "And IF('" + searchTime + "' = '', t.start_time LIKE '%%', t.start_time ='" + searchTime + "') and t.active='y' group by trip_id ) as t ";
             PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement(query);
             ResultSet rset = pstmt.executeQuery();
             if (rset.next()) {
                 noOfRows = rset.getInt(1);
             }
         } catch (Exception e) {
-            System.out.println(e);
-        }
+            System.out.println(e); 
+        }      
         System.out.println("No of Rows in Table for search is****....." + noOfRows);
         return noOfRows;
     }
@@ -185,7 +185,7 @@ private Connection connection;
                 + "and w.week_days_id=t.week_days_id and rn.route_name_id=r.route_name_id "
                 + "And IF('" + searchRoute + "' = '', rn.route_name LIKE '%%', rn.route_name ='" + searchRoute + "') "
                 + "And IF('" + searchDay + "' = '', w.day LIKE '%%', w.day ='" + searchDay + "') "
-                + "And IF('" + searchTime + "' = '', t.start_time LIKE '%%', t.start_time ='" + searchTime + "')"
+                + "And IF('" + searchTime + "' = '', t.start_time LIKE '%%', t.start_time ='" + searchTime + "') and t.active='y'"
                 + " group by trip_id ORDER BY rn.route_name, w.week_days_id, t.start_time "
                 + addQuery;
         try {
@@ -213,7 +213,8 @@ private Connection connection;
 
     public int updateRecord(TripBean bean) {
         String query = " UPDATE trip SET route_id=(select route_id from route r,route_name rn  "
-                + "where rn.route_name_id=r.route_name_id and route_name=? and order_no=1 and  r.active='Y' ),week_days_id=(select week_days_id from week_days where day=?), trip_name=?, start_time=? "
+                + "where rn.route_name_id=r.route_name_id and route_name=? and order_no=1 and  r.active='Y' ),"
+                + "week_days_id=(select week_days_id from week_days where day=?), trip_name=?, start_time=? "
                 + " WHERE trip_id = ? ";
         int rowsAffected = 0;
         try {
