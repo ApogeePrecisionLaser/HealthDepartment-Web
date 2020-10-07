@@ -64,10 +64,13 @@ public class ShiftVehicleDetailModel {
                     + " left join vehicle as v on v.vehicle_id=svd.vehicle_id "
                     + " left join point as p on p.point_id=svd.point_id "
                     + " where skpm.active='y'  "
-                    + " AND IF('" + searchdate + "'='', svd.date_time LIKE '%%', DATE_FORMAT(svd.date_time,'%Y-%m-%d') LIKE'" + searchdate + "%')"
+                   // + " AND IF('" + searchdate + "'='', svd.date_time LIKE '%%', DATE_FORMAT(svd.date_time,'%Y-%m-%d') LIKE'" + searchdate + "%')"
                     + " AND IF('" + search_given_by + "' = '', kp1.key_person_name LIKE '%%',kp1.key_person_name='" + search_given_by + "') "
-                    + " And IF('" + search_taken_by + "' = '',kp2.key_person_name LIKE '%%', kp2.key_person_name='" + search_taken_by + "') group by shift_vehicle_detail_id ) as a";
-
+                    + " And IF('" + search_taken_by + "' = '',kp2.key_person_name LIKE '%%', kp2.key_person_name='" + search_taken_by + "') ";
+  if(!searchdate.equals("")){
+                 query+=" and  svd.date_time='"+searchdate+"' " ;
+             }  
+                     query+="group by shift_vehicle_detail_id ) as a";
             PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement(query);
             ResultSet rset = pstmt.executeQuery();
             rset.next();
@@ -115,10 +118,15 @@ public class ShiftVehicleDetailModel {
                 + " left join point as p on p.point_id=svd.point_id "
                 + " where skpm.active='y'  "
                 //+ " and d.designation='' "
-                + " AND IF('" + searchdate + "'='', svd.date_time LIKE '%%', DATE_FORMAT(svd.date_time,'%Y-%m-%d') LIKE'" + searchdate + "%')"
+              //  + " AND IF('" + searchdate + "'='', svd.date_time LIKE '%%', DATE_FORMAT(svd.date_time,'%Y-%m-%d') LIKE'" + searchdate + "%')"
                 + " AND IF('" + search_given_by + "' = '', kp1.key_person_name LIKE '%%',kp1.key_person_name='" + search_given_by + "') "
-                + " And IF('" + search_taken_by + "' = '',kp2.key_person_name LIKE '%%', kp2.key_person_name='" + search_taken_by + "') group by shift_vehicle_detail_id"
-                + addQuery;
+                + " And IF('" + search_taken_by + "' = '',kp2.key_person_name LIKE '%%', kp2.key_person_name='" + search_taken_by + "') ";
+               
+                    if(!searchdate.equals("")){
+                 query+=" and  svd.date_time='"+searchdate+"' " ;
+             }  
+                     query+="group by shift_vehicle_detail_id   LIMIT "+lowerLimit+", "+noOfRowsToDisplay;
+                   
 
 
 

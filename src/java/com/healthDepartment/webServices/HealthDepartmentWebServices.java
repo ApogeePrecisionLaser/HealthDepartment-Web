@@ -355,15 +355,6 @@ public class HealthDepartmentWebServices {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
     @POST
     @Path("/insertVehicle")
     @Produces(MediaType.APPLICATION_JSON)
@@ -494,7 +485,7 @@ public class HealthDepartmentWebServices {
         try {
             slm.setConnection(DBConnection.getConnectionForUtf(serveletContext));
         } catch (Exception ex) {
-            System.out.println("ERROR : in insertRecord() in ShiftWebservices : " + ex);
+            System.out.println("ERROR : in insertRecord() inShiftWebservices ShiftWebservices : " + ex);
         }
 
         result=slm.InsertErrorLog(vehicle_code);

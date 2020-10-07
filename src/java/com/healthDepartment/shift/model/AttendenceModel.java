@@ -59,16 +59,23 @@ public class AttendenceModel {
         return noOfRows;
     }
 
- public static List<ShiftLoginBean> showData(String date)
+ public static List<ShiftLoginBean> showData(String date,int lowerLimit,int noOfRowsToDisplay )
     {
           if(date != null && !date.isEmpty()){
             String[] date_array  = date.split("-");
             date = date_array[2] + "-" + date_array[1] + "-" + date_array[0];
             }
+          
       List list = new ArrayList();
      String query = "select a.attendence_id,kp.emp_code,kp.key_person_name,kp.mobile_no1,a.attendence from shift_key_person_map as skpm,key_person as kp,attendence a "
-                      + " where skpm.key_person_id=kp.key_person_id and skpm.shift_key_person_map_id=a.shift_key_person_map_id and skpm.date='"+date+"' and a.attendence='N' " ;
-                     
+                      + " where skpm.key_person_id=kp.key_person_id and skpm.shift_key_person_map_id=a.shift_key_person_map_id ";
+             
+                         if(!date.equals("")){
+                 query+=" and  skpm.date='"+date+"' " ;
+             }  
+                     query+=" LIMIT "+lowerLimit+", "+noOfRowsToDisplay;
+                   
+ 
       try {
             ResultSet rs = connection.prepareStatement(query).executeQuery();
              while(rs.next()){
@@ -100,10 +107,12 @@ public class AttendenceModel {
                          + " where skpm.key_person_id=kp.key_person_id and skpm.shift_key_person_map_id=a.shift_key_person_map_id  "
                          + "And IF('" + empcode + "' = '', kp.emp_code LIKE '%%', kp.emp_code ='" + empcode + "') " 
                          + "And IF('" + mobileno + "' = '', kp.mobile_no1 LIKE '%%', kp.mobile_no1 ='" + mobileno + "') " 
-                         + "And IF('" + sdate + "' = '', skpm.date LIKE '%%', skpm.date ='" + sdate + "') "
+                       //  + "And IF('" + sdate + "' = '', skpm.date LIKE '%%', skpm.date ='" + sdate + "') "
                          + "And IF('" + attendence + "' = '', a.attendence LIKE '%%', a.attendence='" + attendence + "') "
                          + "And IF('" + searchemp + "' = '', kp.key_person_name LIKE '%%', kp.key_person_name ='" + searchemp + "') " ;
-
+     if(!sdate.equals("")){
+                 query+=" and  skpm.date='"+sdate+"' " ;
+             }  
             PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement(query);
             ResultSet rset = pstmt.executeQuery();
             rset.next();
@@ -118,7 +127,10 @@ public class AttendenceModel {
 
  public static List<ShiftLoginBean> showAttendenceData(int lowerLimit,int noOfRowsToDisplay,String empcode,String mobileno,String sdate,String searchemp,String attendence)
     {
-     //searchemp = krutiToUnicode.convert_to_unicode(searchemp);
+     //searchemp = krutiToUnicode.convert_to_unicode(searchemp);()
+        if(sdate==null){
+        sdate="";
+        }
              if(sdate != null && !sdate.isEmpty()){
                    String[] sdate_array  = sdate.split("-");
                    sdate = sdate_array[2] + "-" + sdate_array[1] + "-" + sdate_array[0];
@@ -132,10 +144,16 @@ public class AttendenceModel {
                       + " where skpm.key_person_id=kp.key_person_id and skpm.shift_key_person_map_id=a.shift_key_person_map_id  "
                       + "And IF('" + empcode + "' = '', kp.emp_code LIKE '%%', kp.emp_code ='" + empcode + "') "
                       + "And IF('" + mobileno + "' = '', kp.mobile_no1 LIKE '%%', kp.mobile_no1 ='" + mobileno + "') "
-                      + "And IF('" + sdate + "' = '', skpm.date LIKE '%%', skpm.date ='" + sdate + "') "
+                  //    + "And IF('" + sdate + "' = '', skpm.date LIKE '%%', skpm.date ='" + sdate + "') "
                       + "And IF('" + attendence + "' = '', a.attendence LIKE '%%', a.attendence='" + attendence + "') "
-                      + "And IF('" + searchemp + "' = '', kp.key_person_name LIKE '%%', kp.key_person_name ='" + searchemp + "') "
-                      + addQuery;
+                      + "And IF('" + searchemp + "' = '', kp.key_person_name LIKE '%%', kp.key_person_name ='" + searchemp + "') ";
+                    
+                    if(!sdate.equals("")){
+                 query+=" and  skpm.date='"+sdate+"' " ;
+             }  
+                     query+="  LIMIT "+lowerLimit+", "+noOfRowsToDisplay;
+                   
+
 
       try {
             ResultSet rs = connection.prepareStatement(query).executeQuery();
