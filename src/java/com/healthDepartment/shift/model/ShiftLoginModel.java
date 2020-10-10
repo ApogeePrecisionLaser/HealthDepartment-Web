@@ -73,15 +73,20 @@ public class ShiftLoginModel {
                     + "  left join zone as z on  w.zone_id=z.zone_id "
                     + "  left join key_person as kp on b.key_person_id=kp.key_person_id "
                     + "  left join reason as r on skpd.reason_id=r.reason_id "
-                    + " where IF('" + searchdate + "'='', skpd.date LIKE '%%',DATE_FORMAT(skpd.date,'%Y-%m-%d') ='" + searchdate + "')"
-                    + " And IF('" + searchCityName + "' = '', cl.location LIKE '%%', cl.location  =?) "
+                    + " where "
+              //      + "IF('" + searchdate + "'='', skpd.date LIKE '%%',DATE_FORMAT(skpd.date,'%Y-%m-%d') ='" + searchdate + "')"
+                    + " IF('" + searchCityName + "' = '', cl.location LIKE '%%', cl.location  =?) "
                     + "And IF('" + searchZoneName + "' = '', z.zone_name LIKE '%%', z.zone_name =?) "
                     + "And IF('" + searchWardName + "' = '', w.ward_name LIKE '%%', w.ward_name =?) "
                     + "And IF('" + searchAreaName + "' = '', a.area_name LIKE '%%', a.area_name =?) "
                     + " And IF('" + searchemp + "' = '',k.key_person_name LIKE '%%', k.key_person_name='" + searchemp + "') "
                     + " And IF('" + mobileno + "' = '', kp.mobile_no1 LIKE '%%', kp.mobile_no1 ='" + mobileno + "') "
                     + " And IF('" + occupationtype + "' = '', too.name LIKE '%%', too.name ='" + occupationtype + "') ";
-
+    if(!searchdate.equals("")){
+                 query+=" and skpd.date='"+searchdate+"' " ;
+             }      
+                 
+                 
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, searchCityName);
             pstmt.setString(2, searchZoneName);
@@ -131,16 +136,21 @@ public class ShiftLoginModel {
                 + " left join ward as w on a.ward_id=w.ward_id "
                 + "  left join zone as z on  w.zone_id=z.zone_id "
                 + " left join key_person as kp on b.key_person_id=kp.key_person_id "
-                + "  left join reason as r on skpd.reason_id=r.reason_id "
-                + " where IF('" + searchdate + "'='', skpd.date LIKE '%%', DATE_FORMAT(skpd.date,'%Y-%m-%d') ='" + searchdate + "') "
-                + " And IF('" + searchCityName + "' = '', cl.location LIKE '%%', cl.location  =?) "
+                + "  left join reason as r on skpd.reason_id=r.reason_id where "
+              //  + "  IF('" + searchdate + "'='', skpd.date LIKE '%%', DATE_FORMAT(skpd.date,'%Y-%m-%d') ='" + searchdate + "') "
+                + " IF('" + searchCityName + "' = '', cl.location LIKE '%%', cl.location  =?) "
                 + " And IF('" + searchZoneName + "' = '', z.zone_name LIKE '%%', z.zone_name =?) "
                 + " And IF('" + searchWardName + "' = '', w.ward_name LIKE '%%', w.ward_name =?) "
                 + " And IF('" + searchAreaName + "' = '', a.area_name LIKE '%%', a.area_name =?) "
                 + " And IF('" + searchemp + "' = '',k.key_person_name LIKE '%%', k.key_person_name='" + searchemp + "') "
                 + " And IF('" + mobileno + "' = '', kp.mobile_no1 LIKE '%%', kp.mobile_no1 ='" + mobileno + "') "
-                + " And IF('" + occupationtype + "' = '', too.name LIKE '%%', too.name ='" + occupationtype + "') order by cleaner"
-                + addQuery;
+                + " And IF('" + occupationtype + "' = '', too.name LIKE '%%', too.name ='" + occupationtype + "') ";
+              
+               if(!searchdate.equals("")){
+                 query+=" and skpd.date='"+searchdate+"' " ;
+             }  
+                     query+="order by cleaner   LIMIT "+lowerLimit+", "+noOfRowsToDisplay; 
+                 
 
         try {
             PreparedStatement ps = connection.prepareStatement(query);
