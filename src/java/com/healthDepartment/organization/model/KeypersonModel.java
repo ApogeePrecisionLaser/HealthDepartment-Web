@@ -101,32 +101,10 @@ public class KeypersonModel {
 
     public int getNoOfRows(String searchOrganisation, String searchKeyPerson, String searchOfficeCode, String searchEmpCode, String searchDesignation) {
         int noOfRows = 0;
-        try {
-            String query = "select count(*)  "
-                    + "FROM key_person AS k, organisation_name AS org, city AS c,org_office AS of1, designation as d, org_office_type as oft "
-                    + "WHERE k.org_office_id=of1.org_office_id AND oft.office_type_id = of1.office_type_id AND of1.organisation_id = org.organisation_id "
-                    + "AND k.designation_id = d.designation_id "
-                    + " AND if('" + searchOrganisation + "' = '' , organisation_name like '%%' , organisation_name = ? )  "
-                    + "AND if('" + searchKeyPerson + "' = '' , key_person_name like '%%' , key_person_name = ? )  "
-                    + "AND if('" + searchOfficeCode + "' = '' , of1.org_office_code like '%%' , of1.org_office_code LIKE  '" + searchOfficeCode + "%' OR of1.org_office_code like ? )  "
-                    + "AND if('" + searchEmpCode + "' = '' , emp_code like '%%' , emp_code = ? )  "
-                    + "AND if('" + searchDesignation + "' = '' ,d.designation like '%%' ,d.designation = ? ) ";
-                   
-
-            PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, searchOrganisation);
-            pstmt.setString(2, searchKeyPerson);
-            pstmt.setString(3, searchOfficeCode);
-            pstmt.setString(4, searchEmpCode);
-            pstmt.setString(5, searchDesignation);
-
-            ResultSet rset = pstmt.executeQuery();
-            rset.next();
-            noOfRows = Integer.parseInt(rset.getString(1));
-
-        } catch (Exception e) {
-            System.out.println("Error:keypersonModel-getNoOfRows-- " + e);
-        }
+ 
+      List<KeyPerson> list=showData(0, 5000, searchOrganisation, searchKeyPerson, searchOfficeCode, searchEmpCode, searchDesignation);
+            noOfRows=list.size();
+ 
         return noOfRows;
     }
 

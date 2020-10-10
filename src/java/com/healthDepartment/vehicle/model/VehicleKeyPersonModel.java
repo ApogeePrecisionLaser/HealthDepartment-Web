@@ -239,9 +239,10 @@ public class VehicleKeyPersonModel {
 
     public static List<String> getSearchKeyPersonName(String q) {
         List<String> list = new ArrayList<String>();
-        String query = "select key_person_name from key_person kp,vehicle_key_person vkp "
-                + " where vkp.key_person_id=kp.key_person_id "
-                + "and vkp.active='Y' ";
+        String query = "select distinct key_person_name from key_person ";
+//        String query = "select key_person_name from key_person kp,vehicle_key_person vkp "
+//                + " where vkp.key_person_id=kp.key_person_id "
+//                + "and vkp.active='Y' ";
         try {
             ResultSet rset = connection.prepareStatement(query).executeQuery();
             int count = 0;

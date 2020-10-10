@@ -54,7 +54,7 @@ public class VehicleKeyPersonController extends HttpServlet {
 
                 if (JQstring.equals("getsearch_key_person_name")) {
 
-                    list = vkpm.getSearchKeyPersonName(q);
+                    list = vkpm.getSearchKeyPersonName(q);   
                 }
                 Iterator<String> iter = list.iterator();
                 while (iter.hasNext()) {
