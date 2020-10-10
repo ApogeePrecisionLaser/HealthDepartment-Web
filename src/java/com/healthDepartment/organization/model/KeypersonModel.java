@@ -103,12 +103,12 @@ public class KeypersonModel {
         int noOfRows = 0;
         try {
             String query = "select count(*)  "
-                    + "FROM key_person AS k, organisation_name AS org, city AS c,org_office AS of, designation as d, org_office_type as oft "
-                    + "WHERE k.org_office_id=of.org_office_id AND oft.office_type_id = of.office_type_id AND of.organisation_id = org.organisation_id "
+                    + "FROM key_person AS k, organisation_name AS org, city AS c,org_office AS of1, designation as d, org_office_type as oft "
+                    + "WHERE k.org_office_id=of1.org_office_id AND oft.office_type_id = of1.office_type_id AND of1.organisation_id = org.organisation_id "
                     + "AND k.designation_id = d.designation_id "
                     + " AND if('" + searchOrganisation + "' = '' , organisation_name like '%%' , organisation_name = ? )  "
                     + "AND if('" + searchKeyPerson + "' = '' , key_person_name like '%%' , key_person_name = ? )  "
-                    + "AND if('" + searchOfficeCode + "' = '' , of.org_office_code like '%%' , of.org_office_code LIKE  '" + searchOfficeCode + "%' OR of.org_office_code like ? )  "
+                    + "AND if('" + searchOfficeCode + "' = '' , of1.org_office_code like '%%' , of1.org_office_code LIKE  '" + searchOfficeCode + "%' OR of1.org_office_code like ? )  "
                     + "AND if('" + searchEmpCode + "' = '' , emp_code like '%%' , emp_code = ? )  "
                     + "AND if('" + searchDesignation + "' = '' ,d.designation like '%%' ,d.designation = ? ) ";
                    
@@ -199,10 +199,10 @@ public class KeypersonModel {
           if(lowerLimit == -1)
             addQuery = "";
             String query= " SELECT k.emp_code,k.key_person_name, d.designation,k.address_line1, k.mobile_no1, k.email_id1 "
-                              + " from key_person AS k, organisation_name AS org, city AS c, org_office AS of, designation as d, org_office_type as oft  "
-                              + "  WHERE k.org_office_id=of.org_office_id AND oft.office_type_id = of.office_type_id AND of.organisation_id = org.organisation_id and d.designation_id=k.designation_id "
+                              + " from key_person AS k, organisation_name AS org, city AS c, org_office AS of1, designation as d, org_office_type as oft  "
+                              + "  WHERE k.org_office_id=of1.org_office_id AND oft.office_type_id = of1.office_type_id AND of.organisation_id = org.organisation_id and d.designation_id=k.designation_id "
                               + " AND if('"+ searchKeyPerson +"' = '' , key_person_name like '%%' , key_person_name = ? ) "
-                              + " AND if('" + searchOfficeCode + "' = '' , of.org_office_code like '%%' , of.org_office_code LIKE  '.%' OR of.org_office_code like ? ) "
+                              + " AND if('" + searchOfficeCode + "' = '' , of1.org_office_code like '%%' , of1.org_office_code LIKE  '.%' OR of1.org_office_code like ? ) "
                               +  "  AND if('" + searchEmpCode + "' = '' , emp_code like '%%' , emp_code = ? ) "
                               + "  AND if('" + searchDesignation + "' = '' ,d.designation like '%%' ,d.designation = ? ) group by emp_code "
                               + addQuery ;
@@ -1093,8 +1093,8 @@ public class KeypersonModel {
 
     public List<String> getOrgPersonNameList(String q) {
         List<String> list = new ArrayList<String>();
-        String query = "SELECT key_person_name FROM key_person  As k, org_office AS of "
-                + " WHERE k.org_office_id = of.org_office_id"
+        String query = "SELECT key_person_name FROM key_person  As k, org_office AS of1 "
+                + " WHERE k.org_office_id = of1.org_office_id"
                 + " GROUP BY key_person_name ";
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -1120,8 +1120,8 @@ public class KeypersonModel {
 
     public List<String> getOrgOfficeName(String q, String office_code) {
         List<String> list = new ArrayList<String>();
-        String query = "SELECT of.org_office_name FROM org_office AS of , org_office_type as oft,organisation_name AS o "
-                + "WHERE oft.office_type_id = of.office_type_id  AND o.organisation_id=of.organisation_id AND of.org_office_code =?"
+        String query = "SELECT of1.org_office_name FROM org_office AS of1, org_office_type as oft,organisation_name AS o "
+                + "WHERE oft.office_type_id = of1.office_type_id  AND o.organisation_id=of1.organisation_id AND of1.org_office_code =?"
                 + " GROUP BY org_office_name ";
         try {
             int count = 0;
@@ -1147,10 +1147,10 @@ public class KeypersonModel {
     }
 
     public int getOrgOffice_id(String org_office_name, String office_code) {
-        String query = "SELECT of.org_office_id "
-                + " FROM org_office AS of , "
+        String query = "SELECT off.org_office_id "
+                + " FROM org_office AS off , "
                 + " organisation_name AS o "
-                + " WHERE o.organisation_id=of.organisation_id AND of.org_office_name = ? AND of.org_office_code = ?";
+                + " WHERE o.organisation_id=off.organisation_id AND off.org_office_name = ? AND off.org_office_code = ?";
         int organisation_id = 0;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -1309,7 +1309,7 @@ public class KeypersonModel {
     public List<String> getSearchEmpCode(String q) {
         List<String> list = new ArrayList<String>();
         String query = "select kp.emp_code from key_person kp "
-                + "left join org_office as of on kp.org_office_id = of.org_office_id "
+                + "left join org_office as of1 on kp.org_office_id = of1.org_office_id "
                 + " GROUP BY kp.emp_code ";
 
 

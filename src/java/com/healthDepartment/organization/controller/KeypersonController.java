@@ -280,7 +280,7 @@ public class KeypersonController extends HttpServlet {
                     key_person_id = 0;
                     general_image_details_id=0;
                 }
-                if (task.equals("Save AS New")) {
+                if (task.equals("Save AS New")) {     
                     key_person_id = 0;
                     general_image_details_id=0;
                 }
