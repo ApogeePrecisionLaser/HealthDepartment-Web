@@ -24,6 +24,118 @@
         <title>JSP Page</title>
         <script type="text/javascript">
             jQuery(function () {
+                
+                    $("#searchZone").autocomplete("ShiftDesinationLocationController", {
+            extraParams: {
+                action1: function() { return "getZone";},
+                 action2: function() { return  $("#searchZone_no").val();}
+            }
+            });
+           $("#searchZone").result(function(event, data, formatted){
+            $.ajax({url: "ShiftDesinationLocationController?action1=getZoneNo", data: "action2="+ data +"&q=", success: function(response_data) {
+                       $("#searchZone_no").val(response_data.trim());
+                   }
+                   });
+            });
+
+            $("#searchZone_no").autocomplete("ShiftDesinationLocationController", {
+            extraParams: {
+                action1: function() { return "getZoneNo"},
+                 action2: function() { return  $("#searchZone").val();}
+            }
+            });
+              $("#searchZone_no").result(function(event, data, formatted){
+                   $.ajax({url: "ShiftDesinationLocationController?action1=getZone", data: "action2="+ data +"&q=", success: function(response_data) {
+                       $("#searchZone").val(response_data.trim());
+                   }
+                   });
+                   });
+           $("#searchWardType").autocomplete("ShiftDesinationLocationController", {
+            extraParams: {
+                action1: function() { return "getWard"},
+                action2: function() { return  $("#searchZone").val();},
+                 action3: function() { return  $("#searchWardNo").val();}
+              }
+              });
+               $("#searchWardType").result(function(event, data, formatted){
+                 $.ajax({url: "ShiftDesinationLocationController?action1=getWardNo", data: "action2="+ data +"&q=", success: function(response_data) {
+                       $("#searchWardNo").val(response_data.trim());
+                   }
+                   });
+                });
+
+            $("#searchWardNo").autocomplete("ShiftDesinationLocationController", {
+            extraParams: {
+                action1: function() { return "getWardNo"},
+                 action2: function() { return  $("#searchWardType").val();}
+            }
+            });
+              $("#searchWardNo").result(function(event, data, formatted){
+                   $.ajax({url: "ShiftDesinationLocationController?action1=getWard", data: "action3="+ data +"&q=", success: function(response_data) {
+                       $("#searchWardType").val(response_data.trim());
+                   }
+                   });
+            });
+
+            $("#searchArea").autocomplete("ShiftDesinationLocationController", {
+            extraParams: {
+                action1: function() { return "getArea"},
+                action2: function() { return  $("#searchWardType").val();},
+                action3: function() { return  $("#searchZone").val();},
+                 action4: function() { return  $("#searchAreaNo").val();}
+           }
+            });
+           $("#searchArea").result(function(event, data, formatted){
+                $.ajax({url: "ShiftDesinationLocationController?action1=getAreaNo", data: "action2="+ data +"&q=", success: function(response_data) {
+                       $("#searchAreaNo").val(response_data.trim());
+                   }
+                   });
+            });
+
+          $("#searchAreaNo").autocomplete("ShiftDesinationLocationController", {
+            extraParams: {
+                action1: function() { return "getAreaNo"},
+                 action2: function() { return  $("#searchArea").val();}
+            }
+            });
+               $("#searchAreaNo").result(function(event, data, formatted){
+                   $.ajax({url: "ShiftDesinationLocationController?action1=getArea", data: "action4="+ data +"&q=", success: function(response_data) {
+                       $("#searchArea").val(response_data.trim());
+                   }
+                   });
+            });
+
+          $("#searchCityName").autocomplete("ShiftDesinationLocationController", {
+            extraParams: {
+                action1: function() { return "getlocation"},
+                action2: function() { return  $("#searchArea").val();},
+                action3: function() { return  $("#searchWardType").val();},
+                action4: function() { return  $("#searchZone").val();},
+                action5: function() { return  $("#searchCityNo").val();}
+           }
+         });
+              $("#searchCityName").result(function(event, data, formatted){
+                $.ajax({url: "ShiftDesinationLocationController?action1=getLocationNo", data: "action2="+ data +"&q=", success: function(response_data) {
+                       $("#searchCityNo").val(response_data.trim());
+                   }
+                   });
+            });
+
+             $("#searchCityNo").autocomplete("ShiftDesinationLocationController", {
+            extraParams: {
+                action1: function() { return "getLocationNo"},
+                 action2: function() { return  $("#searchCityName").val();}
+            }
+            });
+            $("#searchCityNo").result(function(event, data, formatted){
+                 $.ajax({url: "ShiftDesinationLocationController?action1=getlocation", data: "action5="+ data +"&q=", success: function(response_data) {
+                       $("#searchCityName").val(response_data.trim());
+                   }
+                   });
+            });
+
+                
+                
                 $("#search_city_location").autocomplete("PointController", {
                     extraParams: {
                         action1: function () {
@@ -46,7 +158,8 @@
                     extraParams: {
                         action1: function () {
                             return "getpoint_name"
-                        }
+                        },
+                         action2: function() { return  $("#searchCityName").val();}
                     }
                 });
             });
@@ -251,21 +364,39 @@
 
                         <form name="form0" action="PointController">
                             <table align="center" class="heading1" width="700">
-                                <tr>
-                                    <th>City Location</th>
-                                    <td><input class="new_input" type="text" id="search_city_location" name="search_city_location" value="${search_city_location}" size="20" ></td>
-
-                                    <th>Point Name</th>
+                                  <tr>
+                                               <th> Zone Name</th>
+                                             <td><input type="text" class="new_input" name="searchZone" size="10" id="searchZone"  value="${searchzone}"/></td>
+                                             <th>Zone No</th>
+                                             <td><input type="text" class="new_input" name="searchZone_no" size="5" id="searchZone_no"  value="${searchZone_no}"/></td>
+                                             <th> Ward Name</th>
+                                               <td>  <input class="input" type="text" id="searchWardType" name="searchWardType" value="${searchward}" size="10" ></td>
+                                               <th> Ward No</th>
+                                               <td><input class="input" type="text" id="searchWardNo" name="searchWardNo" value="${searchWardNo}" size="5" ></td>
+                                               </tr>
+                                            <tr>
+                                             <th> Area Name</th>
+                                             <td><input  type="text" name="searchArea" size="10" id="searchArea" value="${searcharea}" size="10"></td>
+                                             <th> Area No</th>
+                                              <td><input  type="text" name="searchAreaNo" size="5" id="searchAreaNo" value="${searchAreaNo}" size="10"></td>
+                                              <th>City Location</th>
+                                              <td><input class="input new_input" type="text" id="searchCityName" name="searchCityName" value="${search_city_location}" size="15" ></td>
+                                              <th>City Location No</th>
+                                              <td><input class="input new_input" type="text" id="searchCityNo" name="searchCityNo" value="${searchCityNo}" size="15" ></td>
+                                                 
+                                   
+                                            </tr>
+                                            <tr>
+                                                     <th>Point Name</th>
                                     <td><input class="new_input" type="text" id="search_point" name="search_point" value="${search_point_name}" size="20" ></td>
 
-
-                                    <td colspan="6" align="center">
-                                        <input class="button" type="submit" name="task" id="searchIn" value="Search">
-                                        <input class="button" type="submit" name="task" id="showAllRecords" value="Show All Records">
-                                        <!--                   <input type="button" class="pdf_button" id="viewPdf" name="viewPdf" value="" onclick="getlist()">
-                                                           <input type="button" class="button"  id="viewXls" name="viewXls" value="Excel" onclick="getCity()">-->
-                                    </td>
-                                </tr>
+                                                <td colspan="8" align="center"><input class="button" type="submit" name="task" id="searchIn" value="Search">
+                                                <input class="button" type="submit" name="task" id="showAllRecords" value="Show All Records">
+                                                <input type="button" class="pdf_button" id="viewPdf" name="viewPdf" value="" onclick="displayMapList(id)">
+                                                <input type="button" class="button" id="viewExcel" name="viewExcel" value="Excel" onclick="displayMapList(id)"></td>
+                                              <input   class="btn btn-info" type="button" id="get_data" value="GetAllLocation" onclick="openMap1()" >
+                                            </tr>
+                                       
                             </table>
                         </form>
                         <form name="form1" action="PointController">
@@ -338,6 +469,10 @@
                             <input type="hidden"  name="noOfRowsTraversed" value="${noOfRowsTraversed}">
                              <input type="hidden" name="manname" value="${manname}">
                            <input type="hidden" name="pname" value="${pname}">
+                             <input type="hidden" name="Zname" value="${Zname}">
+                           <input type="hidden" name="Wname" value="${Wname}">
+                             <input type="hidden" name="Aname" value="${Aname}">
+                         
                         </form>
                         <br>
                         <br>

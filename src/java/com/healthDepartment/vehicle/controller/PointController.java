@@ -99,7 +99,8 @@ public class PointController extends HttpServlet {
                 PrintWriter out = response.getWriter();
                 List<String> list = null;
                 if (JQstring.equals("getpoint_name")) {
-                    list = vtm.getPointName(q);
+                    String citylocation = request.getParameter("action2");
+                    list = vtm.getPointName(q,citylocation);
                 }
                 Iterator<String> iter = list.iterator();
                 while (iter.hasNext()) {
@@ -135,10 +136,23 @@ public class PointController extends HttpServlet {
         }
 
 
-        String search_city_location = request.getParameter("search_city_location");
+        String search_city_location = request.getParameter("searchCityName");
         if (search_city_location == null) {
             search_city_location = "";
         }
+        String searchzone = request.getParameter("searchZone");
+        if (searchzone == null) {
+            searchzone = "";
+        }
+        String searchward = request.getParameter("searchWardType");
+        if (searchward == null) {
+            searchward = "";
+        }
+        String searcharea = request.getParameter("searchArea");
+        if (searcharea == null) {
+            searcharea = "";
+        }
+       
         String search_point_name = request.getParameter("search_point");
         if (search_point_name == null) {
             search_point_name = "";
@@ -201,7 +215,11 @@ public class PointController extends HttpServlet {
                 vt.setLongitude(longitude);
                 vtm.insertRecord(vt);
             } else if (task.equals("Show All Records")) {
-                search_city_location = "";
+                searchzone = "";
+                searchward = "";
+                  searcharea = "";
+              
+                  search_city_location = "";
                 search_point_name = "";
             }
             String buttonAction = request.getParameter("buttonAction");
@@ -216,19 +234,26 @@ public class PointController extends HttpServlet {
                 lowerLimit = noOfRowsTraversed = 0;
             }
 
-            noOfRowsInTable = vtm.getNoOfRows(search_city_location, search_point_name);
+                 noOfRowsInTable = vtm.getNoOfRows(search_city_location, search_point_name,searchzone,searchward,searcharea);
 
             if (buttonAction.equals("Next"))
             {
+            searchzone = request.getParameter("Zname");
+              searchward = request.getParameter("Wname");
+            searcharea = request.getParameter("Aname");
+          
             search_city_location = request.getParameter("manname");
               search_point_name = request.getParameter("pname");
               
-            noOfRowsInTable = vtm.getNoOfRows(search_city_location, search_point_name);
+                   noOfRowsInTable = vtm.getNoOfRows(search_city_location, search_point_name,searchzone,searchward,searcharea);
         } else if (buttonAction.equals("Previous")) {
               search_city_location = request.getParameter("manname");
               search_point_name = request.getParameter("pname");
-              
-            noOfRowsInTable = vtm.getNoOfRows(search_city_location, search_point_name);
+                 searchzone = request.getParameter("Zname");
+              searchward = request.getParameter("Wname");
+            searcharea = request.getParameter("Aname");
+          
+                   noOfRowsInTable = vtm.getNoOfRows(search_city_location, search_point_name,searchzone,searchward,searcharea);
                 int temp = lowerLimit - noOfRowsToDisplay - noOfRowsTraversed;
                 if (temp < 0) {
                     noOfRowsToDisplay = lowerLimit - noOfRowsTraversed;
@@ -239,14 +264,20 @@ public class PointController extends HttpServlet {
             } else if (buttonAction.equals("First")) {
                   search_city_location = request.getParameter("manname");
               search_point_name = request.getParameter("pname");
-              
+                 searchzone = request.getParameter("Zname");
+              searchward = request.getParameter("Wname");
+            searcharea = request.getParameter("Aname");
+          
         //    noOfRowsInTable = vtm.getNoOfRows(search_city_location, search_point_name);
                 lowerLimit = 0;
             } else if (buttonAction.equals("Last")) {
                   search_city_location = request.getParameter("manname");
               search_point_name = request.getParameter("pname");
-              
-            noOfRowsInTable = vtm.getNoOfRows(search_city_location, search_point_name);
+                 searchzone = request.getParameter("Zname");
+              searchward = request.getParameter("Wname");
+            searcharea = request.getParameter("Aname");
+          
+            noOfRowsInTable = vtm.getNoOfRows(search_city_location, search_point_name,searchzone,searchward,searcharea);
                 lowerLimit = noOfRowsInTable - noOfRowsToDisplay;
                 if (lowerLimit < 0) {
                     lowerLimit = 0;
@@ -256,7 +287,7 @@ public class PointController extends HttpServlet {
                 lowerLimit = lowerLimit - noOfRowsTraversed;
             }
 
-            List<Point> list = vtm.showData(lowerLimit, noOfRowsToDisplay, search_city_location, search_point_name);
+            List<Point> list = vtm.showData(lowerLimit, noOfRowsToDisplay, search_city_location, search_point_name,searchzone,searchward,searcharea);
 
             lowerLimit = lowerLimit + list.size();
             noOfRowsTraversed = list.size();
@@ -271,6 +302,12 @@ public class PointController extends HttpServlet {
             request.setAttribute("list", list);
             request.setAttribute("manname", search_city_location);
           request.setAttribute("pname", search_point_name);   
+            request.setAttribute("Zname", searchzone);
+          request.setAttribute("Wname", searchward);   
+            request.setAttribute("Aname", searcharea);
+        request.setAttribute("searchzone", searchzone);
+          request.setAttribute("searchward", searchward);   
+            request.setAttribute("searcharea", searcharea);
             request.setAttribute("lowerLimit", lowerLimit);
             request.setAttribute("search_city_location", search_city_location);
             request.setAttribute("search_point_name", search_point_name);
