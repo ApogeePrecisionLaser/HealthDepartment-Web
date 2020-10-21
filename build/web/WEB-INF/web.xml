@@ -15,7 +15,7 @@
     </context-param>
     <context-param>
         <param-name>connectionString</param-name>
-        <param-value>jdbc:mysql://localhost:3306/health_department1</param-value>
+        <param-value>jdbc:mysql://localhost:3306/health_department</param-value>
     </context-param>
     <context-param>
         <param-name>db_user_name</param-name>
@@ -24,7 +24,7 @@
     <context-param>
         <description>	</description>
         <param-name>db_user_password</param-name>   
-        <param-value></param-value>
+        <param-value>root</param-value>
     </context-param>
     <!-- Start of WebServices -->
     <servlet>
@@ -40,6 +40,12 @@
         <servlet-class>com.healthDepartment.vehicleTrip.controller.TripSchedularController</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
+    
+    <listener>
+    	<listener-class>
+    		com.healthDepartment.util.CheckHighTemperature
+    	</listener-class>
+	</listener>
     <servlet-mapping>
         <servlet-name>ServletAdaptor</servlet-name>
         <url-pattern>/api/*</url-pattern>
